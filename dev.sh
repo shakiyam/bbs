@@ -7,7 +7,7 @@ docker run -i -t --rm \
 -e DB_ENV_MYSQL_DATABASE=bbs \
 -e DB_PORT_3306_TCP_ADDR=bbs_db_1 \
 -e DB_PORT_3306_TCP_PORT=3306 \
--v /vagrant/bbs:/usr/src/app \
+-v "$(pwd)":/usr/src/app \
 -w /usr/src/app \
 -p 4567:4567 \
 --net bbs_default \
