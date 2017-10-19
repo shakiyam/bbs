@@ -1,6 +1,8 @@
 bbs
 ===
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/b2c0cb73d156108f7d38/maintainability)](https://codeclimate.com/github/shakiyam/bbs/maintainability)
+
 Tiny BBS for sample
 
 Requirement
@@ -15,7 +17,7 @@ How to run
 docker-compose up -d
 ```
 
-View at: http://localhost:4567
+View at: <http://localhost:4567>
 
 Author
 ------
