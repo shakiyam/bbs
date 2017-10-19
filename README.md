@@ -3,22 +3,26 @@ bbs
 
 Tiny BBS for sample
 
-## Requirement ##
+Requirement
+-----------
 
 Docker and Docker Compose
 
-## How to run ##
+How to run
+----------
 
-```
+```console
 docker-compose up -d
 ```
 
 View at: http://localhost:4567
 
-## Author ##
+Author
+------
 
 [Shinichi Akiyama](https://github.com/shakiyam)
 
-## License ##
+License
+-------
 
 [MIT License](http://www.opensource.org/licenses/mit-license.php)
