@@ -63,5 +63,5 @@ html lang="ja"
               = post[:body]
             footer.list-group-item-text.text-right.text-muted
               = post[:created_at]
-    script src="//code.jquery.com/jquery-3.1.1.min.js"
+    script src="//code.jquery.com/jquery-3.2.1.min.js"
     script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
