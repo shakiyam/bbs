@@ -1,9 +1,7 @@
-# encoding: utf-8
-
+require 'sequel'
 require 'sinatra'
 require 'sinatra/reloader'
 require 'slim'
-require 'sequel'
 
 set :bind, '0.0.0.0'
 
@@ -32,7 +30,8 @@ end
 post '/' do
   DB[:posts].insert(
     body: params[:body],
-    created_at: Time.now.strftime('%Y-%m-%d %H:%M:%S'))
+    created_at: Time.now.strftime('%Y-%m-%d %H:%M:%S')
+  )
   redirect to('/'), 303
 end
 
