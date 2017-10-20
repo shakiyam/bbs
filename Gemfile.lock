@@ -37,8 +37,6 @@ GEM
       rack-protection (= 2.0.0)
       sinatra (= 2.0.0)
       tilt (>= 1.3, < 3)
-    sinatra-reloader (1.0)
-      sinatra-contrib
     slim (3.0.8)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 1.3.3, < 2.1)
@@ -54,7 +52,7 @@ DEPENDENCIES
   ruby-mysql
   sequel
   sinatra
-  sinatra-reloader
+  sinatra-contrib
   slim
 
 BUNDLED WITH
