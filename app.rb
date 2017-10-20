@@ -5,11 +5,11 @@ require 'slim'
 
 set :bind, '0.0.0.0'
 
-user = ENV['DB_ENV_MYSQL_USER']
-pass = ENV['DB_ENV_MYSQL_PASSWORD']
-host = ENV['DB_PORT_3306_TCP_ADDR']
-port = ENV['DB_PORT_3306_TCP_PORT']
-database = ENV['DB_ENV_MYSQL_DATABASE']
+user = ENV['DB_USER']
+pass = ENV['DB_PASSWORD']
+host = ENV['DB_HOST']
+port = ENV['DB_PORT']
+database = ENV['DB_DATABASE']
 
 DB = Sequel.connect("mysql://#{user}:#{pass}@#{host}:#{port}/#{database}")
 

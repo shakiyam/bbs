@@ -20,8 +20,8 @@ services:
     ports:
       - "4567:4567"
     environment:
-      - DB_ENV_MYSQL_USER=bbs
-      - DB_ENV_MYSQL_PASSWORD=bbs
-      - DB_ENV_MYSQL_DATABASE=bbs
-      - DB_PORT_3306_TCP_ADDR=bbs_db_1
-      - DB_PORT_3306_TCP_PORT=3306
+      - DB_USER=bbs
+      - DB_PASSWORD=bbs
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=bbs
