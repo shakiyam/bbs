@@ -1,5 +1,8 @@
 source 'https://rubygems.org/'
 
+gem 'capybara'
+gem 'pry'
+gem 'rspec'
 gem 'rubocop'
 gem 'ruby-mysql'
 gem 'sequel'
