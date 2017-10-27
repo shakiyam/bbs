@@ -2,13 +2,12 @@ version: '3'
 services:
   db:
     image: mysql
-    volumes:
-      - ./mysqlconf:/etc/mysql/conf.d
     environment:
       - MYSQL_ROOT_PASSWORD=bbs_admin
       - MYSQL_USER=bbs
       - MYSQL_PASSWORD=bbs
       - MYSQL_DATABASE=bbs
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
   web:
     build:
       context: .
