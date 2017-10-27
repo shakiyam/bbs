@@ -1,4 +1,6 @@
 .bundle
 .vagrant
-vendor
+.wercker
 archive.zip
+ENVIRONMENT
+vendor

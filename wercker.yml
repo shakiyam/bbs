@@ -1,0 +1,42 @@
+box:
+  id: jruby:9-alpine
+  ports:
+    - "4567"
+services:
+  - id: mysql
+    env:
+      MYSQL_ROOT_PASSWORD: bbs_admin
+      MYSQL_USER: bbs
+      MYSQL_PASSWORD: bbs
+      MYSQL_DATABASE: bbs
+    cmd: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
+dev:
+  steps:
+    - bundle-install
+    - internal/watch:
+        code: |
+          export DB_USER=bbs
+          export DB_PASSWORD=bbs
+          export DB_HOST=$MYSQL_PORT_3306_TCP_ADDR
+          export DB_PORT=$MYSQL_PORT_3306_TCP_PORT
+          export DB_DATABASE=bbs
+          bundle exec ruby app.rb
+        reload: true
+build:
+  steps:
+    - bundle-install
+    - script:
+        name: RuboCop
+        code: bundle exec rake rubocop
+    - script:
+        name: spec
+        code: |
+          export DB_USER=bbs
+          export DB_PASSWORD=bbs
+          export DB_HOST=$MYSQL_PORT_3306_TCP_ADDR
+          export DB_PORT=$MYSQL_PORT_3306_TCP_PORT
+          export DB_DATABASE=bbs
+          bundle exec rake spec
+    # - script:
+    #     name: Pause
+    #     code: sleep 600
