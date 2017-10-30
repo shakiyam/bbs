@@ -11,7 +11,11 @@ host = ENV['DB_HOST']
 port = ENV['DB_PORT']
 database = ENV['DB_DATABASE']
 
-DB = Sequel.connect("mysql://#{user}:#{pass}@#{host}:#{port}/#{database}")
+DB = Sequel.connect(
+  "jdbc:mysql://#{host}:#{port}/#{database}?useSSL=false",
+  user: user,
+  password: pass
+)
 
 unless DB.tables.include?(:posts)
   DB.create_table :posts do
