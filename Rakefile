@@ -1,7 +1,7 @@
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 
-task default: %i(spec rubocop)
+task default: %i[spec rubocop]
 
 RSpec::Core::RakeTask.new do |task|
   task.rspec_opts = ['-c', '-fd']
