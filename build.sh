@@ -1,2 +1,2 @@
 #!/bin/sh
-docker-compose build --no-cache web
+docker build --build-arg http_proxy="${http_proxy:-}" --build-arg https_proxy="${https_proxy:-}" -t shakiyam/bbs .

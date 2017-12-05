@@ -9,11 +9,7 @@ services:
       - MYSQL_DATABASE=bbs
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
   web:
-    build:
-      context: .
-      args:
-        - http_proxy=${http_proxy}
-        - https_proxy=${https_proxy}
+    image: shakiyam/bbs
     depends_on:
       - "db"
     ports:
