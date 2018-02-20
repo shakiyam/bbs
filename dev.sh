@@ -1,4 +1,5 @@
 #!/bin/sh
+docker-compose up -d db
 docker run -i -t --rm \
 -e http_proxy="${http_proxy:-}" \
 -e https_proxy="${https_proxy:-}" \
