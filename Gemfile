@@ -2,6 +2,7 @@ source 'https://rubygems.org/'
 
 gem 'capybara'
 gem 'pry'
+gem 'rake'
 gem 'rspec'
 gem 'rubocop'
 gem 'ruby-mysql'
