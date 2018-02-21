@@ -13,13 +13,11 @@ database = ENV['DB_DATABASE']
 
 DB = Sequel.connect("mysql://#{user}:#{pass}@#{host}:#{port}/#{database}")
 
-unless DB.tables.include?(:posts)
-  DB.create_table :posts do
-    primary_key :id
-    String :body, text: true
-    DateTime :created_at
-  end
-end
+DB.run "CREATE TABLE IF NOT EXISTS posts (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  body TEXT,
+  created_at DATETIME(6) DEFAULT NOW(6)
+)"
 
 get '/' do
   cache_control :no_cache
@@ -28,10 +26,7 @@ get '/' do
 end
 
 post '/' do
-  DB[:posts].insert(
-    body: params[:body],
-    created_at: Time.now.strftime('%Y-%m-%d %H:%M:%S')
-  )
+  DB[:posts].insert(body: params[:body])
   redirect to('/'), 303
 end
 
