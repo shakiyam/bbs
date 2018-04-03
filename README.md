@@ -3,7 +3,7 @@ bbs
 
 [![wercker status](https://app.wercker.com/status/c84b0804ef5cd0d15647571ae538129c/s/master)](https://app.wercker.com/project/byKey/c84b0804ef5cd0d15647571ae538129c)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b2c0cb73d156108f7d38/maintainability)](https://codeclimate.com/github/shakiyam/bbs/maintainability)
-[![Dependency Status](https://www.versioneye.com/user/projects/59f6e88e2de28c1e03d950e8/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/59f6e88e2de28c1e03d950e8)
+[![Known Vulnerabilities](https://snyk.io/test/github/shakiyam/bbs/badge.svg)](https://snyk.io/test/github/shakiyam/bbs)
 
 Tiny BBS for sample
 
