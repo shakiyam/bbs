@@ -3,7 +3,7 @@ box:
   ports:
     - "4567"
 services:
-  - id: mysql
+  - id: mysql:5.7
     env:
       MYSQL_ROOT_PASSWORD: bbs_admin
       MYSQL_USER: bbs
