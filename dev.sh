@@ -1,5 +1,6 @@
 #!/bin/sh
 docker-compose up -d db
+./build.sh
 docker run -i -t --rm \
 -e http_proxy="${http_proxy:-}" \
 -e https_proxy="${https_proxy:-}" \
@@ -13,4 +14,4 @@ docker run -i -t --rm \
 -p 4567:4567 \
 --net bbs_default \
 --link bbs_db_1:db \
-jruby:9-alpine bash
+shakiyam/bbs bash
