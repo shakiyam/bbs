@@ -29,6 +29,7 @@ GEM
     minitest (5.11.3)
     multi_json (1.13.1)
     mustermann (1.0.2)
+    mysql2 (0.5.1)
     nokogiri (1.8.3)
       mini_portile2 (~> 2.3.0)
     parallel (1.12.1)
@@ -67,7 +68,6 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
-    ruby-mysql (2.9.14)
     ruby-progressbar (1.9.0)
     sequel (5.9.0)
     sinatra (2.0.3)
@@ -100,11 +100,11 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
+  mysql2
   pry
   rake
   rspec
   rubocop
-  ruby-mysql
   sequel
   sinatra
   sinatra-contrib
