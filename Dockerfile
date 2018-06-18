@@ -1,6 +1,6 @@
 # bbs_web
 
-FROM jruby:9-alpine
+FROM ruby:2.5
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app

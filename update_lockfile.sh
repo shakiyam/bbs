@@ -4,4 +4,4 @@ docker run --rm \
 -e https_proxy="${https_proxy:-}" \
 -v "$(pwd)":/usr/src/app \
 -w /usr/src/app \
-jruby:9-alpine bundle lock --update
+ruby:2.5 bundle lock --update
