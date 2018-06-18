@@ -1,11 +1,11 @@
 source 'https://rubygems.org/'
 
 gem 'capybara'
-gem 'mysql2'
 gem 'pry'
 gem 'rake'
 gem 'rspec'
 gem 'rubocop'
+gem 'ruby-mysql'
 gem 'sequel'
 gem 'sinatra-contrib'
 gem 'sinatra'

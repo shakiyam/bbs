@@ -11,10 +11,7 @@ host = ENV['DB_HOST']
 port = ENV['DB_PORT']
 database = ENV['DB_DATABASE']
 
-DB = Sequel.connect(
-  "mysql2://#{user}:#{pass}@#{host}:#{port}/#{database}",
-  charset: 'utf8mb4'
-)
+DB = Sequel.connect("mysql://#{user}:#{pass}@#{host}:#{port}/#{database}")
 
 DB.run "CREATE TABLE IF NOT EXISTS posts (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
