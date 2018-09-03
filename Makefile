@@ -16,6 +16,10 @@ build: ## Build an image from a Dockerfile
 	@echo -e "\033[36m$@\033[0m"
 	@./build.sh
 
+hadolint: ## Check for Dockerfile
+	@echo -e "\033[36m$@\033[0m"
+	@hadolint Dockerfile
+
 rspec: build ## Test the applicattion
 	@echo -e "\033[36m$@\033[0m"
 	@./testexecutor.sh rspec -O /dev/null -fd
@@ -23,6 +27,10 @@ rspec: build ## Test the applicattion
 rubocop: build ## Check for Ruby scripts
 	@echo -e "\033[36m$@\033[0m"
 	@./testexecutor.sh rubocop -L
+
+shellcheck: ## Check for shell scripts
+	@echo -e "\033[36m$@\033[0m"
+	@shellcheck *.sh
 
 help: ## Print this help
 	@echo 'Usage: make [target]'
