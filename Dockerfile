@@ -9,4 +9,6 @@ RUN bundle install
 COPY app.rb /usr/src/app/
 
 EXPOSE 4567
-CMD ["ruby","app.rb"]
+CMD ["ruby", "app.rb"]
+HEALTHCHECK --start-period=30s \
+  CMD curl -f -o /dev/null -s http://$HOSTNAME:4567/ || exit 1
