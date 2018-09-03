@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 COPY Gemfile Gemfile.lock /usr/src/app/
 RUN bundle install
 COPY app.rb /usr/src/app/
+COPY spec /usr/src/app/spec
 
 EXPOSE 4567
 CMD ["ruby", "app.rb"]
