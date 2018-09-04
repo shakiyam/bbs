@@ -1,5 +1,5 @@
 box:
-  id: jruby:9-alpine
+  id: jruby:9
   ports:
     - "4567"
 services:
@@ -27,16 +27,16 @@ build:
     - bundle-install
     - script:
         name: RuboCop
-        code: bundle exec rake rubocop
+        code: bundle exec rubocop -L
     - script:
-        name: spec
+        name: rspec
         code: |
           export DB_USER=bbs
           export DB_PASSWORD=bbs
           export DB_HOST=$MYSQL_PORT_3306_TCP_ADDR
           export DB_PORT=$MYSQL_PORT_3306_TCP_PORT
           export DB_DATABASE=bbs
-          bundle exec rake spec
+          bundle exec rspec -O /dev/null -fd
     # - script:
     #     name: Pause
     #     code: sleep 600
