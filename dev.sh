@@ -16,6 +16,6 @@ docker run \
   -e DB_HOST=db \
   -e DB_PORT=3306 \
   -e DB_DATABASE=bbs \
-  -v "$(pwd)":/usr/src/app \
+  -v "$(pwd)":/opt/bbs \
   -u "$(id -u):$(id -g)" \
   shakiyam/bbs bash

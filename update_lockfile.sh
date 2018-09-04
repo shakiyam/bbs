@@ -6,7 +6,7 @@ docker container run \
   --rm \
   -e http_proxy="${http_proxy:-}" \
   -e https_proxy="${https_proxy:-}" \
-  -v "$(pwd)":/usr/src/app \
+  -v "$(pwd)":/opt/bbs \
   -u "$(id -u):$(id -g)" \
-  -w /usr/src/app \
+  -w /opt/bbs \
   jruby:9 bundle lock --update
