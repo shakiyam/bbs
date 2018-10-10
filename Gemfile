@@ -1,6 +1,6 @@
 source 'https://rubygems.org/'
 
-gem 'capybara'
+gem 'capybara', '>= 3.7.0'
 gem 'pry'
 gem 'rake'
 gem 'rspec'
