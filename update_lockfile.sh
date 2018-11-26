@@ -9,4 +9,4 @@ docker container run \
   -v "$(pwd)":/opt/bbs \
   -u "$(id -u):$(id -g)" \
   -w /opt/bbs \
-  jruby:9 bundle lock --update
+  jruby:9 bash -c 'HOME=/tmp bundle lock --update'
