@@ -23,6 +23,8 @@ docker-compose up -d
 
 View at: <http://localhost:4567/>
 
+![スクリーンショット](screenshot.png)
+
 Author
 ------
 
@@ -31,4 +33,4 @@ Author
 License
 -------
 
-[MIT License](http://www.opensource.org/licenses/mit-license.php)
+[MIT License](https://opensource.org/licenses/mit)
