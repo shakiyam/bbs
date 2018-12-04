@@ -15,11 +15,13 @@ Docker and Docker Compose
 How to run
 ----------
 
+Edit sample.env and rename it to .env. Then, execute the following commands.
+
 ```console
 docker-compose up -d
 ```
 
-View at: <http://localhost:4567>
+View at: <http://localhost:4567/>
 
 Author
 ------
