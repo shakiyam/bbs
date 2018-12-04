@@ -8,15 +8,19 @@ services:
       - MYSQL_PASSWORD=bbs
       - MYSQL_DATABASE=bbs
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --default_authentication_plugin=mysql_native_password
+    volumes:
+      - db_data:/var/lib/mysql
   web:
     image: shakiyam/bbs
     depends_on:
-      - "db"
+      - db
     ports:
-      - "4567:4567"
+      - '4567:4567'
     environment:
       - DB_USER=bbs
       - DB_PASSWORD=bbs
       - DB_HOST=db
       - DB_PORT=3306
       - DB_DATABASE=bbs
+volumes:
+  db_data:
