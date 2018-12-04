@@ -23,7 +23,7 @@ docker-compose up -d
 
 View at: <http://localhost:4567/>
 
-![スクリーンショット](screenshot.png)
+![screenshot](screenshot.png)
 
 Author
 ------
