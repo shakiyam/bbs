@@ -1,5 +1,6 @@
 *.gz
 *.zip
 .env
+.vscode
 .wercker
 ENVIRONMENT
