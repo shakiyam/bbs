@@ -1,6 +1,6 @@
-# bbs_web
-
-FROM jruby:9
+FROM ruby:alpine
+RUN apk update \
+  && apk add --no-cache g++ gcc libxml2-dev libxslt-dev make
 
 RUN mkdir -p /opt/bbs
 WORKDIR /opt/bbs

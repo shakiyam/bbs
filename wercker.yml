@@ -1,5 +1,5 @@
 box:
-  id: jruby:9
+  id: ruby:alpine
   ports:
     - "4567"
 services:
