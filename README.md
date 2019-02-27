@@ -23,7 +23,7 @@ docker-compose up -d
 
 View at: <http://localhost:4567/>
 
-![screenshot](screenshot.png)
+![screenshot](https://raw.githubusercontent.com/shakiyam/bbs/master/screenshot.png)
 
 Author
 ------
