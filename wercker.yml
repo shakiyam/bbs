@@ -35,13 +35,6 @@ build:
           apk update
           apk add --no-cache g++ gcc libxml2-dev libxslt-dev make
     - bundle-install
-rubocop:
-  steps:
-    - script:
-        name: RuboCop
-        code: bundle exec rubocop -L
-rspec:
-  steps:
     - script:
         name: rspec
         code: |
@@ -52,6 +45,11 @@ rspec:
           export DB_DATABASE=$MYSQL_DATABASE
           echo "DB_USER=$DB_USER"
           bundle exec rspec -O /dev/null -fd
-    # - script:
-    #     name: Pause
-    #     code: sleep 600
+rubocop:
+  box:
+    id: shakiyam/rubocop
+    entrypoint: /bin/sh -c
+  steps:
+    - script:
+        name: rubocop
+        code: rubocop
