@@ -1,0 +1,14 @@
+AllCops:
+  UseCache: false
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+Layout/IndentHeredoc:
+  Enabled: false
+Metrics:
+  Enabled: false
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
