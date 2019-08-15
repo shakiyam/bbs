@@ -1,22 +1,22 @@
-box:
-  id: ruby:alpine
-  ports:
-    - "4567"
-services:
-  - id: mysql:latest
-    env:
-      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-      MYSQL_USER: $MYSQL_USER
-      MYSQL_PASSWORD: $MYSQL_PASSWORD
-      MYSQL_DATABASE: $MYSQL_DATABASE
-    cmd: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --default_authentication_plugin=mysql_native_password
 dev:
+  box:
+    id: ruby:alpine
+    ports:
+      - "4567"
+  services:
+    - id: mysql:latest
+      env:
+        MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+        MYSQL_USER: $MYSQL_USER
+        MYSQL_PASSWORD: $MYSQL_PASSWORD
+        MYSQL_DATABASE: $MYSQL_DATABASE
+      cmd: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --default_authentication_plugin=mysql_native_password
   steps:
     - script:
-        name: apk
-        code: |
-          apk update
-          apk add --no-cache g++ gcc libxml2-dev libxslt-dev make
+      name: apk
+      code: |
+        apk update
+        apk add --no-cache g++ gcc libxml2-dev libxslt-dev make
     - bundle-install
     - internal/watch:
         code: |
@@ -28,28 +28,42 @@ dev:
           bundle exec ruby app.rb
         reload: true
 build:
+  box:
+    id: alpine
+  steps:
+    - internal/docker-build:
+      name: build docker-image
+      dockerfile: Dockerfile
+      image-name: my-new-image
+      build-args: "http_proxy=$http_proxy https_proxy=$https_proxy"
+rspec:
+  box:
+    id: shakiyam/capybara
+    entrypoint: /bin/sh -c
+  services:
+    - id: mysql:latest
+      env:
+        MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+        MYSQL_USER: $MYSQL_USER
+        MYSQL_PASSWORD: $MYSQL_PASSWORD
+        MYSQL_DATABASE: $MYSQL_DATABASE
+      cmd: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --default_authentication_plugin=mysql_native_password
+    - id: shakiyam/bbs
+      env:
+        DB_USER: $MYSQL_USER
+        DB_PASSWORD: $MYSQL_PASSWORD
+        DB_HOST: $MYSQL_PORT_3306_TCP_ADDR
+        DB_PORT: $MYSQL_PORT_3306_TCP_PORT
+        DB_DATABASE: $MYSQL_DATABASE
   steps:
     - script:
-        name: apk
-        code: |
-          apk update
-          apk add --no-cache g++ gcc libxml2-dev libxslt-dev make
-    - bundle-install
-    - script:
-        name: rspec
-        code: |
-          export DB_USER=$MYSQL_USER
-          export DB_PASSWORD=$MYSQL_PASSWORD
-          export DB_HOST=$MYSQL_PORT_3306_TCP_ADDR
-          export DB_PORT=$MYSQL_PORT_3306_TCP_PORT
-          export DB_DATABASE=$MYSQL_DATABASE
-          echo "DB_USER=$DB_USER"
-          bundle exec rspec -O /dev/null -fd
+      name: capybara
+      code: rspec -O /dev/null -fd
 rubocop:
   box:
     id: shakiyam/rubocop
     entrypoint: /bin/sh -c
   steps:
     - script:
-        name: rubocop
-        code: rubocop
+      name: rubocop
+      code: rubocop

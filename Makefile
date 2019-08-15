@@ -21,7 +21,8 @@ hadolint: ## Check for Dockerfile
 
 rspec: build ## Test the applicattion
 	@echo -e "\033[36m$@\033[0m"
-	@./testexecutor.sh rspec -O /dev/null -fd
+	@docker-compose up -d
+	@./capybara.sh
 
 rubocop: ## Check for Ruby scripts
 	@echo -e "\033[36m$@\033[0m"
