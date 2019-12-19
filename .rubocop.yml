@@ -2,11 +2,11 @@ AllCops:
   UseCache: false
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
-Layout/IndentHeredoc:
+Layout/HeredocIndentation:
   Enabled: false
 Metrics:
   Enabled: false
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Enabled: false
 Style/Documentation:
   Enabled: false
