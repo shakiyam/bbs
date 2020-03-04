@@ -10,5 +10,11 @@ Naming/MethodParameterName:
   Enabled: false
 Style/Documentation:
   Enabled: false
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
 Style/FrozenStringLiteralComment:
   Enabled: false
