@@ -18,7 +18,7 @@ How to run
 Edit sample.env and rename it to .env. Then, execute the following commands.
 
 ```console
-docker-compose up -d
+./docker-compose-wrapper.sh up -d
 ```
 
 View at: <http://localhost:4567/>
