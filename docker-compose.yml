@@ -10,6 +10,8 @@ services:
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --default_authentication_plugin=mysql_native_password
     volumes:
       - db_data:/var/lib/mysql
+    healthcheck:
+      test: sh -c 'echo "SELECT 1" | mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -s "${MYSQL_DATABASE}" >/dev/null 2>&1'
   web:
     image: shakiyam/bbs
     depends_on:
