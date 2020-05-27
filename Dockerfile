@@ -1,5 +1,6 @@
 FROM ruby:alpine
-
+# hadolint ignore=DL3018
+RUN apk update && apk add --no-cache curl
 RUN mkdir -p /opt/bbs
 WORKDIR /opt/bbs
 COPY Gemfile Gemfile.lock /opt/bbs/
