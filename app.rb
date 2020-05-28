@@ -19,7 +19,7 @@ begin
     body TEXT,
     created_at DATETIME(6) DEFAULT NOW(6)
   )"
-rescue
+rescue Sequel::Error
   sleep 1
   retry
 end
