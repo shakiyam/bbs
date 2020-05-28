@@ -9,5 +9,4 @@ COPY app.rb /opt/bbs/
 
 EXPOSE 4567
 CMD ["ruby", "app.rb"]
-HEALTHCHECK --start-period=30s \
-  CMD curl -f -o /dev/null -s http://$HOSTNAME:4567/ || exit 1
+HEALTHCHECK CMD curl -f -o /dev/null -s http://localhost:4567/ || exit 1
