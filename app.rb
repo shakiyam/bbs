@@ -11,13 +11,18 @@ host = ENV['DB_HOST']
 port = ENV['DB_PORT']
 database = ENV['DB_DATABASE']
 
-DB = Sequel.connect("mysql://#{user}:#{pass}@#{host}:#{port}/#{database}")
+begin
+  DB = Sequel.connect("mysql://#{user}:#{pass}@#{host}:#{port}/#{database}")
 
-DB.run "CREATE TABLE IF NOT EXISTS posts (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  body TEXT,
-  created_at DATETIME(6) DEFAULT NOW(6)
-)"
+  DB.run "CREATE TABLE IF NOT EXISTS posts (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    body TEXT,
+    created_at DATETIME(6) DEFAULT NOW(6)
+  )"
+rescue
+  sleep 1
+  retry
+end
 
 get '/' do
   cache_control :no_cache
