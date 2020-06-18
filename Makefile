@@ -15,6 +15,11 @@ build: ## Build an image from a Dockerfile
 	@echo -e "\033[36m$@\033[0m"
 	@./build.sh
 
+clean: ## Stops containers and removes containers, networks, volumes, and images
+	@echo -e "\033[36m$@\033[0m"
+	@./docker-compose-wrapper.sh down -v
+	@./remove_images.sh
+
 hadolint: ## Check for Dockerfile
 	@echo -e "\033[36m$@\033[0m"
 	@hadolint Dockerfile
