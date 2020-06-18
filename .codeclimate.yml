@@ -1,3 +1,16 @@
+version: "2"
 plugins: 
+  fixme:
+    enabled: true
+  flog:
+    enabled: true
   git-legal:
     enabled: false
+  markdownlint:
+    enabled: true
+  reek:
+    enabled: true
+  rubocop:
+    enabled: true
+  shellcheck:
+    enabled: true
