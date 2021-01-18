@@ -36,7 +36,7 @@ post '/' do
 end
 
 error do
-  'Sorry there was a nasty error - ' + env['sinatra.error'].name
+  "Sorry there was a nasty error - #{env['sinatra.error'].name}"
 end
 
 __END__
