@@ -1,6 +1,8 @@
 build:
   box:
     id: alpine
+    username: $DOCKER_USER
+    password: $DOCKER_PASSWORD
   steps:
     - internal/docker-build:
       dockerfile: Dockerfile
@@ -9,10 +11,14 @@ build:
 rspec:
   box:
     id: shakiyam/capybara
+    username: $DOCKER_USER
+    password: $DOCKER_PASSWORD
     entrypoint: /bin/sh -c
   services:
     - name: db
       id: mysql:latest
+      username: $DOCKER_USER
+      password: $DOCKER_PASSWORD
       env:
         MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
         MYSQL_USER: $MYSQL_USER
@@ -38,6 +44,8 @@ rspec:
 hadolint:
   box:
     id: hadolint/hadolint:latest-debian
+    username: $DOCKER_USER
+    password: $DOCKER_PASSWORD
   steps:
     - script:
       name: hadolint
@@ -45,6 +53,8 @@ hadolint:
 rubocop:
   box:
     id: shakiyam/rubocop
+    username: $DOCKER_USER
+    password: $DOCKER_PASSWORD
     entrypoint: /bin/sh -c
   steps:
     - script:
@@ -53,6 +63,8 @@ rubocop:
 shellcheck:
   box:
     id: koalaman/shellcheck-alpine
+    username: $DOCKER_USER
+    password: $DOCKER_PASSWORD
   steps:
     - script:
       name: shellcheck
