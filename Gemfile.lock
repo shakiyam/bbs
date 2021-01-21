@@ -13,7 +13,7 @@ GEM
     rack-protection (2.1.0)
       rack
     ruby-mysql (2.9.14)
-    ruby2_keywords (0.0.2)
+    ruby2_keywords (0.0.4)
     sequel (5.40.0)
     sinatra (2.1.0)
       mustermann (~> 1.0)
