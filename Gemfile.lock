@@ -6,7 +6,7 @@ GEM
     multi_json (1.15.0)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
-    pry (0.14.0)
+    pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     rack (2.2.3)
@@ -14,7 +14,7 @@ GEM
       rack
     ruby-mysql (2.9.14)
     ruby2_keywords (0.0.4)
-    sequel (5.42.0)
+    sequel (5.43.0)
     sinatra (2.1.0)
       mustermann (~> 1.0)
       rack (~> 2.2)
@@ -46,4 +46,4 @@ DEPENDENCIES
   webrick
 
 BUNDLED WITH
-   2.2.3
+   2.2.15
