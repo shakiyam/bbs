@@ -33,7 +33,7 @@ rspec: build ## Test the applicattion
 
 rubocop: ## Check for Ruby scripts
 	@echo -e "\033[36m$@\033[0m"
-	@rubocop
+	@./rubocop.sh
 
 shellcheck: ## Check for shell scripts
 	@echo -e "\033[36m$@\033[0m"
