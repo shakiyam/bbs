@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: mysql:latest
+    image: mysql/mysql-server:latest
     environment:
       - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
       - "MYSQL_USER=${MYSQL_USER}"
