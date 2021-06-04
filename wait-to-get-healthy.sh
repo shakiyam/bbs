@@ -7,8 +7,7 @@ if [[ $# -ne 1 ]]; then
 fi
 
 echo -n "Waiting for $1 to get healthy ..."
-while true
-do
+while true; do
   status="$(docker inspect -f '{{.State.Status}}' "$1")"
   if [[ $status != "running" ]]; then
     echo -e "\n\033[36mContainer $1 is $status\033[0m"
