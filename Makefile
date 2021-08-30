@@ -22,7 +22,7 @@ clean: ## Stops containers and removes containers, networks, volumes, and images
 
 hadolint: ## Check for Dockerfile
 	@echo -e "\033[36m$@\033[0m"
-	@hadolint Dockerfile
+	@./hadolint.sh Dockerfile
 
 rspec: build ## Test the applicattion
 	@echo -e "\033[36m$@\033[0m"
@@ -37,7 +37,7 @@ rubocop: ## Check for Ruby scripts
 
 shellcheck: ## Check for shell scripts
 	@echo -e "\033[36m$@\033[0m"
-	@shellcheck *.sh
+	@./shellcheck.sh *.sh
 
 update_lockfile: ## Update Gemfile.lock
 	@echo -e "\033[36m$@\033[0m"
