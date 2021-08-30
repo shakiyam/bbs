@@ -4,14 +4,6 @@ on:
     branches:
       - master
 jobs:
-  shellcheck:
-    name: ShellCheck
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@master
   hadolint:
     name: hadolint
     runs-on: ubuntu-latest
@@ -22,6 +14,22 @@ jobs:
         uses: hadolint/hadolint-action@v1.5.0
         with:
           dockerfile: Dockerfile
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+  shfmt:
+    name: shfmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run shfmt
+        run: ./shfmt.sh -l -d -i 2 -ci -bn *.sh
   rubocop:
     name: RuboCop
     runs-on: ubuntu-latest
@@ -33,7 +41,7 @@ jobs:
   build:
     name: Build and Push
     runs-on: ubuntu-latest
-    needs: [shellcheck, hadolint, rubocop]
+    needs: [shellcheck, shfmt, hadolint, rubocop]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
