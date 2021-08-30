@@ -13,8 +13,8 @@ GEM
     rack-protection (2.1.0)
       rack
     ruby-mysql (2.9.14)
-    ruby2_keywords (0.0.4)
-    sequel (5.45.0)
+    ruby2_keywords (0.0.5)
+    sequel (5.47.0)
     sinatra (2.1.0)
       mustermann (~> 1.0)
       rack (~> 2.2)
@@ -46,4 +46,4 @@ DEPENDENCIES
   webrick
 
 BUNDLED WITH
-   2.2.15
+   2.2.22
