@@ -1,9 +1,9 @@
 bbs
 ===
 
-[![wercker status](https://app.wercker.com/status/c84b0804ef5cd0d15647571ae538129c/s/master)](https://app.wercker.com/project/byKey/c84b0804ef5cd0d15647571ae538129c)
-[![Maintainability](https://api.codeclimate.com/v1/badges/b2c0cb73d156108f7d38/maintainability)](https://codeclimate.com/github/shakiyam/bbs/maintainability)
-[![Known Vulnerabilities](https://snyk.io/test/github/shakiyam/bbs/badge.svg)](https://snyk.io/test/github/shakiyam/bbs)
+![Lint and Build](https://github.com/shakiyam/bbs//actions/workflows/lint_and_build.yml/badge.svg)
+![Maintainability](https://api.codeclimate.com/v1/badges/b2c0cb73d156108f7d38/maintainability)
+![Known Vulnerabilities](https://snyk.io/test/github/shakiyam/bbs/badge.svg)
 
 Tiny BBS for sample
 
