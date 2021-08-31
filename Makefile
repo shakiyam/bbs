@@ -20,9 +20,15 @@ clean: ## Stops containers and removes containers, networks, volumes, and images
 	@./docker-compose-wrapper.sh down -v
 	@./remove_images.sh
 
-hadolint: ## Check for Dockerfile
+hadolint: ## Lint Dockerfile
 	@echo -e "\033[36m$@\033[0m"
 	@./hadolint.sh Dockerfile
+
+help: ## Print this help
+	@echo 'Usage: make [target]'
+	@echo ''
+	@echo 'Targets:'
+	@awk 'BEGIN {FS = ":.*?## "} /^[0-9A-Za-z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 rspec: build ## Test the applicattion
 	@echo -e "\033[36m$@\033[0m"
@@ -31,7 +37,7 @@ rspec: build ## Test the applicattion
 	@./wait-to-get-healthy.sh bbs_web_1
 	@./capybara.sh
 
-rubocop: ## Check for Ruby scripts
+rubocop: ## Lint Ruby scripts
 	@echo -e "\033[36m$@\033[0m"
 	@./rubocop.sh
 
@@ -46,9 +52,3 @@ shfmt: ## Lint shell scripts
 update_lockfile: ## Update Gemfile.lock
 	@echo -e "\033[36m$@\033[0m"
 	@./update_lockfile.sh
-
-help: ## Print this help
-	@echo 'Usage: make [target]'
-	@echo ''
-	@echo 'Targets:'
-	@awk 'BEGIN {FS = ":.*?## "} /^[0-9A-Za-z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
