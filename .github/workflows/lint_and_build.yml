@@ -74,6 +74,5 @@ jobs:
           ./docker-compose-wrapper.sh up -d
           ./wait-to-get-healthy.sh bbs_db_1
           ./wait-to-get-healthy.sh bbs_web_1
-          ./capybara.sh
       - name: Run rspec
         run: ./capybara.sh
