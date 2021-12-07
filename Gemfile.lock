@@ -6,13 +6,13 @@ GEM
     multi_json (1.15.0)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
+    mysql2 (0.5.3)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     rack (2.2.3)
     rack-protection (2.1.0)
       rack
-    ruby-mysql (2.11.1)
     ruby2_keywords (0.0.5)
     sequel (5.51.0)
     sinatra (2.1.0)
@@ -37,8 +37,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  mysql2
   pry
-  ruby-mysql (~> 2.11)
   sequel
   sinatra
   sinatra-contrib
