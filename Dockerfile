@@ -1,16 +1,11 @@
 FROM ruby:alpine
+# hadolint ignore=DL3018
+RUN apk add --no-cache curl
+# hadolint ignore=DL3059
 RUN mkdir -p /opt/bbs
 WORKDIR /opt/bbs
 COPY Gemfile Gemfile.lock /opt/bbs/
-# hadolint ignore=DL3018
-RUN apk update \
-  && apk add --no-cache curl mysql-client mysql-dev \
-  && apk add --no-cache --virtual=.build-dependencies gcc make musl-dev \
-  && bundle install \
-  && rm -rf /root/.bundle/cache \
-  && rm -rf /usr/local/bundle/cache/*.gem \
-  && find /usr/local/bundle/gems/ -regex ".*\.[cho]" -delete \
-  && apk del .build-dependencies
+RUN bundle install
 COPY app.rb /opt/bbs/
 EXPOSE 4567
 CMD ["ruby", "app.rb"]

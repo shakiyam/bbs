@@ -1,7 +1,7 @@
 source 'https://rubygems.org/'
 
-gem 'mysql2'
 gem 'pry'
+gem 'ruby-mysql'
 gem 'sequel'
 gem 'sinatra'
 gem 'sinatra-contrib'
