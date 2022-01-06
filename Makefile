@@ -35,7 +35,7 @@ rspec: build ## Test the applicattion
 	@./tools/docker-compose-wrapper.sh up -d
 	@./tools/wait-to-get-healthy.sh bbs_db_1
 	@./tools/wait-to-get-healthy.sh bbs_web_1
-	@./capybara.sh
+	@./tools/capybara.sh
 
 rubocop: ## Lint Ruby scripts
 	@echo -e "\033[36m$@\033[0m"

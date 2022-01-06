@@ -7,5 +7,5 @@ docker container run \
   --rm \
   -t \
   -u "$(id -u):$(id -g)" \
-  -v "$(cd "$(dirname "$0")" && pwd)":/work:ro \
+  -v "$PWD":/work:ro \
   shakiyam/capybara "$@"
