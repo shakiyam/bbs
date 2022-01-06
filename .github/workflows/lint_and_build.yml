@@ -29,7 +29,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Run shfmt
-        run: ./shfmt.sh -l -d -i 2 -ci -bn *.sh
+        run: ./shfmt.sh -l -d -i 2 -ci -bn *.sh tools/*.sh
   rubocop:
     name: RuboCop
     runs-on: ubuntu-latest
@@ -71,8 +71,8 @@ jobs:
         run: cp sample.env .env
       - name: Start
         run: |
-          ./docker-compose-wrapper.sh up -d
-          ./wait-to-get-healthy.sh bbs_db_1
-          ./wait-to-get-healthy.sh bbs_web_1
+          ./tools/docker-compose-wrapper.sh up -d
+          ./tools/wait-to-get-healthy.sh bbs_db_1
+          ./tools/wait-to-get-healthy.sh bbs_web_1
       - name: Run rspec
-        run: ./capybara.sh
+        run: ./tools/capybara.sh
