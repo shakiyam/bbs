@@ -29,7 +29,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Run shfmt
-        run: ./shfmt.sh -l -d -i 2 -ci -bn *.sh tools/*.sh
+        run: ./tools/shfmt.sh -l -d -i 2 -ci -bn *.sh tools/*.sh
   rubocop:
     name: RuboCop
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Run RuboCop
-        run: ./rubocop.sh
+        run: ./tools/rubocop.sh
   build:
     name: Build and Push
     runs-on: ubuntu-latest
