@@ -13,12 +13,12 @@ all: shellcheck shfmt hadolint rubocop update_lockfile build rspec ## Lint, upda
 
 build: ## Build an image from a Dockerfile
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/build.sh
+	@./tools/build.sh shakiyam/bbs
 
 clean: ## Stops containers and removes containers, networks, volumes, and images
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/docker-compose-wrapper.sh down -v
-	@./tools/remove_images.sh
+	@./tools/remove_images.sh shakiyam/bbs
 
 hadolint: ## Lint Dockerfile
 	@echo -e "\033[36m$@\033[0m"
