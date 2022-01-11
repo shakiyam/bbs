@@ -74,6 +74,9 @@ jobs:
           ./tools/docker-compose-wrapper.sh up -d
           ./tools/wait-to-get-healthy.sh bbs_db_1
           ./tools/wait-to-get-healthy.sh bbs_web_1
+          docker network ls
       - name: Run rspec
         env: NETWORK=bbs_default
-        run: ./tools/capybara.sh
+        run: |
+          docker network ls
+          ./tools/capybara.sh
