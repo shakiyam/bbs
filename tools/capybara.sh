@@ -18,5 +18,5 @@ else
     -t \
     --security-opt label=disable \
     -v "$PWD":/work:ro \
-    shakiyam/capybara "$@"
+    docker.io/shakiyam/capybara "$@"
 fi

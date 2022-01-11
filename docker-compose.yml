@@ -11,7 +11,11 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: sh -c 'echo "SELECT 1" | mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -s "${MYSQL_DATABASE}" >/dev/null 2>&1'
+      test: echo "SELECT 1" | mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -s "${MYSQL_DATABASE}" >/dev/null 2>&1
+      interval: 30s
+      timeout: 30s
+      start_period: 0s
+      retries: 3
   web:
     image: shakiyam/bbs
     depends_on:
@@ -24,5 +28,11 @@ services:
       - DB_HOST=db
       - DB_PORT=3306
       - "DB_DATABASE=${MYSQL_DATABASE}"
+    healthcheck:
+      test: curl -f -o /dev/null -s http://localhost:4567/ || exit 1
+      interval: 30s
+      timeout: 30s
+      start_period: 0s
+      retries: 3
 volumes:
   db_data:
