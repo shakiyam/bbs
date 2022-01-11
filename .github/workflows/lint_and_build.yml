@@ -75,7 +75,4 @@ jobs:
           ./tools/wait-to-get-healthy.sh bbs_db_1
           ./tools/wait-to-get-healthy.sh bbs_web_1
       - name: Run rspec
-        run: |
-          docker network ls
-          echo "podman: $(command -v podman)"
-          NETWORK=bbs_default ./tools/capybara.sh
+        run: NETWORK=bbs_default ./tools/capybara.sh

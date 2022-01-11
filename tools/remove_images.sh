@@ -1,10 +1,17 @@
 #!/bin/bash
 set -eu -o pipefail
 
+if [[ "$#" -ne 1 ]]; then
+  echo "Usage: remove_images.sh image_name"
+  exit 1
+fi
 IMAGE_NAME="$1"
 readonly IMAGE_NAME
-LATEST_IMAGE="$(docker image ls -q "$IMAGE_NAME":latest)"
+
+DOCKER=$(command -v docker || command -v podman)
+readonly DOCKER
+LATEST_IMAGE="$($DOCKER image ls -q "$IMAGE_NAME":latest)"
 readonly LATEST_IMAGE
 if [[ -n "$LATEST_IMAGE" ]]; then
-  docker image rm -f "$LATEST_IMAGE"
+  $DOCKER image rm -f "$LATEST_IMAGE"
 fi
