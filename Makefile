@@ -30,11 +30,10 @@ help: ## Print this help
 	@echo 'Targets:'
 	@awk 'BEGIN {FS = ":.*?## "} /^[0-9A-Za-z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-rspec: build ## Test the applicattion
+restart: stop start ## Restart the application
+
+rspec: start ## Test the applicattion
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/docker-compose-wrapper.sh up -d
-	@./tools/wait-to-get-healthy.sh bbs_db_1
-	@./tools/wait-to-get-healthy.sh bbs_web_1
 	@NETWORK=bbs_default ./tools/capybara.sh
 
 rubocop: ## Lint Ruby scripts
@@ -48,6 +47,16 @@ shellcheck: ## Lint shell scripts
 shfmt: ## Lint shell scripts
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/shfmt.sh -l -d -i 2 -ci -bn *.sh tools/*.sh
+
+start: ## Start the application
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/docker-compose-wrapper.sh up -d
+	@./tools/wait-to-get-healthy.sh bbs_db_1
+	@./tools/wait-to-get-healthy.sh bbs_web_1
+
+stop: ## Stop the application
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/docker-compose-wrapper.sh stop
 
 update_lockfile: ## Update Gemfile.lock
 	@echo -e "\033[36m$@\033[0m"
