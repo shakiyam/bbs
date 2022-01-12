@@ -12,4 +12,6 @@ if [[ -z "${MYSQL_ROOT_PASSWORD:-}" || -z "${MYSQL_USER:-}" || -z "${MYSQL_PASSW
 fi
 
 docker-compose up -d db
-docker exec -it bbs_db_1 mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}"
+DOCKER=$(command -v docker || command -v podman)
+readonly DOCKER
+$DOCKER exec -it bbs_db_1 mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}"
