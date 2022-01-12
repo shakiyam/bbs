@@ -11,6 +11,10 @@ ALL_TARGETS := $(shell egrep -o ^[0-9A-Za-z_-]+: $(MAKEFILE_LIST) | sed 's/://')
 all: shellcheck shfmt hadolint rubocop update_lockfile build rspec ## Lint, update Gemfile.lock, build, and test
 	@:
 
+backup: ## Backup database and web access logs
+	@echo -e "\033[36m$@\033[0m"
+	@./backup.sh
+
 build: ## Build an image from a Dockerfile
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/build.sh shakiyam/bbs
@@ -30,7 +34,7 @@ help: ## Print this help
 	@echo 'Targets:'
 	@awk 'BEGIN {FS = ":.*?## "} /^[0-9A-Za-z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-restart: stop start ## Restart the application
+restart: backup stop start ## Restart the application
 
 rspec: start ## Test the applicattion
 	@echo -e "\033[36m$@\033[0m"
@@ -54,7 +58,7 @@ start: ## Start the application
 	@./tools/wait-to-get-healthy.sh bbs_db_1
 	@./tools/wait-to-get-healthy.sh bbs_web_1
 
-stop: ## Stop the application
+stop: backup ## Stop the application
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/docker-compose-wrapper.sh stop
 
