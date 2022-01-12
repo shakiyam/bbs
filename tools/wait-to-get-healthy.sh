@@ -15,6 +15,7 @@ else
   HEALTHCHECK_QUERY='{{.State.Healthcheck.Status}}'
 fi
 readonly DOCKER
+readonly HEALTHCHECK_QUERY
 
 echo -n "Waiting for $1 to get healthy ..."
 while true; do
