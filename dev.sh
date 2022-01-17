@@ -11,21 +11,20 @@ if [[ -z "${MYSQL_ROOT_PASSWORD:-}" || -z "${MYSQL_USER:-}" || -z "${MYSQL_PASSW
   exit 1
 fi
 
-docker-compose up -d db
-./build.sh
-docker run \
-  -it \
+./tools/docker-compose-wrapper.sh up -d db
+./tools/build.sh shakiyam/bbs
+docker container run \
   --name bbs_development \
   --net bbs_default \
   --rm \
-  -p 4567:4567 \
-  -e http_proxy="${http_proxy:-}" \
-  -e https_proxy="${https_proxy:-}" \
-  -e DB_USER="${MYSQL_USER}" \
-  -e DB_PASSWORD="${MYSQL_PASSWORD}" \
-  -e DB_HOST=db \
-  -e DB_PORT=3306 \
   -e DB_DATABASE="${MYSQL_DATABASE}" \
-  -v "$(pwd)":/opt/bbs \
+  -e DB_HOST=db \
+  -e DB_PASSWORD="${MYSQL_PASSWORD}" \
+  -e DB_PORT=3306 \
+  -e DB_USER="${MYSQL_USER}" \
+  -e HOME=/tmp \
+  -it \
+  -p 4567:4567 \
   -u "$(id -u):$(id -g)" \
-  shakiyam/bbs bash
+  -v "$(pwd)":/opt/bbs \
+  shakiyam/bbs sh
