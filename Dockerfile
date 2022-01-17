@@ -8,4 +8,5 @@ COPY Gemfile Gemfile.lock /opt/bbs/
 RUN bundle install
 COPY app.rb /opt/bbs/
 EXPOSE 4567
+USER nobody:nobody
 CMD ["ruby", "app.rb"]
