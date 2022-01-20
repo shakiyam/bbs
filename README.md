@@ -10,7 +10,8 @@ Tiny BBS for sample
 Requirement
 -----------
 
-Docker and Docker Compose
+* Docker or Podman
+* Docker Compose
 
 How to run
 ----------
@@ -33,4 +34,4 @@ Author
 License
 -------
 
-[MIT License](https://opensource.org/licenses/mit)
+[MIT License](https://opensource.org/licenses/MIT)
