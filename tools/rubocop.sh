@@ -8,7 +8,7 @@ if [[ $(command -v docker) ]]; then
     -t \
     -u "$(id -u):$(id -g)" \
     -v "$PWD":/work:ro \
-    shakiyam/rubocop "$@"
+    docker.io/shakiyam/rubocop "$@"
 else
   podman container run \
     --name rubocop$$ \
