@@ -13,8 +13,8 @@ else
   podman container run \
     --name rubocop$$ \
     --rm \
-    -t \
     --security-opt label=disable \
+    -t \
     -v "$PWD":/work:ro \
     docker.io/shakiyam/rubocop "$@"
 fi
