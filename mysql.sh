@@ -14,4 +14,4 @@ fi
 docker-compose up -d db
 DOCKER=$(command -v docker || command -v podman)
 readonly DOCKER
-$DOCKER exec -it bbs_db_1 mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}"
+$DOCKER exec -it bbs_db_1 mysql --host db --port 3306 -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}"
