@@ -72,7 +72,7 @@ jobs:
       - name: Start
         run: |
           ./tools/docker-compose-wrapper.sh up -d
-          ./tools/wait-to-get-healthy.sh bbs_db_1
-          ./tools/wait-to-get-healthy.sh bbs_web_1
+          ./tools/wait-to-get-healthy.sh bbs-db
+          ./tools/wait-to-get-healthy.sh bbs-web
       - name: Run rspec
-        run: NETWORK=bbs_default ./tools/capybara.sh
+        run: NETWORK=bbs-default ./tools/capybara.sh

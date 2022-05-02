@@ -38,7 +38,7 @@ restart: backup stop start ## Restart the application
 
 rspec: start ## Test the applicattion
 	@echo -e "\033[36m$@\033[0m"
-	@NETWORK=bbs_default ./tools/capybara.sh
+	@NETWORK=bbs-default ./tools/capybara.sh
 
 rubocop: ## Lint Ruby scripts
 	@echo -e "\033[36m$@\033[0m"
@@ -55,8 +55,8 @@ shfmt: ## Lint shell scripts
 start: ## Start the application
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/docker-compose-wrapper.sh up -d
-	@./tools/wait-to-get-healthy.sh bbs_db_1
-	@./tools/wait-to-get-healthy.sh bbs_web_1
+	@./tools/wait-to-get-healthy.sh bbs-db
+	@./tools/wait-to-get-healthy.sh bbs-web
 
 stop: backup ## Stop the application
 	@echo -e "\033[36m$@\033[0m"

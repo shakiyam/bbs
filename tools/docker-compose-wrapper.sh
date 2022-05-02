@@ -11,4 +11,8 @@ if [[ -z "${MYSQL_ROOT_PASSWORD:-}" || -z "${MYSQL_USER:-}" || -z "${MYSQL_PASSW
   exit 1
 fi
 
-docker-compose "$@"
+if [[ $(command -v docker-compose) ]]; then
+  docker-compose "$@"
+else
+  docker compose "$@"
+fi

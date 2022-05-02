@@ -14,8 +14,8 @@ fi
 ./tools/docker-compose-wrapper.sh up -d db
 ./tools/build.sh shakiyam/bbs
 docker container run \
-  --name bbs_development \
-  --net bbs_default \
+  --name bbs-development \
+  --net bbs-default \
   --rm \
   -e DB_DATABASE="${MYSQL_DATABASE}" \
   -e DB_HOST=db \

@@ -16,6 +16,6 @@ readonly BACKUP_DIR
 mkdir -p "$BACKUP_DIR"
 DOCKER=$(command -v docker || command -v podman)
 readonly DOCKER
-$DOCKER exec bbs_db_1 sh -c "MYSQL_PWD=$MYSQL_ROOT_PASSWORD mysqldump --databases $MYSQL_DATABASE --user=root" \
+$DOCKER exec bbs-db sh -c "MYSQL_PWD=$MYSQL_ROOT_PASSWORD mysqldump --databases $MYSQL_DATABASE --user=root" \
   | gzip >"$BACKUP_DIR"/mysql.sql.gz
 docker-compose logs | gzip >"$BACKUP_DIR"/containers.log.gz
