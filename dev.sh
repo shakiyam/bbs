@@ -12,7 +12,7 @@ if [[ -z "${MYSQL_ROOT_PASSWORD:-}" || -z "${MYSQL_USER:-}" || -z "${MYSQL_PASSW
 fi
 
 ./tools/docker-compose-wrapper.sh up -d db
-./tools/build.sh shakiyam/bbs
+./tools/build.sh docker.io/shakiyam/bbs
 docker container run \
   --name bbs-development \
   --net bbs-default \
@@ -27,4 +27,4 @@ docker container run \
   -p 4567:4567 \
   -u "$(id -u):$(id -g)" \
   -v "$(pwd)":/opt/bbs \
-  shakiyam/bbs sh
+  docker.io/shakiyam/bbs sh

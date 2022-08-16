@@ -17,12 +17,12 @@ backup: ## Backup database and web access logs
 
 build: ## Build an image from a Dockerfile
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/build.sh shakiyam/bbs
+	@./tools/build.sh docker.io/shakiyam/bbs
 
 clean: ## Stops containers and removes containers, networks, volumes, and images
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/docker-compose-wrapper.sh down -v
-	@./tools/remove_images.sh shakiyam/bbs
+	@./tools/remove_images.sh docker.io/shakiyam/bbs
 
 hadolint: ## Lint Dockerfile
 	@echo -e "\033[36m$@\033[0m"
