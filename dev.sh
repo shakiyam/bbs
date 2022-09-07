@@ -19,7 +19,7 @@ if [[ $(command -v docker) ]]; then
     --net bbs-default \
     --rm \
     -e DB_DATABASE="${MYSQL_DATABASE}" \
-    -e DB_HOST=db \
+    -e DB_HOST=bbs-db \
     -e DB_PASSWORD="${MYSQL_PASSWORD}" \
     -e DB_PORT=3306 \
     -e DB_USER="${MYSQL_USER}" \
@@ -36,7 +36,7 @@ else
     --rm \
     --security-opt label=disable \
     -e DB_DATABASE="${MYSQL_DATABASE}" \
-    -e DB_HOST=db \
+    -e DB_HOST=bbs-db \
     -e DB_PASSWORD="${MYSQL_PASSWORD}" \
     -e DB_PORT=3306 \
     -e DB_USER="${MYSQL_USER}" \

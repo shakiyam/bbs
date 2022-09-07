@@ -13,7 +13,7 @@ services:
     healthcheck:
       test:
       - CMD-SHELL
-      - echo 'SELECT 1' | mysql --host db --port 3306 -u ${MYSQL_USER} -p${MYSQL_PASSWORD} -s ${MYSQL_DATABASE} >/dev/null 2>&1
+      - echo 'SELECT 1' | mysql --host bbs-db --port 3306 -u ${MYSQL_USER} -p${MYSQL_PASSWORD} -s ${MYSQL_DATABASE} >/dev/null 2>&1
       timeout: 10s
       interval: 10s
       retries: 5
@@ -33,7 +33,7 @@ services:
         condition: service_healthy
     environment:
       DB_DATABASE: ${MYSQL_DATABASE}
-      DB_HOST: db
+      DB_HOST: bbs-db
       DB_PASSWORD: ${MYSQL_PASSWORD}
       DB_PORT: "3306"
       DB_USER: ${MYSQL_USER}
