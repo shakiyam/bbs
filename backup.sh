@@ -18,4 +18,4 @@ DOCKER=$(command -v docker || command -v podman)
 readonly DOCKER
 $DOCKER exec bbs-db sh -c "MYSQL_PWD=$MYSQL_ROOT_PASSWORD mysqldump --databases $MYSQL_DATABASE --user=root" \
   | gzip >"$BACKUP_DIR"/mysql.sql.gz
-docker-compose logs | gzip >"$BACKUP_DIR"/containers.log.gz
+./tools/docker-compose-wrapper.sh logs | gzip >"$BACKUP_DIR"/containers.log.gz
