@@ -1,6 +1,5 @@
 require 'sequel'
 require 'sinatra'
-require 'sinatra/reloader'
 require 'slim'
 
 set :bind, '0.0.0.0'
