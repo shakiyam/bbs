@@ -1,15 +1,28 @@
 #!/bin/bash
 set -eu -o pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+readonly SCRIPT_DIR
+# shellcheck disable=SC1091
+. "$SCRIPT_DIR"/colored_echo.sh
+
+if [[ $(command -v docker) ]]; then
+  DOCKER=docker
+elif [[ $(command -v podman) ]]; then
+  DOCKER=podman
+else
+  echo_error 'Neither docker nor podman is installed.'
+  exit 1
+fi
+readonly DOCKER
+
 if [[ "$#" -ne 1 ]]; then
-  echo "Usage: remove_images.sh image_name"
+  echo_error 'Usage: remove_images.sh image_name'
   exit 1
 fi
 IMAGE_NAME="$1"
 readonly IMAGE_NAME
 
-DOCKER=$(command -v docker || command -v podman)
-readonly DOCKER
 LATEST_IMAGE="$($DOCKER image inspect -f "{{.Id}}" "$IMAGE_NAME":latest || :)"
 readonly LATEST_IMAGE
 if [[ -n "$LATEST_IMAGE" ]]; then
