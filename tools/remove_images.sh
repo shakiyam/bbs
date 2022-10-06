@@ -10,7 +10,7 @@ readonly IMAGE_NAME
 
 DOCKER=$(command -v docker || command -v podman)
 readonly DOCKER
-LATEST_IMAGE="$($DOCKER image ls -q "$IMAGE_NAME":latest)"
+LATEST_IMAGE="$($DOCKER image inspect -f "{{.Id}}" "$IMAGE_NAME":latest || :)"
 readonly LATEST_IMAGE
 if [[ -n "$LATEST_IMAGE" ]]; then
   $DOCKER image rm -f "$LATEST_IMAGE"
