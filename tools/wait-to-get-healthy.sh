@@ -1,33 +1,43 @@
 #!/bin/bash
 set -eu -o pipefail
 
-if [[ $# -ne 1 ]]; then
-  echo -e "\033[36mContainer ID or NAME is required\033[0m"
-  exit 1
-fi
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+readonly SCRIPT_DIR
+# shellcheck disable=SC1091
+. "$SCRIPT_DIR"/colored_echo.sh
 
-DOCKER=$(command -v docker || command -v podman)
 if [[ $(command -v docker) ]]; then
   DOCKER=docker
   HEALTHCHECK_QUERY='{{.State.Health.Status}}'
-else
+elif [[ $(command -v podman) ]]; then
   DOCKER=podman
   HEALTHCHECK_QUERY='{{.State.Healthcheck.Status}}'
+else
+  echo_error 'Neither docker nor podman is installed.'
+  exit 1
 fi
 readonly DOCKER
 readonly HEALTHCHECK_QUERY
 
-echo -n "Waiting for $1 to get healthy ..."
+if [[ $# -ne 1 ]]; then
+  echo_error 'Container ID or NAME is required.'
+  exit 1
+fi
+CONTAINER=$1
+readonly CONTAINER
+
+# echo_info
+echo -n "Waiting for $CONTAINER to get healthy ..."
 while true; do
-  status="$($DOCKER inspect -f '{{.State.Status}}' "$1")"
+  status="$($DOCKER inspect -f '{{.State.Status}}' "$CONTAINER")"
   if [[ $status != "running" ]]; then
-    echo -e "\n\033[36mContainer $1 is $status\033[0m"
+    echo_error " Container $CONTAINER is $status."
     exit 1
   fi
-  if [[ "$($DOCKER inspect -f $HEALTHCHECK_QUERY "$1")" == "healthy" ]]; then
+  if [[ "$($DOCKER inspect -f $HEALTHCHECK_QUERY "$CONTAINER")" == "healthy" ]]; then
     break
   fi
   sleep 1
-  echo -n .
+  echo -n '.'
 done
-echo -e " \033[32mdone\033[0m"
+echo_success ' done.'
