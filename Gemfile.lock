@@ -13,7 +13,7 @@ GEM
       rack
     ruby-mysql (3.0.1)
     ruby2_keywords (0.0.5)
-    sequel (5.61.0)
+    sequel (5.62.0)
     sinatra (3.0.2)
       mustermann (~> 3.0)
       rack (~> 2.2, >= 2.2.4)
