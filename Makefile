@@ -24,7 +24,7 @@ check_for_image_updates: ## Check for image updates
 
 check_for_library_updates: ## Check for library updates
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/update_lockfile.sh -e
+	@./tools/update_lockfile.sh
 
 check_for_new_release: ## Check for new release
 	@echo -e "\033[36m$@\033[0m"
@@ -76,7 +76,3 @@ start: ## Start the application
 stop: backup ## Stop the application
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/docker-compose-wrapper.sh stop
-
-update_lockfile: ## Update Gemfile.lock
-	@echo -e "\033[36m$@\033[0m"
-	@./tools/update_lockfile.sh
