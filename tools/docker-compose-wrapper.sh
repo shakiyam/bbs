@@ -20,12 +20,5 @@ if [[ ! -e .env ]]; then
   echo_error 'Environment file .env not found.'
   exit 1
 fi
-# shellcheck disable=SC1091
-. .env
-
-if [[ -z "${MYSQL_ROOT_PASSWORD:-}" || -z "${MYSQL_USER:-}" || -z "${MYSQL_PASSWORD:-}" || -z "${MYSQL_DATABASE:-}" ]]; then
-  echo_error 'Required environment variable not defined.'
-  exit 1
-fi
 
 $DOCKER_COMPOSE "$@"
