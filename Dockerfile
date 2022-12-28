@@ -1,4 +1,4 @@
-FROM docker.io/ruby:3.1-alpine3.17
+FROM docker.io/ruby:3.2-alpine3.17
 # hadolint ignore=DL3018
 RUN apk add --no-cache curl
 # hadolint ignore=DL3059
