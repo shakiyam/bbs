@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.1.0
       - name: Run check_for_new_release.sh
         run: |
           ./tools/check_for_new_release.sh Bootstrap twbs/bootstrap "$(grep -o 'bootstrap@[^\/]*' app.rb | awk -F'@' 'NR==1{printf "v%s", $2}')"
@@ -36,4 +36,4 @@ jobs:
           ./tools/check_for_new_release.sh docker/build-push-action docker/build-push-action "$(grep -o 'docker/build-push-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $2}')" '(v[0-9]+)'
           ./tools/check_for_new_release.sh docker/setup-buildx-action docker/setup-buildx-action "$(grep -o 'docker/setup-buildx-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $2}')" '(v[0-9]+)'
           ./tools/check_for_new_release.sh docker/setup-qemu-action docker/setup-qemu-action "$(grep -o 'docker/setup-qemu-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $2}')" '(v[0-9]+)'
-          ./tools/check_for_new_release.sh hadolint/hadolint-action hadolint/hadolint-action "$(grep -o 'hadolint/hadolint-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $2}')" '(v[0-9]+)'
+          ./tools/check_for_new_release.sh hadolint/hadolint-action hadolint/hadolint-action "$(grep -o 'hadolint/hadolint-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $2}')"
