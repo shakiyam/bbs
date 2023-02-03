@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v3
       - name: Run check_for_new_release.sh
         run: |
           ./tools/check_for_new_release.sh Bootstrap twbs/bootstrap "$(grep -o 'bootstrap@[^\/]*' app.rb | awk -F'@' 'NR==1{printf "v%s", $2}')"
