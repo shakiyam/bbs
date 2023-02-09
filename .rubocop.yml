@@ -5,6 +5,8 @@ Layout/EmptyLineAfterGuardClause:
   Enabled: false
 Layout/HeredocIndentation:
   Enabled: false
+Lint/Debugger:
+  Enabled: false
 Metrics:
   Enabled: false
 Naming/MethodParameterName:
