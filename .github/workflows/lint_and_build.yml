@@ -54,12 +54,20 @@ jobs:
         with:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and Push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64, linux/arm64
           push: true
-          tags: ${{ github.repository }}
+          tags: |
+            docker.io/shakiyam/bbs:latest
+            ghcr.io/shakiyam/bbs:latest
   rspec:
     name: Test the applicattion
     runs-on: ubuntu-latest
