@@ -18,7 +18,7 @@ services:
       interval: 10s
       retries: 5
       start_period: 0s
-    image: docker.io/mysql:8.0-oracle
+    image: container-registry.oracle.com/mysql/community-server:8.0
     networks:
       default: null
     volumes:

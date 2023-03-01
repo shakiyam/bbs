@@ -13,7 +13,7 @@ if [[ $(command -v docker) ]]; then
     -t \
     -u "$(id -u):$(id -g)" \
     -v "$PWD":/work:ro \
-    docker.io/shakiyam/rubocop "$@"
+    ghcr.io/shakiyam/rubocop "$@"
 elif [[ $(command -v podman) ]]; then
   podman container run \
     --name rubocop$$ \
@@ -21,7 +21,7 @@ elif [[ $(command -v podman) ]]; then
     --security-opt label=disable \
     -t \
     -v "$PWD":/work:ro \
-    docker.io/shakiyam/rubocop "$@"
+    ghcr.io/shakiyam/rubocop "$@"
 else
   echo_error 'Neither docker nor podman is installed.'
   exit 1
