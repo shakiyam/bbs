@@ -45,7 +45,7 @@ services:
       interval: 10s
       retries: 5
       start_period: 0s
-    image: docker.io/shakiyam/bbs
+    image: ghcr.io/shakiyam/bbs
     networks:
       default: null
     ports:

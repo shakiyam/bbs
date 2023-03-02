@@ -12,7 +12,7 @@ if [[ -z "${MYSQL_ROOT_PASSWORD:-}" || -z "${MYSQL_USER:-}" || -z "${MYSQL_PASSW
 fi
 
 ./tools/docker-compose-wrapper.sh up -d db
-./tools/build.sh docker.io/shakiyam/bbs
+./tools/build.sh ghcr.io/shakiyam/bbs
 if [[ $(command -v docker) ]]; then
   docker container run \
     --name bbs-development \
@@ -28,7 +28,7 @@ if [[ $(command -v docker) ]]; then
     -p 4567:4567 \
     -u "$(id -u):$(id -g)" \
     -v "$PWD":/opt/bbs \
-    docker.io/shakiyam/bbs sh
+    ghcr.io/shakiyam/bbs sh
 else
   podman container run \
     --name bbs-development \
@@ -44,5 +44,5 @@ else
     -it \
     -p 4567:4567 \
     -v "$PWD":/opt/bbs \
-    docker.io/shakiyam/bbs sh
+    ghcr.io/shakiyam/bbs sh
 fi

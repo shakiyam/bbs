@@ -16,7 +16,7 @@ backup: ## Backup database and web access logs
 
 build: ## Build an image from a Dockerfile
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/build.sh docker.io/shakiyam/bbs
+	@./tools/build.sh ghcr.io/shakiyam/bbs
 
 check_for_image_updates: ## Check for image updates
 	@echo -e "\033[36m$@\033[0m"
@@ -41,7 +41,7 @@ check_for_updates: check_for_image_updates check_for_library_updates check_for_n
 clean: ## Stops containers and removes containers, networks, volumes, and images
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/docker-compose-wrapper.sh down -v
-	@./tools/remove_images.sh docker.io/shakiyam/bbs
+	@./tools/remove_images.sh ghcr.io/shakiyam/bbs
 
 hadolint: ## Lint Dockerfile
 	@echo -e "\033[36m$@\033[0m"
