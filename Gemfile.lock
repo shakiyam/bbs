@@ -3,12 +3,12 @@ GEM
   specs:
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
-    rack (2.2.7)
+    rack (2.2.8)
     rack-protection (3.0.6)
       rack
     ruby-mysql (4.0.0)
     ruby2_keywords (0.0.5)
-    sequel (5.70.0)
+    sequel (5.71.0)
     sinatra (3.0.6)
       mustermann (~> 3.0)
       rack (~> 2.2, >= 2.2.4)
