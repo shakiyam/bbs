@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Run check_for_image_updates.sh
         run: |
           ./tools/check_for_image_updates.sh "$(awk -e '/FROM/{print $2}' Dockerfile)" ghcr.io/ruby/ruby:latest
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Run bundle lock
         run: ./tools/update_lockfile.sh -e
   check_for_new_release:
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Run check_for_new_release.sh
         run: |
           ./tools/check_for_new_release.sh twbs/bootstrap "$(grep -o 'bootstrap@[^\/]*' app.rb | awk -F'@' 'NR==1{printf "v%s", $2}')"
