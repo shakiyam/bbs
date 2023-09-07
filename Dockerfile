@@ -3,7 +3,7 @@ ENV GEM_HOME=/usr/local/bundle
 ENV PATH $GEM_HOME/bin:$PATH
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get -y --no-install-recommends install curl \
+  && apt-get -y --no-install-recommends install build-essential curl \
   && rm -rf /var/lib/apt/lists/*
 # hadolint ignore=DL3059
 RUN mkdir -p /opt/bbs
