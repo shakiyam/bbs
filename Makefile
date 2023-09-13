@@ -32,6 +32,7 @@ check_for_new_release: ## Check for new release
 	@./tools/check_for_new_release.sh twbs/bootstrap "$(shell grep -o 'bootstrap@[^\/]*' app.rb | awk -F'@' 'NR==1{printf "v%s", $$2}')"
 	@./tools/check_for_new_release.sh actions/checkout "$(shell grep -o 'actions/checkout@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $$2}')" '(v[0-9]+)'
 	@./tools/check_for_new_release.sh docker/build-push-action "$(shell grep -o 'docker/build-push-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $$2}')" '(v[0-9]+)'
+	@./tools/check_for_new_release.sh docker/login-action "$(shell grep -o 'docker/login-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $$2}')" '(v[0-9]+)'
 	@./tools/check_for_new_release.sh docker/setup-buildx-action "$(shell grep -o 'docker/setup-buildx-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $$2}')" '(v[0-9]+)'
 	@./tools/check_for_new_release.sh docker/setup-qemu-action "$(shell grep -o 'docker/setup-qemu-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $$2}')" '(v[0-9]+)'
 	@./tools/check_for_new_release.sh hadolint/hadolint-action "$(shell grep -o 'hadolint/hadolint-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $$2}')"
