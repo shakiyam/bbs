@@ -17,7 +17,7 @@ services:
       interval: 10s
       retries: 5
       start_period: 0s
-    image: container-registry.oracle.com/mysql/community-server:8.1
+    image: container-registry.oracle.com/mysql/community-server:8.2
     networks:
       default: null
     volumes:
