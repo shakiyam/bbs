@@ -6,7 +6,7 @@ readonly SCRIPT_DIR
 # shellcheck disable=SC1091
 . "$SCRIPT_DIR"/colored_echo.sh
 
-if [[ $(command -v regctl) ]]; then
+if command -v regctl &>/dev/null; then
   REGCTL=regctl
 else
   REGCTL="$SCRIPT_DIR"/regctl

@@ -6,7 +6,7 @@ readonly SCRIPT_DIR
 # shellcheck disable=SC1091
 . "$SCRIPT_DIR"/colored_echo.sh
 
-if [[ $(command -v docker-compose) ]]; then
+if command -v docker-compose &>/dev/null; then
   DOCKER_COMPOSE=docker-compose
 elif command -v docker &>/dev/null && docker compose version &>/dev/null; then
   DOCKER_COMPOSE='docker compose'

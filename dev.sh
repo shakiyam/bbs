@@ -13,7 +13,7 @@ fi
 
 ./tools/docker-compose-wrapper.sh up -d db
 ./tools/build.sh ghcr.io/shakiyam/bbs
-if [[ $(command -v docker) ]]; then
+if command -v docker &>/dev/null; then
   docker container run \
     --name bbs-development \
     --net bbs-default \
