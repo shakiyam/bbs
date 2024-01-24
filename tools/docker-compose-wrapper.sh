@@ -8,7 +8,7 @@ readonly SCRIPT_DIR
 
 if [[ $(command -v docker-compose) ]]; then
   DOCKER_COMPOSE=docker-compose
-elif command -v docker >/dev/null && docker compose version >/dev/null 2>&1; then
+elif command -v docker &>/dev/null && docker compose version &>/dev/null; then
   DOCKER_COMPOSE='docker compose'
 else
   echo_error 'Docker Compose is not installed.'
