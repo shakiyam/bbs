@@ -1,4 +1,4 @@
-FROM ghcr.io/ruby/ruby:3.2-jammy
+FROM ghcr.io/ruby/ruby:3.2.2-jammy
 ENV GEM_HOME=/usr/local/bundle
 ENV PATH $GEM_HOME/bin:$PATH
 # hadolint ignore=DL3008
