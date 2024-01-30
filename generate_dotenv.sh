@@ -11,7 +11,7 @@ case $(uname -m) in
 esac
 readonly MYSQL_IMAGE
 
-MYSQL_PASSWORD=$(tr -dc '0-9A-Za-z' </dev/urandom | head -c 16|| true)
+MYSQL_PASSWORD=$(tr -dc '0-9A-Za-z' </dev/urandom | head -c 16 || true)
 readonly MYSQL_PASSWORD
 
 MYSQL_ROOT_PASSWORD=$(tr -dc '0-9A-Za-z' </dev/urandom | head -c 16 || true)
