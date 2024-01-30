@@ -16,10 +16,16 @@ Requirement
 How to run
 ----------
 
-Edit sample.env and rename it to .env. Then, execute the following commands.
+Run `generate_dotenv.sh` beforehand to create `.env` file.
 
 ```console
-./docker-compose-wrapper.sh up -d
+./generate_dotenv.sh
+```
+
+Then run docker compose via `docker-compose-wrapper.sh` to start containers.
+
+```console
+./tools/docker-compose-wrapper.sh up -d
 ```
 
 View at: <http://localhost:4567/>

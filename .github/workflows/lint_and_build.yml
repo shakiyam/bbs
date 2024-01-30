@@ -69,14 +69,14 @@ jobs:
             docker.io/shakiyam/bbs:latest
             ghcr.io/shakiyam/bbs:latest
   rspec:
-    name: Test the applicattion
+    name: Test the application
     runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Create .env file
-        run: cp sample.env .env
+        run: ./generate_dotenv.sh
       - name: Start
         run: |
           ./tools/docker-compose-wrapper.sh up -d
