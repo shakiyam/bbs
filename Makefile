@@ -20,7 +20,7 @@ build: ## Build an image from a Dockerfile
 
 check_for_image_updates: ## Check for image updates
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/check_for_image_updates.sh "$(shell awk -e '/FROM/{print $$2}' Dockerfile)" ghcr.io/ruby/ruby:latest
+	@./tools/check_for_image_updates.sh "$(shell awk -e '/FROM/{print $$2}' Dockerfile)" public.ecr.aws/docker/library/ruby:latest
 	# @./tools/check_for_image_updates.sh "$(shell awk -e '/image:/&&/mysql/{print $$2}' compose.yaml)" container-registry.oracle.com/mysql/community-server:latest
 
 check_for_library_updates: ## Check for library updates
