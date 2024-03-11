@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/ruby:3.3.0-bookworm
+FROM public.ecr.aws/docker/library/ruby:3.3.0-slim-bookworm
 ENV GEM_HOME=/usr/local/bundle
 ENV PATH $GEM_HOME/bin:$PATH
 # hadolint ignore=DL3008
