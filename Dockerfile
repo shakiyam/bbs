@@ -13,4 +13,6 @@ RUN bundle install
 COPY app.rb /opt/bbs/
 EXPOSE 4567
 USER nobody:nogroup
+ARG SOURCE_COMMIT
+ENV SOURCE_COMMIT=$SOURCE_COMMIT
 CMD ["ruby", "app.rb"]

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu -o pipefail
+set -Eeu -o pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 readonly SCRIPT_DIR
@@ -35,7 +35,9 @@ readonly DOCKERFILE
 
 CURRENT_IMAGE="$($DOCKER image inspect -f "{{.Id}}" "$IMAGE_NAME":latest || :)"
 readonly CURRENT_IMAGE
-$DOCKER image build -f "$DOCKERFILE" -t "$IMAGE_NAME" .
+SOURCE_COMMIT="$(git log -n 1 --pretty=format:%H HEAD || :)"
+readonly SOURCE_COMMIT
+$DOCKER image build --build-arg SOURCE_COMMIT="$SOURCE_COMMIT" -f "$DOCKERFILE" -t "$IMAGE_NAME" .
 LATEST_IMAGE="$($DOCKER image inspect -f "{{.Id}}" "$IMAGE_NAME":latest || :)"
 readonly LATEST_IMAGE
 if [[ "$CURRENT_IMAGE" != "$LATEST_IMAGE" ]]; then
