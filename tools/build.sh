@@ -35,7 +35,7 @@ readonly DOCKERFILE
 
 CURRENT_IMAGE="$($DOCKER image inspect -f "{{.Id}}" "$IMAGE_NAME":latest || :)"
 readonly CURRENT_IMAGE
-SOURCE_COMMIT="$(git log -n 1 --pretty=format:%H HEAD || :)"
+SOURCE_COMMIT="$(git rev-parse HEAD || :)"
 readonly SOURCE_COMMIT
 $DOCKER image build --build-arg SOURCE_COMMIT="$SOURCE_COMMIT" -f "$DOCKERFILE" -t "$IMAGE_NAME" .
 LATEST_IMAGE="$($DOCKER image inspect -f "{{.Id}}" "$IMAGE_NAME":latest || :)"
