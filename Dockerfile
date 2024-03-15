@@ -1,6 +1,4 @@
 FROM public.ecr.aws/docker/library/ruby:3.3.0-slim-bookworm
-ENV GEM_HOME=/usr/local/bundle
-ENV PATH $GEM_HOME/bin:$PATH
 # hadolint ignore=DL3008
 RUN apt-get update \
   && apt-get -y --no-install-recommends install build-essential curl \
