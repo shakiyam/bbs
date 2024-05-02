@@ -3,10 +3,10 @@ set -eu -o pipefail
 
 case $(uname -m) in
   x86_64)
-    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:8.3
+    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:8.4
     ;;
   aarch64)
-    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:8.3-aarch64
+    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:8.4-aarch64
     ;;
 esac
 readonly MYSQL_IMAGE
