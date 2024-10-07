@@ -39,7 +39,7 @@ services:
     healthcheck:
       test:
       - CMD-SHELL
-      - curl -f -o /dev/null -s http://localhost:4567/ || exit 1
+      - curl -f -l -o /dev/null -s -x "" http://localhost:4567/ || exit 1
       timeout: 10s
       interval: 10s
       retries: 5
