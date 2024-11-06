@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/ruby:3.3.5-slim-bookworm
+FROM public.ecr.aws/docker/library/ruby:3.3.6-slim-bookworm
 # hadolint ignore=DL3008
 RUN apt-get update \
   && apt-get -y --no-install-recommends install build-essential curl \
