@@ -84,4 +84,4 @@ jobs:
           ./tools/wait-to-get-healthy.sh bbs-db
           ./tools/wait-to-get-healthy.sh bbs-web
       - name: Run rspec
-        run: NETWORK=bbs-default ./tools/capybara.sh
+        run: NETWORK=host ./tools/capybara.sh
