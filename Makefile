@@ -58,7 +58,7 @@ restart: backup stop start ## Restart the application
 
 rspec: start ## Test the applicattion
 	@echo -e "\033[36m$@\033[0m"
-	@NETWORK=bbs-default ./tools/capybara.sh
+	@NETWORK=host ./tools/capybara.sh
 
 rubocop: ## Lint Ruby scripts
 	@echo -e "\033[36m$@\033[0m"
