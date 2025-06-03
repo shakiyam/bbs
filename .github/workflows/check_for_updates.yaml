@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Run check_for_image_updates.sh
         run: |
-          ./tools/check_for_image_updates.sh "$(awk -e '/FROM/{print $2}' Dockerfile)" public.ecr.aws/docker/library/ruby:slim
+          ./tools/check_for_image_updates.sh "$(awk -e 'NR==1{print $2}' Dockerfile)" public.ecr.aws/docker/library/ruby:slim
   check_for_library_updates:
     name: Check for library updates
     runs-on: ubuntu-latest
