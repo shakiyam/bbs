@@ -20,6 +20,7 @@ COPY --from=builder /usr/local/bundle /usr/local/bundle
 RUN mkdir -p /opt/bbs
 WORKDIR /opt/bbs
 COPY app.rb /opt/bbs/
+COPY views /opt/bbs/views
 EXPOSE 4567
 USER nobody:nogroup
 ARG SOURCE_COMMIT

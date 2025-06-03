@@ -27,7 +27,7 @@ check_for_library_updates: ## Check for library updates
 
 check_for_new_release: ## Check for new release
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/check_for_new_release.sh twbs/bootstrap "$(shell grep -o 'bootstrap@[^\/]*' app.rb | awk -F'@' 'NR==1{printf "v%s", $$2}')"
+	@./tools/check_for_new_release.sh twbs/bootstrap "$(shell grep -o 'bootstrap@[^\/]*' views/index.slim | awk -F'@' 'NR==1{printf "v%s", $$2}')"
 	@./tools/check_for_new_release.sh actions/checkout "$(shell grep -o 'actions/checkout@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $$2}')" '(v[0-9]+)'
 	@./tools/check_for_new_release.sh docker/build-push-action "$(shell grep -o 'docker/build-push-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $$2}')" '(v[0-9]+)'
 	@./tools/check_for_new_release.sh docker/login-action "$(shell grep -o 'docker/login-action@[^\/]*' .github/workflows/lint_and_build.yml | awk -F'@' 'NR==1{printf "%s", $$2}')" '(v[0-9]+)'
