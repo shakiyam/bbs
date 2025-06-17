@@ -31,7 +31,8 @@ get '/' do
 end
 
 post '/' do
-  DB[:posts].insert(body: params[:body])
+  body_content = params[:body]&.rstrip
+  DB[:posts].insert(body: body_content) unless body_content.nil? || body_content.empty?
   redirect to('/'), 303
 end
 
