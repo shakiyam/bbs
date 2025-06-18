@@ -3,6 +3,7 @@ require 'sinatra'
 require 'slim'
 
 set :bind, '0.0.0.0'
+set :show_exceptions, false
 
 user = ENV.fetch('DB_USER')
 pass = ENV.fetch('DB_PASSWORD')
@@ -37,5 +38,6 @@ post '/' do
 end
 
 error do
-  "Sorry there was a nasty error - #{env['sinatra.error'].name}"
+  error_msg = env['sinatra.error']
+  "Application error: #{error_msg.class} - #{error_msg.message}"
 end
