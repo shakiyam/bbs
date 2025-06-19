@@ -6,6 +6,8 @@ require 'slim'
 set :bind, '0.0.0.0'
 set :show_exceptions, false
 
+MAX_POST_LENGTH = 1000
+
 configure do
   set :logger, Logger.new($stderr)
   settings.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'INFO'))
@@ -44,10 +46,17 @@ end
 
 post '/' do
   body_content = params[:body]&.rstrip
+
   if body_content.nil? || body_content.empty?
     settings.logger.warn "Empty post attempt from #{request.ip}"
   else
-    settings.logger.info "New post: #{body_content.length} chars from #{request.ip}"
+    original_length = body_content.length
+    if original_length > MAX_POST_LENGTH
+      body_content = body_content[0, MAX_POST_LENGTH]
+      settings.logger.info "New post: #{body_content.length}/#{original_length} chars from #{request.ip}"
+    else
+      settings.logger.info "New post: #{body_content.length} chars from #{request.ip}"
+    end
     DB[:posts].insert(body: body_content)
     settings.logger.info 'Post created successfully'
   end

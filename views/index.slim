@@ -12,8 +12,11 @@ html
         a href="https://github.com/shakiyam/bbs" GitHub
     main.container.mb-auto.py-3
       form.pb-5 method="post"
-        textarea.form-control name="body"
-        .d-flex.justify-content-end
+        textarea.form-control#postBody name="body" rows="4" maxlength="1000" placeholder="Enter your message (max 1000 characters)"
+        .d-flex.justify-content-end.align-items-center
+          .form-text.me-3
+            span#charCount 0
+            | /1000
           button.btn.btn-primary type="submit" Post
       .list-group
         - @posts.all.each do |post|
@@ -25,3 +28,25 @@ html
     footer.container.text-center.py-3
       | &copy; 2016 Shinichi Akiyama
     script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"
+    script
+      | document.addEventListener('DOMContentLoaded', function() {
+      |   const textarea = document.getElementById('postBody');
+      |   const charCount = document.getElementById('charCount');
+      |   const maxLength = 1000;
+      |
+      |   function updateCount() {
+      |     const currentLength = textarea.value.length;
+      |     charCount.textContent = currentLength;
+      |
+      |     if (currentLength > maxLength * 0.9) {
+      |       charCount.className = 'text-danger';
+      |     } else if (currentLength > maxLength * 0.7) {
+      |       charCount.className = 'text-warning';
+      |     } else {
+      |       charCount.className = '';
+      |     }
+      |   }
+      |
+      |   textarea.addEventListener('input', updateCount);
+      |   updateCount();
+      | });
