@@ -21,7 +21,7 @@ html
       .list-group
         - @posts.all.each do |post|
           .list-group-item
-            p
+            p style="white-space: pre-wrap;"
               = post[:body]
             footer.text-end.text-muted
               = post[:created_at]
