@@ -12,6 +12,7 @@ html
         a href="https://github.com/shakiyam/bbs" GitHub
     main.container.mb-auto.py-3
       form.pb-5 method="post"
+        input type="hidden" name="_csrf" value=@csrf_token
         textarea.form-control#postBody name="body" rows="4" maxlength="1000" placeholder="Enter your message (max 1000 characters)"
         .d-flex.justify-content-end.align-items-center
           .form-text.me-3

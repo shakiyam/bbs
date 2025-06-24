@@ -1,4 +1,5 @@
 require 'logger'
+require 'securerandom'
 require 'sequel'
 require 'sinatra'
 require 'slim'
@@ -8,7 +9,28 @@ set :show_exceptions, false
 
 MAX_POST_LENGTH = 1000
 
+def generate_csrf_token
+  SecureRandom.urlsafe_base64(24)
+end
+
+def secure_compare(a, b)
+  return false if a.nil? || b.nil?
+  Rack::Utils.secure_compare(a, b)
+end
+
+def log_and_halt_csrf(request, reason)
+  user_agent = request.user_agent&.[](0..199) || 'unknown'
+  referer = request.referer&.[](0..199) || 'none'
+  settings.logger.warn "CSRF attack blocked (#{reason}): IP=#{request.ip}, " \
+                       "User-Agent=#{user_agent}, Referer=#{referer}"
+  halt 403, 'Forbidden'
+end
+
 configure do
+  enable :sessions
+  default_secret = 'default-secret-key-that-is-long-enough-for-production-use-minimum-64-chars'
+  set :session_secret, ENV.fetch('SESSION_SECRET', default_secret)
+
   set :logger, Logger.new($stderr)
   settings.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'INFO'))
   settings.logger.formatter = proc do |severity, datetime, _progname, msg|
@@ -40,13 +62,20 @@ end
 get '/' do
   cache_control :no_cache
   settings.logger.info "GET / from #{request.ip}"
+  @csrf_token = session[:csrf_token] ||= generate_csrf_token
   @posts = DB['SELECT body, created_at FROM posts ORDER BY created_at DESC']
   slim :index
 end
 
 post '/' do
-  body_content = params[:body]&.rstrip
+  submitted_token = params[:_csrf]
+  session_token = session[:csrf_token]
+  log_and_halt_csrf(request, 'no session') if session_token.nil?
+  log_and_halt_csrf(request, 'missing token') if submitted_token.nil? || submitted_token.empty?
+  log_and_halt_csrf(request, 'invalid token') unless secure_compare(submitted_token, session_token)
+  session[:csrf_token] = generate_csrf_token
 
+  body_content = params[:body]&.rstrip
   if body_content.nil? || body_content.empty?
     settings.logger.warn "Empty post attempt from #{request.ip}"
   else
@@ -60,6 +89,7 @@ post '/' do
     DB[:posts].insert(body: body_content)
     settings.logger.info 'Post created successfully'
   end
+
   redirect to('/'), 303
 end
 
