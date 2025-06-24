@@ -29,25 +29,4 @@ html
     footer.container.text-center.py-3
       | &copy; 2016 Shinichi Akiyama
     script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"
-    script
-      | document.addEventListener('DOMContentLoaded', function() {
-      |   const textarea = document.getElementById('postBody');
-      |   const charCount = document.getElementById('charCount');
-      |   const maxLength = 1000;
-      |
-      |   function updateCount() {
-      |     const currentLength = textarea.value.length;
-      |     charCount.textContent = currentLength;
-      |
-      |     if (currentLength > maxLength * 0.9) {
-      |       charCount.className = 'text-danger';
-      |     } else if (currentLength > maxLength * 0.7) {
-      |       charCount.className = 'text-warning';
-      |     } else {
-      |       charCount.className = '';
-      |     }
-      |   }
-      |
-      |   textarea.addEventListener('input', updateCount);
-      |   updateCount();
-      | });
+    script src="/js/character-counter.js"

@@ -22,6 +22,7 @@ RUN apt-get update \
 WORKDIR /opt/bbs
 COPY --chown=bbs:bbs app.rb ./
 COPY --chown=bbs:bbs views ./views
+COPY --chown=bbs:bbs public ./public
 EXPOSE 4567
 USER bbs:bbs
 ARG SOURCE_COMMIT
