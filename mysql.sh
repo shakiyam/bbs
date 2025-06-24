@@ -1,17 +1,18 @@
 #!/bin/bash
 set -eu -o pipefail
 
-if [[ -e .env ]]; then
-  # shellcheck disable=SC1091
-  . .env
-fi
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+readonly SCRIPT_DIR
+# shellcheck disable=SC1091
+. "$SCRIPT_DIR"/tools/colored_echo.sh
 
-if [[ -z "${MYSQL_ROOT_PASSWORD:-}" || -z "${MYSQL_USER:-}" || -z "${MYSQL_PASSWORD:-}" || -z "${MYSQL_DATABASE:-}" ]]; then
-  echo "Required environment variable not defined."
+DOCKER=$(command -v docker || command -v podman)
+readonly DOCKER
+
+if [[ -z "$($DOCKER ps --filter "name=^bbs-db$" --filter "status=running" --quiet)" ]]; then
+  echo_error 'bbs-db container is not running'
   exit 1
 fi
 
-./tools/docker-compose-wrapper.sh up -d db
-DOCKER=$(command -v docker || command -v podman)
-readonly DOCKER
-$DOCKER exec -it bbs-db mysql --host bbs-db --default-character-set=utf8mb4 --port 3306 -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}"
+# shellcheck disable=SC2016
+$DOCKER exec -it bbs-db sh -c 'MYSQL_PWD=$MYSQL_PASSWORD mysql --host=bbs-db --port=3306 --database=$MYSQL_DATABASE --user=$MYSQL_USER --default-character-set=utf8mb4'
