@@ -13,11 +13,11 @@ html
     main.container.mb-auto.py-3
       form.pb-5 method="post"
         input type="hidden" name="_csrf" value=@csrf_token
-        textarea.form-control#postBody name="body" rows="4" maxlength="1000" placeholder="Enter your message (max 1000 characters)"
+        textarea.form-control#postBody name="body" rows="4" maxlength=MAX_POST_LENGTH placeholder="Enter your message (max #{MAX_POST_LENGTH} characters)"
         .d-flex.justify-content-end.align-items-center
           .form-text.me-3
             span#charCount 0
-            | /1000
+            | /#{MAX_POST_LENGTH}
           button.btn.btn-primary type="submit" Post
       .list-group
         - @posts.all.each do |post|
