@@ -28,6 +28,8 @@ services:
     image: ${MYSQL_IMAGE:?}
     logging:
       driver: journald
+      options:
+        tag: '{{.Name}}'
     networks:
       default: null
     restart: unless-stopped
@@ -67,6 +69,8 @@ services:
     image: ghcr.io/shakiyam/bbs
     logging:
       driver: journald
+      options:
+        tag: '{{.Name}}'
     networks:
       default: null
     ports:
