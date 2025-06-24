@@ -44,6 +44,7 @@ host = ENV.fetch('DB_HOST')
 port = ENV.fetch('DB_PORT')
 database = ENV.fetch('DB_DATABASE')
 
+retries = 0
 begin
   DB = Sequel.connect("mysql://#{user}:#{pass}@#{host}:#{port}/#{database}")
   settings.logger.info "Database connected: mysql://#{user}@#{host}:#{port}/#{database}"
@@ -54,9 +55,16 @@ begin
     created_at DATETIME(6) DEFAULT NOW(6)
   )"
 rescue Sequel::Error => e
-  settings.logger.error "Database error: #{e.message}"
-  sleep 1
-  retry
+  retries += 1
+  if retries <= 3
+    wait_seconds = 1.0 * retries
+    settings.logger.error "Database error (attempt #{retries}): #{e.message}. Waiting #{wait_seconds} seconds..."
+    sleep wait_seconds
+    retry
+  else
+    settings.logger.fatal 'Database connection failed after 3 attempts'
+    exit 1
+  end
 end
 
 get '/' do
