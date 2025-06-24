@@ -38,6 +38,12 @@ configure do
   end
 end
 
+before do
+  csp_policy = "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; " \
+               "script-src 'self' https://cdn.jsdelivr.net"
+  headers 'Content-Security-Policy' => csp_policy
+end
+
 user = ENV.fetch('DB_USER')
 pass = ENV.fetch('DB_PASSWORD')
 host = ENV.fetch('DB_HOST')
