@@ -1,8 +1,8 @@
 services:
   db:
     command:
-    - --character-set-server=utf8mb4
-    - --collation-server=utf8mb4_bin
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_bin
     container_name: bbs-db
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE:?}
@@ -11,8 +11,8 @@ services:
       MYSQL_USER: ${MYSQL_USER:?}
     healthcheck:
       test:
-      - CMD-SHELL
-      - MYSQL_PWD=${MYSQL_PASSWORD:?} mysql --host=bbs-db --port=3306 --database=${MYSQL_DATABASE:?} --user=${MYSQL_USER:?} --silent --execute="SELECT 1" &>/dev/null
+        - CMD-SHELL
+        - MYSQL_PWD=${MYSQL_PASSWORD:?} mysql --host=bbs-db --port=3306 --database=${MYSQL_DATABASE:?} --user=${MYSQL_USER:?} --silent --execute="SELECT 1" &>/dev/null
       timeout: 10s
       interval: 10s
       retries: 5
@@ -23,15 +23,16 @@ services:
     networks:
       default: null
     volumes:
-    - type: volume
-      source: db-data
-      target: /var/lib/mysql
-      volume: {}
+      - type: volume
+        source: db-data
+        target: /var/lib/mysql
+        volume: {}
   web:
     container_name: bbs-web
     depends_on:
       db:
         condition: service_healthy
+        required: true
     environment:
       DB_DATABASE: ${MYSQL_DATABASE:?}
       DB_HOST: bbs-db
@@ -40,8 +41,8 @@ services:
       DB_USER: ${MYSQL_USER:?}
     healthcheck:
       test:
-      - CMD-SHELL
-      - curl -f -L -o /dev/null -s -x "" http://localhost:4567/ || exit 1
+        - CMD-SHELL
+        - curl -f -L -o /dev/null -s -x "" http://localhost:4567/ || exit 1
       timeout: 10s
       interval: 10s
       retries: 5
@@ -52,10 +53,10 @@ services:
     networks:
       default: null
     ports:
-    - mode: ingress
-      target: 4567
-      published: "4567"
-      protocol: tcp
+      - mode: ingress
+        target: 4567
+        published: "4567"
+        protocol: tcp
 networks:
   default:
     name: bbs-default
