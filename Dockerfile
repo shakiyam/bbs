@@ -18,7 +18,9 @@ RUN apt-get update \
   && apt-get -y --no-install-recommends install curl \
   && rm -rf /var/lib/apt/lists/* \
   && addgroup --system --gid 5501 bbs \
-  && adduser --system --uid 5501 --ingroup bbs --home /opt/bbs --shell /bin/false bbs
+  && adduser --system --uid 5501 --ingroup bbs --home /opt/bbs --shell /bin/false bbs \
+  && mkdir -p /opt/bbs \
+  && chown bbs:bbs /opt/bbs
 WORKDIR /opt/bbs
 COPY --chown=bbs:bbs app.rb ./
 COPY --chown=bbs:bbs views ./views
