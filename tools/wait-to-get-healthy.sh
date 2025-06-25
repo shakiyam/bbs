@@ -54,9 +54,22 @@ while true; do
     echo_error " Container $CONTAINER is $status."
     exit 1
   fi
-  # Break if no healthcheck mode OR container is healthy
-  if [[ $healthcheck_mode == false || "$($DOCKER inspect -f "$HEALTHCHECK_QUERY" "$CONTAINER")" == "healthy" ]]; then
+  if [[ $healthcheck_mode == false ]]; then
     break
+  else
+    health_status="$($DOCKER inspect -f "$HEALTHCHECK_QUERY" "$CONTAINER")"
+    case "$health_status" in
+      "healthy")
+        break
+        ;;
+      "unhealthy")
+        echo_error " Container $CONTAINER is unhealthy."
+        exit 1
+        ;;
+      "starting")
+        # Continue waiting
+        ;;
+    esac
   fi
   sleep 1
   echo -n '.'
