@@ -26,9 +26,16 @@ fi
 CONTAINER=$1
 readonly CONTAINER
 
-# echo_info
+readonly TIMEOUT=60
+start_time=$(date +%s)
+readonly start_time
 echo -n "Waiting for $CONTAINER to get healthy ..."
 while true; do
+  elapsed=$(($(date +%s) - start_time))
+  if [[ $elapsed -ge $TIMEOUT ]]; then
+    echo_error " Timeout after ${TIMEOUT} seconds."
+    exit 1
+  fi
   status="$($DOCKER inspect -f '{{.State.Status}}' "$CONTAINER")"
   if [[ $status != "running" ]]; then
     echo_error " Container $CONTAINER is $status."
