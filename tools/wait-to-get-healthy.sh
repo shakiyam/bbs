@@ -34,7 +34,7 @@ while true; do
     echo_error " Container $CONTAINER is $status."
     exit 1
   fi
-  if [[ "$($DOCKER inspect -f $HEALTHCHECK_QUERY "$CONTAINER")" == "healthy" ]]; then
+  if [[ "$($DOCKER inspect -f "$HEALTHCHECK_QUERY" "$CONTAINER")" == "healthy" ]]; then
     break
   fi
   sleep 1
