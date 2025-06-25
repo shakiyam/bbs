@@ -26,6 +26,11 @@ fi
 CONTAINER=$1
 readonly CONTAINER
 
+if [[ -z "$($DOCKER container ls --all --filter "name=^${CONTAINER}$" --quiet)" ]]; then
+  echo_error "Container $CONTAINER does not exist."
+  exit 1
+fi
+
 readonly TIMEOUT=60
 start_time=$(date +%s)
 readonly start_time
