@@ -31,10 +31,18 @@ if [[ -z "$($DOCKER container ls --all --filter "name=^${CONTAINER}$" --quiet)" 
   exit 1
 fi
 
+if ! $DOCKER inspect -f "$HEALTHCHECK_QUERY" "$CONTAINER" >/dev/null 2>&1; then
+  echo_warn "No healthcheck defined for $CONTAINER, waiting for running status only."
+  echo -n "Waiting for $CONTAINER to be running ..."
+  healthcheck_mode=false
+else
+  echo -n "Waiting for $CONTAINER to get healthy ..."
+  healthcheck_mode=true
+fi
+
 readonly TIMEOUT=60
 start_time=$(date +%s)
 readonly start_time
-echo -n "Waiting for $CONTAINER to get healthy ..."
 while true; do
   elapsed=$(($(date +%s) - start_time))
   if [[ $elapsed -ge $TIMEOUT ]]; then
@@ -46,7 +54,8 @@ while true; do
     echo_error " Container $CONTAINER is $status."
     exit 1
   fi
-  if [[ "$($DOCKER inspect -f "$HEALTHCHECK_QUERY" "$CONTAINER")" == "healthy" ]]; then
+  # Break if no healthcheck mode OR container is healthy
+  if [[ $healthcheck_mode == false || "$($DOCKER inspect -f "$HEALTHCHECK_QUERY" "$CONTAINER")" == "healthy" ]]; then
     break
   fi
   sleep 1
