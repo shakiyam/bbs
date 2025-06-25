@@ -12,7 +12,7 @@ backup: ## Backup database and web access logs
 	@echo -e "\033[36m$@\033[0m"
 	@./backup.sh
 
-build: ## Build an image from a Dockerfile
+build: ## Build Docker image
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/build.sh ghcr.io/shakiyam/bbs
 
@@ -52,11 +52,11 @@ help: ## Print this help
 	@echo 'Targets:'
 	@awk 'BEGIN {FS = ":.*?## "} /^[0-9A-Za-z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-lint: hadolint rubocop shellcheck shfmt ## Lint all dependencies
+lint: hadolint rubocop shellcheck shfmt ## Run all linting (hadolint, rubocop, shellcheck, shfmt)
 
-restart: backup stop start ## Restart the application
+restart: backup stop start ## Restart with backup
 
-rspec: start ## Test the applicattion
+rspec: start ## Test the application
 	@echo -e "\033[36m$@\033[0m"
 	@NETWORK=host ./tools/capybara.sh
 
@@ -68,16 +68,16 @@ shellcheck: ## Lint shell scripts
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/shellcheck.sh *.sh tools/*.sh
 
-shfmt: ## Lint shell scripts
+shfmt: ## Lint shell script formatting
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/shfmt.sh -l -d -i 2 -ci -bn *.sh tools/*.sh
 
-start: ## Start the application
+start: ## Start containers and wait for health checks
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/docker-compose-wrapper.sh up -d
 	@./tools/wait-to-get-healthy.sh bbs-db
 	@./tools/wait-to-get-healthy.sh bbs-web
 
-stop: backup ## Stop the application
+stop: backup ## Stop containers (includes backup)
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/docker-compose-wrapper.sh stop
