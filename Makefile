@@ -42,6 +42,10 @@ clean: ## Stops containers and removes containers, networks, volumes, and images
 	@./tools/docker-compose-wrapper.sh down -v
 	@./tools/remove_images.sh ghcr.io/shakiyam/bbs
 
+clean_db: start ## Cleanup database by truncating posts table
+	@echo -e "\033[36m$@\033[0m"
+	@echo "TRUNCATE TABLE posts;" | ./mysql.sh 2>/dev/null || :
+
 hadolint: ## Lint Dockerfile
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/hadolint.sh Dockerfile
@@ -56,7 +60,7 @@ lint: hadolint rubocop shellcheck shfmt ## Run all linting (hadolint, rubocop, s
 
 restart: backup stop start ## Restart with backup
 
-rspec: start ## Test the application
+rspec: clean_db ## Test the application
 	@echo -e "\033[36m$@\033[0m"
 	@NETWORK=host ./tools/capybara.sh
 
