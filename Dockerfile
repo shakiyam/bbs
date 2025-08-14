@@ -1,5 +1,4 @@
-FROM public.ecr.aws/docker/library/ruby:3.4.5-slim-bookworm AS builder
-RUN mkdir -p /opt/bbs
+FROM public.ecr.aws/docker/library/ruby:3.4.5-slim-trixie AS builder
 WORKDIR /opt/bbs
 COPY Gemfile Gemfile.lock ./
 # hadolint ignore=DL3008
@@ -11,16 +10,14 @@ RUN apt-get update \
   && rm -rf /usr/local/bundle/cache/*.gem \
   && find /usr/local/bundle/gems/ -regex ".*\.[cho]" -delete
 
-FROM public.ecr.aws/docker/library/ruby:3.4.5-slim-bookworm
+FROM public.ecr.aws/docker/library/ruby:3.4.5-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 # hadolint ignore=DL3008
 RUN apt-get update \
   && apt-get -y --no-install-recommends install curl \
   && rm -rf /var/lib/apt/lists/* \
-  && addgroup --system --gid 5501 bbs \
-  && adduser --system --uid 5501 --ingroup bbs --home /opt/bbs --shell /bin/false bbs \
-  && mkdir -p /opt/bbs \
-  && chown bbs:bbs /opt/bbs
+  && groupadd --gid 5501 bbs \
+  && useradd --uid 5501 --gid bbs --home-dir /opt/bbs --shell /bin/false --create-home --skel /dev/null bbs
 WORKDIR /opt/bbs
 COPY --chown=bbs:bbs app.rb ./
 COPY --chown=bbs:bbs views ./views
