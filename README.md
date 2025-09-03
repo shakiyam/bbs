@@ -2,7 +2,7 @@ bbs
 ===
 
 [![Lint and Build](https://github.com/shakiyam/bbs/actions/workflows/lint_and_build.yml/badge.svg)](https://github.com/shakiyam/bbs/actions/workflows/lint_and_build.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/b2c0cb73d156108f7d38/maintainability)](https://codeclimate.com/github/shakiyam/bbs/maintainability)
+[![Maintainability](https://qlty.sh/gh/shakiyam/projects/bbs/maintainability.svg)](https://qlty.sh/gh/shakiyam/projects/bbs)
 [![Known Vulnerabilities](https://snyk.io/test/github/shakiyam/bbs/badge.svg)](https://snyk.io/test/github/shakiyam/bbs)
 
 Tiny BBS for sample
