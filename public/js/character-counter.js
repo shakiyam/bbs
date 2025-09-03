@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => {
+'use strict';
+
+document.addEventListener('DOMContentLoaded', function() {
   const textarea = document.getElementById('postBody');
   const counter = document.getElementById('charCount');
   

@@ -1,0 +1,24 @@
+plugins:
+  - actionlint
+  - eslint
+  - hadolint
+  - markdownlint
+  - rubocop
+  - shellcheck
+  - yamllint
+
+rules:
+  actionlint:
+    enabled: true
+  eslint:
+    enabled: true
+  hadolint:
+    enabled: true
+  markdownlint:
+    enabled: true
+  rubocop:
+    enabled: true
+  shellcheck:
+    enabled: true
+  yamllint:
+    enabled: true
