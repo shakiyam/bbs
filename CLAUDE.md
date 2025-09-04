@@ -7,12 +7,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a Ruby-based bulletin board system (BBS) built with Sinatra and MySQL. The application allows users to post messages with comprehensive security features, resource management, and production-ready deployment configuration.
 
 **Technology Stack:**
+
 - **Frontend**: Bootstrap 5, Vanilla JavaScript with real-time character counter
 - **Backend**: Ruby (Sinatra framework) with security middleware
 - **Database**: MySQL 8 with UTF-8 support and optimized healthchecks
-- **Deployment**: Docker / Podman with Docker Compose, resource limits, and security hardening
+- **Deployment**: Docker or Podman with Docker Compose, resource limits, and security hardening
 
 **Architecture:**
+
 - Single-page application with real-time validation
 - CSRF protection with token rotation
 - Content Security Policy (CSP) for XSS prevention
@@ -23,21 +25,32 @@ This is a Ruby-based bulletin board system (BBS) built with Sinatra and MySQL. T
 ## Common Development Commands
 
 **Setup and Environment:**
+
 ```bash
 ./generate_dotenv.sh                    # Create .env file with required environment variables
-make start                              # Start application containers and wait for health checks
-./mysql.sh                              # Connect to MySQL database
+```
+
+**Container Management:**
+
+```bash
+make start                              # Start containers and wait for health checks
+make stop                               # Stop containers (includes automatic backup)
+make restart                            # Restart with backup
+make clean                              # Remove all containers, networks, volumes, and images
+make backup                             # Manual backup of database and logs to backup/ directory
 ```
 
 **Development Workflow:**
+
 ```bash
-make all                                # Check for updates, lint, build, and test
+make all                                # Full CI pipeline: check updates, lint all code, build image, run tests
 make lint                               # Run all linting (hadolint, rubocop, shellcheck, shfmt)
 make build                              # Build Docker image
 make rspec                              # Run RSpec tests (requires containers to be running)
 ```
 
 **Individual Linting Commands:**
+
 ```bash
 make hadolint                           # Lint Dockerfile
 make rubocop                            # Lint Ruby code
@@ -45,30 +58,58 @@ make shellcheck                         # Lint shell scripts
 make shfmt                              # Lint shell script formatting
 ```
 
-**Container Management:**
+**Debugging Tools:**
+
 ```bash
-make start                              # Start containers and wait for health checks
-make stop                               # Stop containers (includes backup)
-make restart                            # Restart with backup
-make clean                              # Remove all containers, networks, volumes, and images
+./mysql.sh                              # Connect to MySQL database interactively
+./dev.sh                                # Run development container with live code reloading
 ```
+
+## CI/CD and Automation
+
+**GitHub Actions Workflows:**
+
+- `.github/workflows/lint_and_build.yml`: Automated linting and Docker image building on push/PR
+- Runs hadolint, shellcheck, shfmt, and rubocop checks
+- Builds Docker image to verify Dockerfile correctness
+- Test results are visible via GitHub Actions tab and README badges
+
+**Backup Strategy:**
+
+- Automatic backups on container stop/restart via Makefile
+- Manual backups available via `make backup`
+- Backups stored in `backup/` directory with timestamp
+- Includes MySQL dump and container logs (gzipped)
 
 ## Application Structure
 
 **Key Files:**
+
 - `app.rb`: Main Sinatra application with security, database, and routing
 - `views/index.slim`: Single page template with DRY principles and internal JavaScript
 - `public/js/character-counter.js`: Client-side validation and UI feedback
 - `compose.yaml`: Production-ready Docker configuration with security and resource limits
 - `Dockerfile`: Multi-stage build with security hardening and non-root user
-- `mysql.sh`: Secure database connection script using container environment variables
+- `Makefile`: Build automation and container orchestration
+
+**Helper Scripts (tools/):**
+
+- Build and deployment scripts (build.sh, docker-compose-wrapper.sh)
+- Linting tools (hadolint.sh, rubocop.sh, shellcheck.sh, shfmt.sh)
+- Maintenance utilities (check_for_image_updates.sh, check_for_new_release.sh, wait-to-get-healthy.sh)
+- Image management (remove_images.sh, update_lockfile.sh)
+- Testing helpers (capybara.sh)
+- Utility functions (colored_echo.sh)
 
 **Test Files:**
+
 - `spec/basic_spec.rb`: Basic functionality and routing tests
+- `spec/csrf_spec.rb`: CSRF protection and token validation tests
 - `spec/input_validation_spec.rb`: Input validation and security tests
 - `spec/spec_helper.rb`: Test configuration and setup
 
 **Database Schema:**
+
 ```sql
 posts (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -80,10 +121,12 @@ posts (
 **Environment Variables:**
 
 *Generated by `generate_dotenv.sh`:*
+
 - `MYSQL_DATABASE`, `MYSQL_PASSWORD`, `MYSQL_ROOT_PASSWORD`, `MYSQL_USER`
 - `MYSQL_IMAGE`
 
 *Used by application (with defaults):*
+
 - `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`
 - `SESSION_SECRET` (defaults to generated value for CSRF protection)
 - `LOG_LEVEL` (defaults to INFO)
@@ -91,6 +134,7 @@ posts (
 ## Security Features
 
 **CSRF Protection:**
+
 - Session-based CSRF tokens using `SecureRandom.urlsafe_base64(24)`
 - Constant-time comparison with `Rack::Utils.secure_compare`
 - Automatic token rotation after successful POST requests
@@ -98,27 +142,32 @@ posts (
 - Comprehensive logging of attack attempts
 
 **Content Security Policy:**
+
 - Strict CSP headers preventing XSS attacks
 - Allowlist for trusted CDN resources (Bootstrap, jsDelivr)
 - Script and style source restrictions
 
 **Input Validation:**
+
 - 1000-character limit with server-side truncation
 - Client-side real-time character counter with visual warnings (70% yellow, 90% red)
 - Empty post prevention and validation
 - HTML content automatic escaping via Slim templates
 
 **Container Security:**
+
 - Read-only filesystem with tmpfs for temporary files
 - Non-root user execution (bbs:bbs, uid/gid 5501)
 - `restart: unless-stopped` for high availability
 
 **Database Security:**
+
 - Environment variable-based password handling
 - Secure MySQL healthcheck using `MYSQL_PWD` with long-format options
 - Connection retry with exponential backoff
 
 **Logging & Monitoring:**
+
 - Structured logging with journald driver
 - Container name tagging for easy identification
 - IP tracking and user agent logging
@@ -133,12 +182,14 @@ posts (
 ## Key Features Implemented
 
 **Character Limiting:**
+
 - `MAX_POST_LENGTH = 1000` constant used consistently across all templates
 - Server-side truncation with logging of original vs. truncated length
 - Client-side `maxlength` attribute and real-time counter
 - Dynamic maxLength reading from HTML attributes
 
 **Production Readiness:**
+
 - Multi-stage Docker build for optimized images
 - Comprehensive healthchecks for both services
 - DRY implementation with centralized configuration management
@@ -147,25 +198,21 @@ posts (
 ## Testing
 
 **Test Coverage:**
+
 - Integration tests with RSpec and Capybara
-- CSRF protection testing with multiple scenarios
+- CSRF protection testing (token validation, rotation, reuse prevention)
 - Form submission and validation testing
 - Security feature verification
-
-**CSRF Test Coverage:**
-- Valid token acceptance
-- Missing token rejection
-- Invalid token rejection
-- Token rotation verification
-- Token reuse prevention
 - Cross-origin request blocking
 
 **Run tests:**
+
 ```bash
 make rspec                              # Run RSpec tests (starts containers if needed)
 ```
 
 **Security Testing:**
+
 ```bash
 # These should all be blocked:
 curl -X POST http://localhost:4567/ -d "body=attack"
@@ -175,6 +222,7 @@ curl -X POST http://localhost:4567/ -H "Referer: http://evil.com" -d "body=csrf"
 ## Code Quality Standards
 
 **Critical Requirements:**
+
 - Always run `make rubocop` after modifying Ruby code
 - Always run `make shellcheck shfmt` after modifying shell scripts
 - Maintain consistent code formatting and style
@@ -182,20 +230,22 @@ curl -X POST http://localhost:4567/ -H "Referer: http://evil.com" -d "body=csrf"
 - Do not add unnecessary comments unless they provide essential context
 
 **Ruby Style Guidelines:**
+
 - Follow RuboCop rules without exceptions
 - Maintain proper indentation for multiline strings
 - Use constant-time comparisons for security-sensitive operations
 
 **Shell Script Guidelines:**
+
 - Follow shellcheck recommendations
 - Use long-format options for better readability
 - Implement proper error handling with colored output
 
 **Security Guidelines:**
+
 - Never expose passwords in process lists or logs
 - Use environment variables for sensitive configuration
 - Implement proper input validation and sanitization
 - Follow the principle of least privilege for containers
-
 
 This project demonstrates production-ready containerized application development with comprehensive security, efficient resource usage, and maintainable code structure.
