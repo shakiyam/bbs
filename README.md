@@ -13,7 +13,7 @@ Technology Stack
 * **Frontend**: Bootstrap 5, Vanilla JavaScript
 * **Backend**: Ruby (Sinatra framework)
 * **Database**: MySQL 8
-* **Deployment**: Docker / Podman with Docker Compose
+* **Deployment**: Docker or Podman with Docker Compose
 
 Requirement
 -----------
