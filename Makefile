@@ -44,7 +44,11 @@ clean: ## Stops containers and removes containers, networks, volumes, and images
 
 clean_db: start ## Cleanup database by truncating posts table
 	@echo -e "\033[36m$@\033[0m"
-	@echo "TRUNCATE TABLE posts;" | ./mysql.sh 2>/dev/null || :
+	@echo "TRUNCATE TABLE posts;" | ./mysql.sh 2>/dev/null || true
+
+dockerfmt: ## Format Dockerfile
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/dockerfmt.sh -i 2 -n Dockerfile | diff -u --color=always Dockerfile - || true
 
 hadolint: ## Lint Dockerfile
 	@echo -e "\033[36m$@\033[0m"
