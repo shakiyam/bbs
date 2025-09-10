@@ -14,6 +14,22 @@ jobs:
         uses: hadolint/hadolint-action@v3.2.0
         with:
           dockerfile: Dockerfile
+  dockerfmt:
+    name: dockerfmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Run dockerfmt
+        run: ./tools/dockerfmt.sh -i 2 -n Dockerfile | diff -u Dockerfile -
+  rubocop:
+    name: RuboCop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Run RuboCop
+        run: ./tools/rubocop.sh
   shellcheck:
     name: ShellCheck
     runs-on: ubuntu-latest
@@ -30,18 +46,10 @@ jobs:
         uses: actions/checkout@v5
       - name: Run shfmt
         run: ./tools/shfmt.sh -l -d -i 2 -ci -bn ./*.sh tools/*.sh
-  rubocop:
-    name: RuboCop
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-      - name: Run RuboCop
-        run: ./tools/rubocop.sh
   build:
     name: Build and Push
     runs-on: ubuntu-latest
-    needs: [shellcheck, shfmt, hadolint, rubocop]
+    needs: [hadolint, dockerfmt, rubocop, shellcheck, shfmt]
     steps:
       - name: Checkout
         uses: actions/checkout@v5

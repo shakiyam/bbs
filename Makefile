@@ -60,7 +60,7 @@ help: ## Print this help
 	@echo 'Targets:'
 	@awk 'BEGIN {FS = ":.*?## "} /^[0-9A-Za-z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-lint: hadolint rubocop shellcheck shfmt ## Run all linting (hadolint, rubocop, shellcheck, shfmt)
+lint: hadolint dockerfmt rubocop shellcheck shfmt ## Run all linting (hadolint, dockerfmt, rubocop, shellcheck, shfmt)
 
 restart: backup stop start ## Restart with backup
 
