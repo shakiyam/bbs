@@ -1,12 +1,21 @@
 #!/bin/bash
 set -eu -o pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+readonly SCRIPT_DIR
+# shellcheck disable=SC1091
+. "$SCRIPT_DIR"/tools/colored_echo.sh
+
 case $(uname -m) in
   x86_64)
     MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:8.4
     ;;
   aarch64)
     MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:8.4-aarch64
+    ;;
+  *)
+    echo_error "Error: Unsupported architecture: $(uname -m)"
+    exit 1
     ;;
 esac
 readonly MYSQL_IMAGE

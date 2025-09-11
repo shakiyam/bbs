@@ -13,6 +13,10 @@ case $(uname -m) in
   aarch64)
     ARCHITECTURE=arm64
     ;;
+  *)
+    echo_error "Error: Unsupported architecture: $(uname -m)"
+    exit 1
+    ;;
 esac
 readonly ARCHITECTURE
 
