@@ -20,16 +20,25 @@ case $(uname -m) in
 esac
 readonly MYSQL_IMAGE
 
+set +o pipefail
 MYSQL_PASSWORD=$(tr -dc '0-9A-Za-z' </dev/urandom | head -c 16)
 readonly MYSQL_PASSWORD
 
 MYSQL_ROOT_PASSWORD=$(tr -dc '0-9A-Za-z' </dev/urandom | head -c 16)
 readonly MYSQL_ROOT_PASSWORD
+set -o pipefail
 
-cat >.env <<EOF
+[[ -f .env ]] && echo_warn "Warning: Overwriting existing .env file"
+
+(
+  umask 077
+  cat >.env <<EOF
 MYSQL_DATABASE=bbs
 MYSQL_IMAGE=$MYSQL_IMAGE
 MYSQL_PASSWORD=$MYSQL_PASSWORD
 MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
 MYSQL_USER=bbs
 EOF
+)
+
+echo_success ".env file generated successfully"
