@@ -8,7 +8,7 @@ readonly SCRIPT_DIR
 
 if command -v docker &>/dev/null; then
   docker container run \
-    --name capybara$$ \
+    --name "capybara_$(uuidgen | head -c8)" \
     --net "${NETWORK:-bridge}" \
     --rm \
     -t \
@@ -17,7 +17,7 @@ if command -v docker &>/dev/null; then
     ghcr.io/shakiyam/capybara "$@"
 elif command -v podman &>/dev/null; then
   podman container run \
-    --name capybara$$ \
+    --name "capybara_$(uuidgen | head -c8)" \
     --net "${NETWORK:-bridge}" \
     --rm \
     --security-opt label=disable \

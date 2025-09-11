@@ -10,14 +10,14 @@ if command -v shellcheck &>/dev/null; then
   shellcheck "$@"
 elif command -v docker &>/dev/null; then
   docker container run \
-    --name shellcheck$$ \
+    --name "shellcheck_$(uuidgen | head -c8)" \
     --rm \
     -u "$(id -u):$(id -g)" \
     -v "$PWD":/mnt:ro \
     docker.io/koalaman/shellcheck:stable "$@"
 elif command -v podman &>/dev/null; then
   podman container run \
-    --name shellcheck$$ \
+    --name "shellcheck_$(uuidgen | head -c8)" \
     --rm \
     --security-opt label=disable \
     -v "$PWD":/mnt:ro \

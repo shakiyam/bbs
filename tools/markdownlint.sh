@@ -8,7 +8,7 @@ readonly SCRIPT_DIR
 
 if command -v docker &>/dev/null; then
   docker container run \
-    --name markdownlint$$ \
+    --name "markdownlint_$(uuidgen | head -c8)" \
     --rm \
     -u "$(id -u):$(id -g)" \
     -v "$PWD":/work:ro \
@@ -16,7 +16,7 @@ if command -v docker &>/dev/null; then
     docker.io/davidanson/markdownlint-cli2:latest "$@"
 elif command -v podman &>/dev/null; then
   podman container run \
-    --name markdownlint$$ \
+    --name "markdownlint_$(uuidgen | head -c8)" \
     --rm \
     --security-opt label=disable \
     -v "$PWD":/work:ro \
