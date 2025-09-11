@@ -44,7 +44,7 @@ make backup                             # Manual backup of database and logs to 
 
 ```bash
 make all                                # Full CI pipeline: check updates, lint all code, build image, run tests
-make lint                               # Run all linting (hadolint, rubocop, shellcheck, shfmt)
+make lint                               # Run all linting (hadolint, dockerfmt, markdownlint, rubocop, shellcheck, shfmt)
 make build                              # Build Docker image
 make rspec                              # Run RSpec tests (requires containers to be running)
 ```
@@ -53,6 +53,8 @@ make rspec                              # Run RSpec tests (requires containers t
 
 ```bash
 make hadolint                           # Lint Dockerfile
+make dockerfmt                          # Format Dockerfile
+make markdownlint                       # Lint Markdown files
 make rubocop                            # Lint Ruby code
 make shellcheck                         # Lint shell scripts
 make shfmt                              # Lint shell script formatting
@@ -70,7 +72,7 @@ make shfmt                              # Lint shell script formatting
 **GitHub Actions Workflows:**
 
 - `.github/workflows/lint_and_build.yml`: Automated linting and Docker image building on push/PR
-- Runs hadolint, shellcheck, shfmt, and rubocop checks
+- Runs hadolint, dockerfmt, markdownlint, rubocop, shellcheck, and shfmt checks
 - Builds Docker image to verify Dockerfile correctness
 - Test results are visible via GitHub Actions tab and README badges
 
@@ -95,7 +97,7 @@ make shfmt                              # Lint shell script formatting
 **Helper Scripts (tools/):**
 
 - Build and deployment scripts (build.sh, docker-compose-wrapper.sh)
-- Linting tools (hadolint.sh, rubocop.sh, shellcheck.sh, shfmt.sh)
+- Linting tools (hadolint.sh, dockerfmt.sh, markdownlint.sh, rubocop.sh, shellcheck.sh, shfmt.sh)
 - Maintenance utilities (check_for_image_updates.sh, check_for_new_release.sh, wait-to-get-healthy.sh)
 - Image management (remove_images.sh, update_lockfile.sh)
 - Testing helpers (capybara.sh)
