@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/ruby:3.4.6-slim-trixie AS builder
+FROM public.ecr.aws/docker/library/ruby:3.4.7-slim-trixie AS builder
 WORKDIR /opt/bbs
 COPY Gemfile Gemfile.lock ./
 # hadolint ignore=DL3008
@@ -10,7 +10,7 @@ RUN apt-get update \
   && rm -rf /usr/local/bundle/cache/*.gem \
   && find /usr/local/bundle/gems/ -regex ".*\.[cho]" -delete
 
-FROM public.ecr.aws/docker/library/ruby:3.4.6-slim-trixie
+FROM public.ecr.aws/docker/library/ruby:3.4.7-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 # hadolint ignore=DL3008
 RUN apt-get update \
