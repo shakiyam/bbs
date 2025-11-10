@@ -97,7 +97,7 @@ make shfmt                              # Lint shell script formatting
 **Helper Scripts (tools/):**
 
 - Build and deployment scripts (build.sh, docker-compose-wrapper.sh)
-- Linting tools (hadolint.sh, dockerfmt.sh, markdownlint.sh, rubocop.sh, shellcheck.sh, shfmt.sh)
+- Linting tools (hadolint.sh, dockerfmt.sh, markdownlint-cli2.sh, rubocop.sh, shellcheck.sh, shfmt.sh)
 - Maintenance utilities (check_for_image_updates.sh, check_for_new_release.sh, wait-to-get-healthy.sh)
 - Image management (remove_images.sh, update_lockfile.sh)
 - Testing helpers (capybara.sh)

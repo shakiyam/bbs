@@ -64,7 +64,7 @@ lint: hadolint dockerfmt markdownlint rubocop shellcheck shfmt ## Run all lintin
 
 markdownlint: ## Lint Markdown files
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/markdownlint.sh "*.md"
+	@./tools/markdownlint-cli2.sh "*.md"
 
 restart: backup stop start ## Restart with backup
 
