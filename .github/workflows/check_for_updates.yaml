@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Run check_for_image_updates.sh
         run: |
           ./tools/check_for_image_updates.sh "$(awk -e 'NR==1{print $2}' Dockerfile)" public.ecr.aws/docker/library/ruby:slim
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Run bundle lock
         run: ./tools/update_lockfile.sh -e
   check_for_new_release:
@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Run check_for_new_release.sh
         run: |
           ./tools/check_for_new_release.sh twbs/bootstrap "$(grep -o 'bootstrap@[^\/]*' views/index.slim | awk -F'@' 'NR==1{printf "v%s", $2}')"

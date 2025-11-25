@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Run hadolint
         uses: hadolint/hadolint-action@v3.3.0
         with:
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Run dockerfmt
         run: ./tools/dockerfmt.sh -i 2 -n Dockerfile | diff -u Dockerfile -
   markdownlint:
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Run markdownlint
         run: ./tools/markdownlint-cli2.sh "*.md"
   rubocop:
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Run RuboCop
         run: ./tools/rubocop.sh
   shellcheck:
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
   shfmt:
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Run shfmt
         run: ./tools/shfmt.sh -l -d -i 2 -ci -bn ./*.sh tools/*.sh
   build:
@@ -60,7 +60,7 @@ jobs:
     needs: [hadolint, dockerfmt, markdownlint, rubocop, shellcheck, shfmt]
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -91,7 +91,7 @@ jobs:
     needs: build
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Create .env file
         run: ./generate_dotenv.sh
       - name: Start
