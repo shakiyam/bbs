@@ -8,7 +8,10 @@ RUN apt-get update \
   && bundle install \
   && rm -rf /root/.bundle/cache \
   && rm -rf /usr/local/bundle/cache/*.gem \
-  && find /usr/local/bundle/gems/ -regex ".*\.[cho]" -delete
+  && find /usr/local/bundle/gems/ -regex ".*\.[cho]" -delete \
+  && find /usr/local/bundle/gems/ \( -name "*.md" -o -name "*.txt" -o -name "CHANGELOG*" -o -name "README*" \) -delete \
+  && find /usr/local/bundle/gems/ -type d -name test -exec rm -rf {} + 2>/dev/null || true \
+  && find /usr/local/bundle/gems/ -type d -name spec -exec rm -rf {} + 2>/dev/null || true
 
 FROM public.ecr.aws/docker/library/ruby:3.4.7-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
