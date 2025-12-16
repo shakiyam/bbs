@@ -6,7 +6,7 @@ ALL_TARGETS := $(shell grep -E -o ^[0-9A-Za-z_-]+: $(MAKEFILE_LIST) | sed 's/://
 .PHONY: $(ALL_TARGETS)
 .DEFAULT_GOAL := help
 
-all: check_for_updates lint build rspec ## Check for updates, lint, build, and test
+all: check_for_updates lint build dive rspec ## Check for updates, lint, build, and test
 
 backup: ## Backup database and web access logs
 	@echo -e "\033[36m$@\033[0m"
@@ -48,6 +48,10 @@ clean: ## Stops containers and removes containers, networks, volumes, and images
 clean_db: start ## Cleanup database by truncating posts table
 	@echo -e "\033[36m$@\033[0m"
 	@echo "TRUNCATE TABLE posts;" | ./mysql.sh 2>/dev/null || true
+
+dive: build ## Analyze Docker image layers
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/dive.sh --ci ghcr.io/shakiyam/bbs | sed '/Inefficient Files:/,/Results:/{/Results:/!d}'
 
 dockerfmt: ## Format Dockerfile
 	@echo -e "\033[36m$@\033[0m"
