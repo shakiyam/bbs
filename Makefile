@@ -6,7 +6,7 @@ ALL_TARGETS := $(shell grep -E -o ^[0-9A-Za-z_-]+: $(MAKEFILE_LIST) | sed 's/://
 .PHONY: $(ALL_TARGETS)
 .DEFAULT_GOAL := help
 
-all: check_for_updates lint build dive rspec ## Check for updates, lint, build, and test
+all: check_for_updates lint build dive trivy rspec ## Check updates, lint, build, scan image, and test
 
 backup: ## Backup database and web access logs
 	@echo -e "\033[36m$@\033[0m"
@@ -100,3 +100,7 @@ start: ## Start containers and wait for health checks
 stop: backup ## Stop containers (includes backup)
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/docker-compose-wrapper.sh stop
+
+trivy: build ## Scan Docker image for vulnerabilities
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/trivy.sh image --quiet --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 ghcr.io/shakiyam/bbs | sed -n '/^Total:/,$$p'
