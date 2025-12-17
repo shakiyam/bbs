@@ -40,8 +40,11 @@ end
 
 before do
   csp_policy = "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; " \
-               "script-src 'self' https://cdn.jsdelivr.net"
-  headers 'Content-Security-Policy' => csp_policy
+               "script-src 'self' https://cdn.jsdelivr.net; frame-ancestors 'none'"
+  headers 'Content-Security-Policy' => csp_policy,
+          'X-Content-Type-Options' => 'nosniff',
+          'X-Frame-Options' => 'DENY',
+          'Referrer-Policy' => 'strict-origin-when-cross-origin'
 end
 
 user = ENV.fetch('DB_USER')
