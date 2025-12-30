@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/ruby:3.4.8-slim-trixie AS builder
+FROM public.ecr.aws/docker/library/ruby:4.0.0-slim-trixie AS builder
 WORKDIR /opt/bbs
 COPY Gemfile Gemfile.lock ./
 # hadolint ignore=DL3008
@@ -13,7 +13,7 @@ RUN apt-get update \
   && find /usr/local/bundle/gems/ -type d -name test -exec rm -rf {} + 2>/dev/null || true \
   && find /usr/local/bundle/gems/ -type d -name spec -exec rm -rf {} + 2>/dev/null || true
 
-FROM public.ecr.aws/docker/library/ruby:3.4.8-slim-trixie
+FROM public.ecr.aws/docker/library/ruby:4.0.0-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 # hadolint ignore=DL3008
 RUN apt-get update \
