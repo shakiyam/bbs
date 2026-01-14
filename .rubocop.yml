@@ -1,6 +1,7 @@
 AllCops:
   NewCops: enable
   SuggestExtensions: false
+  TargetRubyVersion: 4.0
   UseCache: false
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
