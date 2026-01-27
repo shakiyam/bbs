@@ -49,3 +49,5 @@ License
 -------
 
 [MIT License](https://opensource.org/licenses/MIT)
+
+For licenses of dependencies, see each LICENSE file.
