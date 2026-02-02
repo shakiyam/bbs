@@ -1,0 +1,25 @@
+---
+- - :permit
+  - MIT
+  - :who:
+    :why:
+    :versions: []
+    :when: 2026-01-27 00:46:45.554898967 Z
+- - :permit
+  - Simplified BSD
+  - :who:
+    :why:
+    :versions: []
+    :when: 2026-01-27 00:46:46.176900076 Z
+- - :permit
+  - New BSD
+  - :who:
+    :why:
+    :versions: []
+    :when: 2026-01-27 00:46:46.673608175 Z
+- - :permit
+  - ruby
+  - :who:
+    :why:
+    :versions: []
+    :when: 2026-01-27 00:46:47.259641314 Z

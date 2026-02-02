@@ -6,7 +6,7 @@ ALL_TARGETS := $(shell grep -E -o ^[0-9A-Za-z_-]+: $(MAKEFILE_LIST) | sed 's/://
 .PHONY: $(ALL_TARGETS)
 .DEFAULT_GOAL := help
 
-all: check_for_updates lint build dive trivy rspec ## Check updates, lint, build, scan image, and test
+all: check_for_updates lint build dive trivy license_finder rspec ## Check updates, lint, build, scan image, and test
 
 backup: ## Backup database and web access logs
 	@echo -e "\033[36m$@\033[0m"
@@ -67,7 +67,11 @@ help: ## Print this help
 	@echo 'Targets:'
 	@awk 'BEGIN {FS = ":.*?## "} /^[0-9A-Za-z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-lint: hadolint dockerfmt markdownlint rubocop shellcheck shfmt ## Run all linting (hadolint, dockerfmt, markdownlint, rubocop, shellcheck, shfmt)
+license_finder: ## Check licenses of dependencies
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/license_finder.sh --from-image ghcr.io/shakiyam/bbs --decisions-file=dependency_decisions.yml
+
+lint: hadolint dockerfmt markdownlint rubocop shellcheck shfmt ## Run all linting
 
 markdownlint: ## Lint Markdown files
 	@echo -e "\033[36m$@\033[0m"
