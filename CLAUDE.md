@@ -34,19 +34,43 @@ This is a Ruby-based bulletin board system (BBS) built with Sinatra and MySQL. T
 
 ```bash
 make start                              # Start containers and wait for health checks
-make stop                               # Stop containers (includes automatic backup)
+make stop                               # Stop containers (includes backup)
 make restart                            # Restart with backup
-make clean                              # Remove all containers, networks, volumes, and images
-make backup                             # Manual backup of database and logs to backup/ directory
+make clean                              # Stop and remove containers, networks, volumes, and images
+make backup                             # Backup database and web access logs
 ```
 
 **Development Workflow:**
 
 ```bash
-make all                                # Full CI pipeline: check updates, lint all code, build image, run tests
-make lint                               # Run all linting (hadolint, dockerfmt, markdownlint, rubocop, shellcheck, shfmt)
+make all                                # Check updates, lint, build, scan image, and test
+make lint                               # Run all linting
 make build                              # Build Docker image
-make rspec                              # Run RSpec tests (requires containers to be running)
+make rspec                              # Test the application
+```
+
+**Security and Compliance:**
+
+```bash
+make dive                               # Analyze Docker image layers
+make trivy                              # Scan Docker image for vulnerabilities
+make license_finder                     # Check licenses of dependencies
+```
+
+**Dependency Updates:**
+
+```bash
+make check_for_updates                  # Check for updates to all dependencies
+make check_for_image_updates            # Check for image updates
+make check_for_library_updates          # Check for library updates
+make check_for_action_updates           # Check for GitHub Actions updates
+make check_for_new_release              # Check for new release
+```
+
+**Database Maintenance:**
+
+```bash
+make clean_db                           # Cleanup database by truncating posts table
 ```
 
 **Individual Linting Commands:**
@@ -55,7 +79,7 @@ make rspec                              # Run RSpec tests (requires containers t
 make hadolint                           # Lint Dockerfile
 make dockerfmt                          # Format Dockerfile
 make markdownlint                       # Lint Markdown files
-make rubocop                            # Lint Ruby code
+make rubocop                            # Lint Ruby scripts
 make shellcheck                         # Lint shell scripts
 make shfmt                              # Lint shell script formatting
 ```
@@ -96,10 +120,12 @@ make shfmt                              # Lint shell script formatting
 
 **Helper Scripts (tools/):**
 
-- Build and deployment scripts (build.sh, docker-compose-wrapper.sh)
+- Build scripts (build.sh)
+- Container orchestration (docker-compose-wrapper.sh, wait-to-get-healthy.sh)
 - Linting tools (hadolint.sh, dockerfmt.sh, markdownlint-cli2.sh, rubocop.sh, shellcheck.sh, shfmt.sh)
-- Maintenance utilities (check_for_image_updates.sh, check_for_new_release.sh, wait-to-get-healthy.sh)
-- Image management (remove_images.sh, update_lockfile.sh)
+- Security scanning (trivy.sh, dive.sh, license_finder.sh)
+- Update checking (check_for_image_updates.sh, check_for_action_updates.sh, check_for_new_release.sh, update_lockfile.sh)
+- Image management (remove_images.sh)
 - Testing helpers (capybara.sh)
 - Utility functions (colored_echo.sh)
 
@@ -210,7 +236,7 @@ posts (
 **Run tests:**
 
 ```bash
-make rspec                              # Run RSpec tests (starts containers if needed)
+make rspec                              # Test the application
 ```
 
 **Security Testing:**

@@ -40,7 +40,7 @@ check_for_new_release: ## Check for new release
 
 check_for_updates: check_for_action_updates check_for_image_updates check_for_library_updates check_for_new_release ## Check for updates to all dependencies
 
-clean: ## Stops containers and removes containers, networks, volumes, and images
+clean: ## Stop and remove containers, networks, volumes, and images
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/docker-compose-wrapper.sh down -v
 	@./tools/remove_images.sh ghcr.io/shakiyam/bbs
