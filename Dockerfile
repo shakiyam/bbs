@@ -15,10 +15,14 @@ RUN apt-get update \
 
 FROM public.ecr.aws/docker/library/ruby:4.0.2-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
+# TODO: Remove --only-upgrade line once base image includes openssl >= 3.5.5-1~deb13u2 (CVE-2026-28390)
+# TODO: Remove json gemspec deletion once base image includes json >= 2.19.2 (CVE-2026-33210)
 # hadolint ignore=DL3008
 RUN apt-get update \
+  && apt-get -y --no-install-recommends install --only-upgrade libssl3t64 openssl openssl-provider-legacy \
   && apt-get -y --no-install-recommends install curl \
   && rm -rf /var/lib/apt/lists/* \
+  && rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec \
   && groupadd --gid 5501 bbs \
   && useradd --uid 5501 --gid bbs --home-dir /opt/bbs --shell /bin/false --create-home --skel /dev/null bbs
 WORKDIR /opt/bbs
