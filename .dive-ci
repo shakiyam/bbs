@@ -1,0 +1,4 @@
+# TODO: Remove once base image includes openssl >= 3.5.5-1~deb13u2 (CVE-2026-28390)
+# Temporarily raised from 0.1 to 0.2 due to OpenSSL upgrade wasting ~18 MB
+rules:
+  highestUserWastedPercent: 0.2
