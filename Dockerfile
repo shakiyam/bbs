@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/ruby:4.0.2-slim-trixie AS builder
+FROM public.ecr.aws/docker/library/ruby:4.0.3-slim-trixie AS builder
 WORKDIR /opt/bbs
 COPY Gemfile Gemfile.lock ./
 # hadolint ignore=DL3008
@@ -13,13 +13,11 @@ RUN apt-get update \
   && find /usr/local/bundle/gems/ -type d -name test -exec rm -rf {} + 2>/dev/null || true \
   && find /usr/local/bundle/gems/ -type d -name spec -exec rm -rf {} + 2>/dev/null || true
 
-FROM public.ecr.aws/docker/library/ruby:4.0.2-slim-trixie
+FROM public.ecr.aws/docker/library/ruby:4.0.3-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
-# TODO: Remove --only-upgrade line once base image includes openssl >= 3.5.5-1~deb13u2 (CVE-2026-28390)
 # TODO: Remove json gemspec deletion once base image includes json >= 2.19.2 (CVE-2026-33210)
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get -y --no-install-recommends install --only-upgrade libssl3t64 openssl openssl-provider-legacy \
   && apt-get -y --no-install-recommends install curl \
   && rm -rf /var/lib/apt/lists/* \
   && rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec \
