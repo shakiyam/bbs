@@ -15,12 +15,15 @@ RUN apt-get update \
 
 FROM public.ecr.aws/docker/library/ruby:4.0.3-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
-# TODO: Remove json gemspec deletion once base image includes json >= 2.19.2 (CVE-2026-33210)
+# TODO: Remove json cleanup once base image includes json >= 2.19.2 (CVE-2026-33210)
+# TODO: Remove net-imap cleanup once base image includes net-imap >= 0.6.4 (CVE-2026-42246)
 # hadolint ignore=DL3008
 RUN apt-get update \
   && apt-get -y --no-install-recommends install curl \
   && rm -rf /var/lib/apt/lists/* \
   && rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec \
+  && rm -f /usr/local/lib/ruby/gems/*/specifications/net-imap-*.gemspec \
+  && rm -rf /usr/local/lib/ruby/gems/*/gems/net-imap-* \
   && groupadd --gid 5501 bbs \
   && useradd --uid 5501 --gid bbs --home-dir /opt/bbs --shell /bin/false --create-home --skel /dev/null bbs
 WORKDIR /opt/bbs
