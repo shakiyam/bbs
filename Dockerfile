@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/ruby:4.0.3-slim-trixie AS builder
+FROM public.ecr.aws/docker/library/ruby:4.0.4-slim-trixie AS builder
 WORKDIR /opt/bbs
 COPY Gemfile Gemfile.lock ./
 # hadolint ignore=DL3008
@@ -13,13 +13,16 @@ RUN apt-get update \
   && find /usr/local/bundle/gems/ -type d -name test -exec rm -rf {} + 2>/dev/null || true \
   && find /usr/local/bundle/gems/ -type d -name spec -exec rm -rf {} + 2>/dev/null || true
 
-FROM public.ecr.aws/docker/library/ruby:4.0.3-slim-trixie
+FROM public.ecr.aws/docker/library/ruby:4.0.4-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 # TODO: Remove json cleanup once base image includes json >= 2.19.2 (CVE-2026-33210)
 # TODO: Remove net-imap cleanup once base image includes net-imap >= 0.6.4 (CVE-2026-42246)
+# TODO: Remove libcap2 upgrade once base image includes libcap2 >= 1:2.75-10+deb13u1 (CVE-2026-4878)
+# TODO: Remove systemd libs upgrade once base image includes libsystemd0/libudev1 >= 257.13-1~deb13u1 (CVE-2026-29111)
 # hadolint ignore=DL3008
 RUN apt-get update \
   && apt-get -y --no-install-recommends install curl \
+  && apt-get -y --no-install-recommends --only-upgrade install libcap2 libsystemd0 libudev1 \
   && rm -rf /var/lib/apt/lists/* \
   && rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec \
   && rm -f /usr/local/lib/ruby/gems/*/specifications/net-imap-*.gemspec \
