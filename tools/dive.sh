@@ -6,6 +6,12 @@ readonly SCRIPT_DIR
 # shellcheck disable=SC1091
 . "$SCRIPT_DIR"/colored_echo.sh
 
+CI_CONFIG_MOUNT=()
+if [[ -f .dive-ci ]]; then
+  CI_CONFIG_MOUNT=(-v "$PWD/.dive-ci":/.dive-ci:ro)
+fi
+readonly CI_CONFIG_MOUNT
+
 if command -v dive &>/dev/null; then
   dive "$@"
 elif command -v docker &>/dev/null; then
@@ -13,6 +19,7 @@ elif command -v docker &>/dev/null; then
     --name "dive_$(uuidgen | head -c8)" \
     --rm \
     -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    "${CI_CONFIG_MOUNT[@]}" \
     ghcr.io/wagoodman/dive "$@"
 elif command -v podman &>/dev/null; then
   PODMAN_SOCKET="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/podman/podman.sock"
@@ -26,6 +33,7 @@ elif command -v podman &>/dev/null; then
     --rm \
     --security-opt label=disable \
     -v "$PODMAN_SOCKET":/run/podman/podman.sock:ro \
+    "${CI_CONFIG_MOUNT[@]}" \
     -e DOCKER_HOST=unix:///run/podman/podman.sock \
     ghcr.io/wagoodman/dive "$@"
 else
