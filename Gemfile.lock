@@ -3,7 +3,7 @@ GEM
   specs:
     base64 (0.3.0)
     bigdecimal (4.1.2)
-    json (2.19.9)
+    json (2.20.0)
     logger (1.7.0)
     mustermann (3.1.1)
     nio4r (2.7.5)
