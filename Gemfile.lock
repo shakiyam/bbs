@@ -20,7 +20,7 @@ GEM
     rackup (2.3.1)
       rack (>= 3)
     ruby-mysql (4.2.1)
-    sequel (5.105.0)
+    sequel (5.106.0)
       bigdecimal
     sinatra (4.2.1)
       logger (>= 1.6.0)
