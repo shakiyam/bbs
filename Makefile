@@ -55,7 +55,7 @@ dive: build ## Analyze Docker image layers
 
 dockerfmt: ## Format Dockerfile
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/dockerfmt.sh -i 2 -n Dockerfile | diff -u --color=always Dockerfile - || true
+	@./tools/dockerfmt.sh -i 2 -n Dockerfile | diff -u --color=always Dockerfile -
 
 hadolint: ## Lint Dockerfile
 	@echo -e "\033[36m$@\033[0m"
