@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+  pull_request:
 jobs:
   hadolint:
     name: hadolint
@@ -58,6 +59,7 @@ jobs:
     name: Build and Push
     runs-on: ubuntu-latest
     needs: [hadolint, dockerfmt, markdownlint, rubocop, shellcheck, shfmt]
+    if: github.event_name == 'push'
     steps:
       - name: Checkout
         uses: actions/checkout@v7
