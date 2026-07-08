@@ -4,6 +4,8 @@ on:
     branches:
       - main
   pull_request:
+concurrency:
+  group: lint_and_build-${{ github.ref }}
 jobs:
   hadolint:
     name: hadolint
