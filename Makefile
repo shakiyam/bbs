@@ -66,7 +66,7 @@ help: ## Print this help
 	@echo 'Targets:'
 	@awk 'BEGIN {FS = ":.*?## "} /^[0-9A-Za-z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-license_finder: ## Check licenses of dependencies
+license_finder: build ## Check licenses of dependencies
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/license_finder.sh --from-image ghcr.io/shakiyam/bbs --decisions-file=dependency_decisions.yml
 
@@ -78,7 +78,7 @@ markdownlint: ## Lint Markdown files
 
 restart: backup stop start ## Restart with backup
 
-rspec: clean_db ## Test the application
+rspec: build clean_db ## Test the application
 	@echo -e "\033[36m$@\033[0m"
 	@NETWORK=host ./tools/capybara.sh
 
