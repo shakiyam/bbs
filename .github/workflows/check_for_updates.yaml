@@ -37,7 +37,6 @@ jobs:
           ./tools/check_for_action_updates.sh docker/login-action
           ./tools/check_for_action_updates.sh docker/setup-buildx-action
           ./tools/check_for_action_updates.sh docker/setup-qemu-action
-          ./tools/check_for_action_updates.sh hadolint/hadolint-action '.+'
   check_for_new_release:
     name: Check for new release
     runs-on: ubuntu-latest

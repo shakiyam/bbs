@@ -32,7 +32,6 @@ check_for_action_updates: ## Check for GitHub Actions updates
 	@./tools/check_for_action_updates.sh docker/login-action
 	@./tools/check_for_action_updates.sh docker/setup-buildx-action
 	@./tools/check_for_action_updates.sh docker/setup-qemu-action
-	@./tools/check_for_action_updates.sh hadolint/hadolint-action '.+'
 
 check_for_new_release: ## Check for new release
 	@echo -e "\033[36m$@\033[0m"
