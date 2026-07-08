@@ -1,7 +1,7 @@
 bbs
 ===
 
-[![Lint and Build](https://github.com/shakiyam/bbs/actions/workflows/lint_and_build.yml/badge.svg)](https://github.com/shakiyam/bbs/actions/workflows/lint_and_build.yml)
+[![CI](https://github.com/shakiyam/bbs/actions/workflows/ci.yml/badge.svg)](https://github.com/shakiyam/bbs/actions/workflows/ci.yml)
 [![Maintainability](https://qlty.sh/gh/shakiyam/projects/bbs/maintainability.svg)](https://qlty.sh/gh/shakiyam/projects/bbs)
 [![Known Vulnerabilities](https://snyk.io/test/github/shakiyam/bbs/badge.svg)](https://snyk.io/test/github/shakiyam/bbs)
 

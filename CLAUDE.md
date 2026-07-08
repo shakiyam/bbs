@@ -95,7 +95,7 @@ make shfmt                              # Lint shell script formatting
 
 **GitHub Actions Workflows:**
 
-- `.github/workflows/lint_and_build.yml`: Automated linting and Docker image building on push/PR
+- `.github/workflows/ci.yml`: Automated linting and testing on push/PR, plus image publishing on push
 - Runs hadolint, dockerfmt, markdownlint, rubocop, shellcheck, and shfmt checks
 - Builds Docker image to verify Dockerfile correctness
 - Test results are visible via GitHub Actions tab and README badges

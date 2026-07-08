@@ -1,11 +1,11 @@
-name: Lint and Build
+name: CI
 on:
   push:
     branches:
       - main
   pull_request:
 concurrency:
-  group: lint_and_build-${{ github.ref }}
+  group: ci-${{ github.ref }}
 jobs:
   hadolint:
     name: hadolint
