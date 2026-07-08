@@ -19,7 +19,8 @@ build: ## Build Docker image
 check_for_image_updates: ## Check for image updates
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/check_for_image_updates.sh "$$(awk '/^FROM /{print $$2; exit}' Dockerfile)" docker.io/library/ruby:slim
-	# @./tools/check_for_image_updates.sh "$(shell awk -e '/image:/&&/mysql/{print $$2}' compose.yaml)" container-registry.oracle.com/mysql/community-server:latest
+	@./tools/check_for_image_updates.sh "$$(awk -F= '/MYSQL_IMAGE=container/&&!/aarch64/{print $$2}' generate_dotenv.sh)" container-registry.oracle.com/mysql/community-server:8.4
+	@./tools/check_for_image_updates.sh "$$(awk -F= '/MYSQL_IMAGE=container/&&/aarch64/{print $$2}' generate_dotenv.sh)" container-registry.oracle.com/mysql/community-server:8.4-aarch64
 
 check_for_library_updates: ## Check for library updates
 	@echo -e "\033[36m$@\033[0m"

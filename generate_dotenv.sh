@@ -8,10 +8,10 @@ readonly SCRIPT_DIR
 
 case $(uname -m) in
   x86_64)
-    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:8.4
+    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:8.4.10
     ;;
   aarch64)
-    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:8.4-aarch64
+    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:8.4.10-aarch64
     ;;
   *)
     echo_error "Error: Unsupported architecture: $(uname -m)"

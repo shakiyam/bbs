@@ -46,9 +46,9 @@ readonly IMAGE_NAME1=$1
 readonly IMAGE_NAME2=$2
 
 echo_info "$IMAGE_NAME1 and $IMAGE_NAME2"
-IMAGE_DIGEST1="$("$REGCTL" manifest digest -p "linux/${ARCHITECTURE}" "$IMAGE_NAME1")"
+IMAGE_DIGEST1="$("$REGCTL" manifest digest "$IMAGE_NAME1")"
 readonly IMAGE_DIGEST1
-IMAGE_DIGEST2="$("$REGCTL" manifest digest -p "linux/${ARCHITECTURE}" "$IMAGE_NAME2")"
+IMAGE_DIGEST2="$("$REGCTL" manifest digest "$IMAGE_NAME2")"
 readonly IMAGE_DIGEST2
 if [[ "$IMAGE_DIGEST1" != "$IMAGE_DIGEST2" ]]; then
   echo_warn "$IMAGE_NAME1 and $IMAGE_NAME2 are not the same."
