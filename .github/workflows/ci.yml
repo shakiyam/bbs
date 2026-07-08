@@ -77,10 +77,18 @@ jobs:
         run: ./generate_dotenv.sh
       - name: Run make rspec
         run: make rspec
+  trivy:
+    name: Trivy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Run make trivy
+        run: make trivy
   build:
     name: Build and Push
     runs-on: ubuntu-latest
-    needs: [hadolint, dockerfmt, markdownlint, rubocop, shellcheck, shfmt, license_finder, rspec]
+    needs: [hadolint, dockerfmt, markdownlint, rubocop, shellcheck, shfmt, license_finder, rspec, trivy]
     if: github.event_name == 'push'
     steps:
       - name: Checkout
