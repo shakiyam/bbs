@@ -124,7 +124,7 @@ make shfmt                              # Lint shell script formatting
 - Container orchestration (docker-compose-wrapper.sh, wait-to-get-healthy.sh)
 - Linting tools (hadolint.sh, dockerfmt.sh, markdownlint-cli2.sh, rubocop.sh, shellcheck.sh, shfmt.sh)
 - Security scanning (trivy.sh, dive.sh, license_finder.sh)
-- Update checking (check_for_image_updates.sh, check_for_action_updates.sh, check_for_new_release.sh, update_lockfile.sh)
+- Update checking (check_for_image_updates.sh, check_for_action_updates.sh, check_for_file_updates.sh, check_for_new_release.sh, update_lockfile.sh)
 - Image management (remove_images.sh)
 - Testing helpers (capybara.sh)
 - Utility functions (colored_echo.sh)

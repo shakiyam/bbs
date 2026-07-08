@@ -8,20 +8,6 @@ readonly SCRIPT_DIR
 
 readonly RUBY_IMAGE="docker.io/library/ruby:4.0.5-slim-trixie"
 
-exit_flag=false
-while getopts ':e' flag; do
-  case "${flag}" in
-    e)
-      exit_flag=true
-      ;;
-    *)
-      echo_error "Unknown option: -$OPTARG"
-      exit 1
-      ;;
-  esac
-done
-shift $((OPTIND - 1))
-
 [[ -e Gemfile.lock ]] || touch Gemfile.lock
 if command -v docker &>/dev/null; then
   docker container run \
@@ -44,12 +30,4 @@ elif command -v podman &>/dev/null; then
 else
   echo_error 'Neither docker nor podman is installed.'
   exit 1
-fi
-
-if [[ -n $(git diff Gemfile.lock) ]]; then
-  echo_warn 'Gemfile.lock is updated.'
-  git --no-pager diff Gemfile.lock
-  if $exit_flag; then
-    exit 2
-  fi
 fi
