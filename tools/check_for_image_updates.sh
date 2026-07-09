@@ -32,7 +32,7 @@ else
         | awk -F'/' '/^[Ll]ocation:/{print $NF}'
     )
     readonly LATEST
-    curl -L# "https://github.com/regclient/regclient/releases/download/${LATEST}/regctl-linux-${ARCHITECTURE}" >"$REGCTL"
+    curl -fL# "https://github.com/regclient/regclient/releases/download/${LATEST}/regctl-linux-${ARCHITECTURE}" >"$REGCTL"
     chmod +x "$REGCTL"
   fi
 fi
