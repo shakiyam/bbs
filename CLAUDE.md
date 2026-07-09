@@ -43,7 +43,8 @@ make backup                             # Backup database and web access logs
 **Development Workflow:**
 
 ```bash
-make all                                # Check updates, lint, build, scan image, and test
+make all                                # Check updates, format, lint, build, scan image, and test
+make format                             # Format Dockerfile and shell scripts
 make lint                               # Run all linting
 make build                              # Build Docker image
 make rspec                              # Test the application
@@ -77,7 +78,7 @@ make clean_db                           # Cleanup database by truncating posts t
 
 ```bash
 make hadolint                           # Lint Dockerfile
-make dockerfmt                          # Format Dockerfile
+make dockerfmt                          # Lint Dockerfile formatting
 make markdownlint                       # Lint Markdown files
 make rubocop                            # Lint Ruby scripts
 make shellcheck                         # Lint shell scripts

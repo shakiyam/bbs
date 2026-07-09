@@ -6,7 +6,7 @@ ALL_TARGETS := $(shell grep -E -o ^[0-9A-Za-z_-]+: $(MAKEFILE_LIST) | sed 's/://
 .PHONY: $(ALL_TARGETS)
 .DEFAULT_GOAL := help
 
-all: check_for_updates lint build dive trivy license_finder rspec ## Check updates, lint, build, scan image, and test
+all: check_for_updates format lint build dive trivy license_finder rspec ## Check updates, format, lint, build, scan image, and test
 
 backup: ## Backup database and web access logs
 	@echo -e "\033[36m$@\033[0m"
@@ -53,9 +53,15 @@ dive: build ## Analyze Docker image layers
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/dive.sh --ci ghcr.io/shakiyam/bbs | sed '/Inefficient Files:/,/Results:/{/Results:/!d}'
 
-dockerfmt: ## Format Dockerfile
+dockerfmt: ## Lint Dockerfile formatting
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/dockerfmt.sh -i 2 -n Dockerfile | diff -u --color=always Dockerfile -
+
+dockerfmt_format: ## Format Dockerfile
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/dockerfmt.sh -i 2 -n -w Dockerfile
+
+format: dockerfmt_format shfmt_format ## Format Dockerfile and shell scripts
 
 hadolint: ## Lint Dockerfile
 	@echo -e "\033[36m$@\033[0m"
@@ -94,6 +100,10 @@ shellcheck: ## Lint shell scripts
 shfmt: ## Lint shell script formatting
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/shfmt.sh -l -d -i 2 -ci -bn ./*.sh tools/*.sh
+
+shfmt_format: ## Format shell scripts
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/shfmt.sh -l -w -i 2 -ci -bn ./*.sh tools/*.sh
 
 start: ## Start containers and wait for health checks
 	@echo -e "\033[36m$@\033[0m"
