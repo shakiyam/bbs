@@ -81,6 +81,7 @@ make clean_db                           # Cleanup database by truncating posts t
 ```bash
 make hadolint                           # Lint Dockerfile
 make dockerfmt                          # Lint Dockerfile formatting
+make eslint                             # Lint JavaScript files
 make markdownlint                       # Lint Markdown files
 make rubocop                            # Lint Ruby scripts
 make shellcheck                         # Lint shell scripts
@@ -98,7 +99,7 @@ make shfmt                              # Lint shell script formatting
 
 **GitHub Actions Workflows:**
 
-- `.github/workflows/ci.yml`: Runs on push to main and on PR — hadolint, dockerfmt, markdownlint, rubocop, shellcheck, shfmt, license_finder, rspec, and trivy; on push to main, builds and publishes the Docker image after all checks pass
+- `.github/workflows/ci.yml`: Runs on push to main and on PR — hadolint, dockerfmt, eslint, markdownlint, rubocop, shellcheck, shfmt, license_finder, rspec, and trivy; on push to main, builds and publishes the Docker image after all checks pass
 - `.github/workflows/check_for_updates.yml`: Runs daily (and on push to main, or manually) — checks for image, library, GitHub Actions, and new release updates
 
 **Backup Strategy:**
