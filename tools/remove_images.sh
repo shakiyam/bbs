@@ -5,16 +5,11 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 readonly SCRIPT_DIR
 # shellcheck disable=SC1091
 . "$SCRIPT_DIR"/colored_echo.sh
+# shellcheck disable=SC1091
+. "$SCRIPT_DIR"/container_engine.sh
 
-if command -v docker &>/dev/null; then
-  DOCKER=docker
-elif command -v podman &>/dev/null; then
-  DOCKER=podman
-else
-  echo_error 'Neither docker nor podman is installed.'
-  exit 1
-fi
-readonly DOCKER
+CONTAINER_ENGINE=$(detect_container_engine)
+readonly CONTAINER_ENGINE
 
 if [[ "$#" -ne 1 ]]; then
   echo_error 'Usage: remove_images.sh image_name'
@@ -23,8 +18,8 @@ fi
 IMAGE_NAME="$1"
 readonly IMAGE_NAME
 
-LATEST_IMAGE="$($DOCKER image inspect -f "{{.Id}}" "$IMAGE_NAME":latest || :)"
+LATEST_IMAGE="$($CONTAINER_ENGINE image inspect -f "{{.Id}}" "$IMAGE_NAME":latest || :)"
 readonly LATEST_IMAGE
 if [[ -n "$LATEST_IMAGE" ]]; then
-  $DOCKER image rm -f "$LATEST_IMAGE"
+  $CONTAINER_ENGINE image rm -f "$LATEST_IMAGE"
 fi

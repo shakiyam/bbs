@@ -5,18 +5,16 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 readonly SCRIPT_DIR
 # shellcheck disable=SC1091
 . "$SCRIPT_DIR"/colored_echo.sh
+# shellcheck disable=SC1091
+. "$SCRIPT_DIR"/container_engine.sh
 
-if command -v docker &>/dev/null; then
-  DOCKER=docker
+CONTAINER_ENGINE=$(detect_container_engine)
+readonly CONTAINER_ENGINE
+if [[ $CONTAINER_ENGINE == docker ]]; then
   HEALTHCHECK_QUERY='{{.State.Health.Status}}'
-elif command -v podman &>/dev/null; then
-  DOCKER=podman
-  HEALTHCHECK_QUERY='{{.State.Healthcheck.Status}}'
 else
-  echo_error 'Neither docker nor podman is installed.'
-  exit 1
+  HEALTHCHECK_QUERY='{{.State.Healthcheck.Status}}'
 fi
-readonly DOCKER
 readonly HEALTHCHECK_QUERY
 
 if [[ $# -ne 1 ]]; then
@@ -26,12 +24,12 @@ fi
 CONTAINER=$1
 readonly CONTAINER
 
-if [[ -z "$($DOCKER container ls --all --filter "name=^${CONTAINER}$" --quiet)" ]]; then
+if [[ -z "$($CONTAINER_ENGINE container ls --all --filter "name=^${CONTAINER}$" --quiet)" ]]; then
   echo_error "Container $CONTAINER does not exist."
   exit 1
 fi
 
-if ! $DOCKER inspect -f "$HEALTHCHECK_QUERY" "$CONTAINER" >/dev/null 2>&1; then
+if ! $CONTAINER_ENGINE inspect -f "$HEALTHCHECK_QUERY" "$CONTAINER" >/dev/null 2>&1; then
   echo_warn "No healthcheck defined for $CONTAINER, waiting for running status only."
   echo -n "Waiting for $CONTAINER to be running ..."
   healthcheck_mode=false
@@ -49,7 +47,7 @@ while true; do
     echo_error " Timeout after ${TIMEOUT} seconds."
     exit 1
   fi
-  status="$($DOCKER inspect -f '{{.State.Status}}' "$CONTAINER")"
+  status="$($CONTAINER_ENGINE inspect -f '{{.State.Status}}' "$CONTAINER")"
   if [[ $status != "running" ]]; then
     echo_error " Container $CONTAINER is $status."
     exit 1
@@ -57,7 +55,7 @@ while true; do
   if [[ $healthcheck_mode == false ]]; then
     break
   else
-    health_status="$($DOCKER inspect -f "$HEALTHCHECK_QUERY" "$CONTAINER")"
+    health_status="$($CONTAINER_ENGINE inspect -f "$HEALTHCHECK_QUERY" "$CONTAINER")"
     case "$health_status" in
       "healthy")
         break
