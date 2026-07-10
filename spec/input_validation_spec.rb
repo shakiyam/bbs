@@ -1,11 +1,13 @@
 require_relative 'spec_helper'
 
-MAX_POST_LENGTH = 1000
-
 feature 'Input validation' do
+  def max_post_length
+    Integer(find('#postBody')[:maxlength])
+  end
+
   scenario 'Post with exactly maximum characters' do
     visit '/'
-    message = 'a' * MAX_POST_LENGTH
+    message = 'a' * max_post_length
     fill_in 'body', with: message
     click_button
     expect(page.status_code).to eq 200
@@ -14,8 +16,9 @@ feature 'Input validation' do
 
   scenario 'Post exceeding maximum characters is truncated' do
     visit '/'
-    long_message = 'b' * (MAX_POST_LENGTH + 500)
-    expected_message = 'b' * MAX_POST_LENGTH
+    limit = max_post_length
+    long_message = 'b' * (limit + 500)
+    expected_message = 'b' * limit
     fill_in 'body', with: long_message
     click_button
     expect(page.status_code).to eq 200
@@ -25,7 +28,7 @@ feature 'Input validation' do
 
   scenario 'Boundary test - one character under limit' do
     visit '/'
-    message = 'c' * (MAX_POST_LENGTH - 1)
+    message = 'c' * (max_post_length - 1)
     fill_in 'body', with: message
     click_button
     expect(page.status_code).to eq 200
