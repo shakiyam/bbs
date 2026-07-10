@@ -18,9 +18,13 @@ def secure_compare(a, b)
   Rack::Utils.secure_compare(a, b)
 end
 
+def truncate_for_log(value)
+  value&.slice(0, 200)
+end
+
 def log_and_halt_csrf(request, reason)
-  user_agent = request.user_agent&.[](0..199) || 'unknown'
-  referer = request.referer&.[](0..199) || 'none'
+  user_agent = truncate_for_log(request.user_agent) || 'unknown'
+  referer = truncate_for_log(request.referer) || 'none'
   settings.logger.warn "CSRF attack blocked (#{reason}): IP=#{request.ip}, " \
                        "User-Agent=#{user_agent}, Referer=#{referer}"
   halt 403, 'Forbidden'
