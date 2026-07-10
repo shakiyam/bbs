@@ -26,6 +26,32 @@ def log_and_halt_csrf(request, reason)
   halt 403, 'Forbidden'
 end
 
+def validate_csrf!
+  submitted_token = params[:_csrf]
+  session_token = session[:csrf_token]
+  log_and_halt_csrf(request, 'no session') if session_token.nil?
+  log_and_halt_csrf(request, 'missing token') if submitted_token.nil? || submitted_token.empty?
+  log_and_halt_csrf(request, 'invalid token') unless secure_compare(submitted_token, session_token)
+  session[:csrf_token] = generate_csrf_token
+end
+
+def create_post(body)
+  body_content = body&.rstrip
+  if body_content.nil? || body_content.empty?
+    settings.logger.warn "Empty post attempt from #{request.ip}"
+    return
+  end
+  original_length = body_content.length
+  if original_length > MAX_POST_LENGTH
+    body_content = body_content[0, MAX_POST_LENGTH]
+    settings.logger.info "New post: #{body_content.length}/#{original_length} chars from #{request.ip}"
+  else
+    settings.logger.info "New post: #{body_content.length} chars from #{request.ip}"
+  end
+  DB[:posts].insert(body: body_content)
+  settings.logger.info 'Post created successfully'
+end
+
 configure do
   enable :sessions
   default_secret = 'default-secret-key-that-is-long-enough-for-production-use-minimum-64-chars'
@@ -85,28 +111,8 @@ get '/' do
 end
 
 post '/' do
-  submitted_token = params[:_csrf]
-  session_token = session[:csrf_token]
-  log_and_halt_csrf(request, 'no session') if session_token.nil?
-  log_and_halt_csrf(request, 'missing token') if submitted_token.nil? || submitted_token.empty?
-  log_and_halt_csrf(request, 'invalid token') unless secure_compare(submitted_token, session_token)
-  session[:csrf_token] = generate_csrf_token
-
-  body_content = params[:body]&.rstrip
-  if body_content.nil? || body_content.empty?
-    settings.logger.warn "Empty post attempt from #{request.ip}"
-  else
-    original_length = body_content.length
-    if original_length > MAX_POST_LENGTH
-      body_content = body_content[0, MAX_POST_LENGTH]
-      settings.logger.info "New post: #{body_content.length}/#{original_length} chars from #{request.ip}"
-    else
-      settings.logger.info "New post: #{body_content.length} chars from #{request.ip}"
-    end
-    DB[:posts].insert(body: body_content)
-    settings.logger.info 'Post created successfully'
-  end
-
+  validate_csrf!
+  create_post(params[:body])
   redirect to('/'), 303
 end
 
