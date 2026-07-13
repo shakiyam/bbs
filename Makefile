@@ -51,7 +51,7 @@ clean_db: start ## Cleanup database by truncating posts table
 
 dive: build ## Analyze Docker image layers
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/dive.sh --ci ghcr.io/shakiyam/bbs | sed '/Inefficient Files:/,/Results:/{/Results:/!d}'
+	@./tools/dive.sh --ci ghcr.io/shakiyam/bbs | awk '/Inefficient Files:/{skip=1} /Results:/{skip=0} !skip'
 
 dockerfmt: ## Lint Dockerfile formatting
 	@echo -e "\033[36m$@\033[0m"
