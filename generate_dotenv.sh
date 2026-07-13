@@ -26,6 +26,9 @@ readonly MYSQL_PASSWORD
 
 MYSQL_ROOT_PASSWORD=$(tr -dc '0-9A-Za-z' </dev/urandom | head -c 16)
 readonly MYSQL_ROOT_PASSWORD
+
+SESSION_SECRET=$(tr -dc '0-9A-Za-z' </dev/urandom | head -c 64)
+readonly SESSION_SECRET
 set -o pipefail
 
 [[ -f .env ]] && echo_warn "Warning: Overwriting existing .env file"
@@ -38,6 +41,7 @@ MYSQL_IMAGE=$MYSQL_IMAGE
 MYSQL_PASSWORD=$MYSQL_PASSWORD
 MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
 MYSQL_USER=bbs
+SESSION_SECRET=$SESSION_SECRET
 EOF
 )
 

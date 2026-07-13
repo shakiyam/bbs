@@ -126,11 +126,12 @@ make shfmt                              # Lint shell script formatting
 
 - `MYSQL_DATABASE`, `MYSQL_PASSWORD`, `MYSQL_ROOT_PASSWORD`, `MYSQL_USER`
 - `MYSQL_IMAGE`
+- `SESSION_SECRET`
 
 *Used by application (with defaults):*
 
 - `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`
-- `SESSION_SECRET` (defaults to generated value for CSRF protection)
+- `SESSION_SECRET` (generated at startup if not set; set explicitly in production so sessions survive restarts)
 - `LOG_LEVEL` (defaults to INFO)
 
 ## Testing

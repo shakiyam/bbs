@@ -58,8 +58,7 @@ end
 
 configure do
   enable :sessions
-  default_secret = 'default-secret-key-that-is-long-enough-for-production-use-minimum-64-chars'
-  set :session_secret, ENV.fetch('SESSION_SECRET', default_secret)
+  set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
 
   set :logger, Logger.new($stderr)
   settings.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'INFO'))

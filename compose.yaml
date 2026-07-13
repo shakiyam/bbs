@@ -58,6 +58,7 @@ services:
       DB_PASSWORD: ${MYSQL_PASSWORD:?}
       DB_PORT: "3306"
       DB_USER: ${MYSQL_USER:?}
+      SESSION_SECRET: ${SESSION_SECRET:?}
     healthcheck:
       test:
         - CMD-SHELL
