@@ -53,6 +53,7 @@ services:
           cpus: 0.1
           memory: 128M
     environment:
+      APP_ENV: production
       DB_DATABASE: ${MYSQL_DATABASE:?}
       DB_HOST: bbs-db
       DB_PASSWORD: ${MYSQL_PASSWORD:?}

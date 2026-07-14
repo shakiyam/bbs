@@ -130,6 +130,7 @@ make shfmt                              # Lint shell script formatting
 
 *Used by application (with defaults):*
 
+- `APP_ENV` (set to `production` in `compose.yaml`; Sinatra defaults to `development` when unset)
 - `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`
 - `SESSION_SECRET` (generated at startup if not set; set explicitly in production so sessions survive restarts)
 - `LOG_LEVEL` (defaults to INFO)
