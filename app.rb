@@ -58,7 +58,7 @@ def create_post(body)
 end
 
 configure do
-  enable :sessions
+  set :sessions, same_site: :strict
   set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
 
   set :logger, Logger.new($stderr)

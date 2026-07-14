@@ -42,6 +42,11 @@ feature 'CSRF Protection' do
     expect(first_token).not_to eq second_token
   end
 
+  scenario 'Session cookie is marked SameSite=Strict' do
+    response = Net::HTTP.get_response(URI.parse("#{Capybara.app_host}/"))
+    expect(response['Set-Cookie'].downcase).to include 'samesite=strict'
+  end
+
   scenario 'POST with reused CSRF token' do
     visit '/'
     csrf_token = find('input[name="_csrf"]', visible: false).value
