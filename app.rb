@@ -105,13 +105,13 @@ begin
   )"
 rescue Sequel::Error => e
   retries += 1
-  if retries <= 3
+  if retries < 3
     wait_seconds = 1.0 * retries
     settings.logger.error "Database error (attempt #{retries}): #{e.message}. Waiting #{wait_seconds} seconds..."
     sleep wait_seconds
     retry
   else
-    settings.logger.fatal 'Database connection failed after 3 attempts'
+    settings.logger.fatal "Database connection failed after 3 attempts: #{e.message}"
     exit 1
   end
 end
