@@ -39,6 +39,8 @@ services:
         target: /var/lib/mysql
         volume: {}
   web:
+    cap_drop:
+      - ALL
     container_name: bbs-web
     depends_on:
       db:
@@ -82,6 +84,8 @@ services:
         protocol: tcp
     read_only: true
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
     tmpfs:
       - /tmp
 networks:
