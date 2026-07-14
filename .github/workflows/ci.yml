@@ -6,9 +6,9 @@ on:
   pull_request:
 permissions:
   contents: read
-  packages: write
 concurrency:
   group: ci-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   hadolint:
     name: hadolint
@@ -94,6 +94,9 @@ jobs:
         run: make trivy
   build:
     name: Build and Push
+    permissions:
+      contents: read
+      packages: write
     runs-on: ubuntu-latest
     needs: [hadolint, dockerfmt, eslint, markdownlint, rubocop, shellcheck, shfmt, license_finder, rspec, trivy]
     if: github.event_name == 'push'
