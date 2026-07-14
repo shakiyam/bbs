@@ -6,6 +6,7 @@ require 'slim'
 
 set :bind, '0.0.0.0'
 set :show_exceptions, false
+set :x_cascade, false
 
 MAX_POST_LENGTH = 1000
 
@@ -128,6 +129,10 @@ post '/' do
   validate_csrf!
   create_post(params[:body])
   redirect to('/'), 303
+end
+
+not_found do
+  'Not Found'
 end
 
 error do
