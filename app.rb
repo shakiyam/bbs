@@ -85,6 +85,17 @@ database = ENV.fetch('DB_DATABASE')
 retries = 0
 begin
   DB = Sequel.connect("mysql://#{user}:#{pass}@#{host}:#{port}/#{database}")
+  DB.extension(:connection_validator)
+  DB.pool.connection_validation_timeout = -1
+
+  # Sequel's mysql adapter only rescues Mysql::Error on close, but ruby-mysql
+  # raises IOError when closing an already-dead connection, which would fail
+  # the request that triggered the validation
+  DB.define_singleton_method(:disconnect_connection) do |conn|
+    super(conn)
+  rescue IOError, SystemCallError
+    nil
+  end
   settings.logger.info "Database connected: mysql://#{user}@#{host}:#{port}/#{database}"
 
   DB.run "CREATE TABLE IF NOT EXISTS posts (
