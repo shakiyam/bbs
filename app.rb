@@ -137,6 +137,7 @@ end
 
 error do
   error_msg = env['sinatra.error']
-  settings.logger.error "Application error: #{error_msg.class} - #{error_msg.message}"
+  backtrace = error_msg.backtrace&.join("\n")
+  settings.logger.error "Application error: #{error_msg.class} - #{error_msg.message}\n#{backtrace}"
   'Application error occurred. Please try again later.'
 end
