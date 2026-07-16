@@ -19,8 +19,8 @@ services:
       MYSQL_USER: ${MYSQL_USER:?}
     healthcheck:
       test:
-        - CMD-SHELL
-        - MYSQL_PWD=$$MYSQL_PASSWORD mysql --host=bbs-db --port=3306 --database=${MYSQL_DATABASE:?} --user=${MYSQL_USER:?} --silent --execute="SELECT 1" &>/dev/null
+        - CMD
+        - /usr/local/bin/healthcheck.sh
       timeout: 10s
       interval: 10s
       retries: 5
@@ -38,6 +38,10 @@ services:
         source: db-data
         target: /var/lib/mysql
         volume: {}
+      - type: bind
+        source: ./db/healthcheck.sh
+        target: /usr/local/bin/healthcheck.sh
+        read_only: true
   web:
     cap_drop:
       - ALL

@@ -99,15 +99,15 @@ rubocop: ## Lint Ruby scripts
 
 shellcheck: ## Lint shell scripts
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/shellcheck.sh ./*.sh tools/*.sh
+	@./tools/shellcheck.sh ./*.sh db/*.sh tools/*.sh
 
 shfmt: ## Lint shell script formatting
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/shfmt.sh -l -d -i 2 -ci -bn ./*.sh tools/*.sh
+	@./tools/shfmt.sh -l -d -i 2 -ci -bn ./*.sh db/*.sh tools/*.sh
 
 shfmt_format: ## Format shell scripts
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/shfmt.sh -l -w -i 2 -ci -bn ./*.sh tools/*.sh
+	@./tools/shfmt.sh -l -w -i 2 -ci -bn ./*.sh db/*.sh tools/*.sh
 
 start: ## Start containers and wait for health checks
 	@echo -e "\033[36m$@\033[0m"
