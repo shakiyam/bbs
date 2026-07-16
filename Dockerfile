@@ -1,4 +1,4 @@
-FROM docker.io/library/ruby:4.0.5-slim-trixie AS builder
+FROM docker.io/library/ruby:4.0.6-slim-trixie AS builder
 WORKDIR /opt/bbs
 COPY Gemfile Gemfile.lock ./
 # hadolint ignore=DL3008
@@ -13,7 +13,7 @@ RUN apt-get update \
   && find /usr/local/bundle/gems/ -type d -name test -exec rm -rf {} + 2>/dev/null || true \
   && find /usr/local/bundle/gems/ -type d -name spec -exec rm -rf {} + 2>/dev/null || true
 
-FROM docker.io/library/ruby:4.0.5-slim-trixie
+FROM docker.io/library/ruby:4.0.6-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 # TODO: Remove json cleanup once base image includes json >= 2.19.2 (CVE-2026-33210)
 # TODO: Remove net-imap cleanup once base image includes net-imap >= 0.6.4 (CVE-2026-42246)
