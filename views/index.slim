@@ -21,7 +21,7 @@ html
             | /#{MAX_POST_LENGTH}
           button.btn.btn-primary type="submit" Post
       .list-group
-        - @posts.all.each do |post|
+        - @posts.each do |post|
           .list-group-item
             p.post-body
               = post[:body]

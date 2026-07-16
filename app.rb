@@ -121,7 +121,7 @@ get '/' do
   cache_control :no_cache
   settings.logger.info "GET / from #{request.ip}"
   @csrf_token = session[:csrf_token] ||= generate_csrf_token
-  @posts = DB['SELECT body, created_at FROM posts ORDER BY created_at DESC']
+  @posts = DB['SELECT body, created_at FROM posts ORDER BY created_at DESC'].all
   slim :index
 end
 
