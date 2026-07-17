@@ -21,6 +21,6 @@ readonly BACKUP_DIR
 mkdir -p "$BACKUP_DIR"
 
 # shellcheck disable=SC2016
-MYSQLDUMP_CMD='MYSQL_PWD=$MYSQL_ROOT_PASSWORD mysqldump --databases $MYSQL_DATABASE --user=root'
+MYSQLDUMP_CMD='MYSQL_PWD="$(cat /run/secrets/mysql_root_password)" mysqldump --databases $MYSQL_DATABASE --user=root'
 $CONTAINER_ENGINE exec bbs-db sh -c "$MYSQLDUMP_CMD" | gzip >"$BACKUP_DIR"/mysql.sql.gz
 ./tools/docker-compose-wrapper.sh logs | gzip >"$BACKUP_DIR"/containers.log.gz

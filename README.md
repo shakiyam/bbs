@@ -24,10 +24,10 @@ Requirement
 How to run
 ----------
 
-Run `generate_dotenv.sh` beforehand to create `.env` file.
+Run `generate_env.sh` beforehand to create the `.env` file and secret files under `secrets/`.
 
 ```console
-./generate_dotenv.sh
+./generate_env.sh
 ```
 
 Then run docker compose via `docker-compose-wrapper.sh` to start containers.

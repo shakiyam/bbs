@@ -14,8 +14,7 @@ services:
           memory: 256M
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE:?}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?}
+      MYSQL_ROOT_PASSWORD: /run/secrets/mysql_root_password
       MYSQL_USER: ${MYSQL_USER:?}
     healthcheck:
       test:
@@ -33,6 +32,9 @@ services:
     networks:
       default: null
     restart: unless-stopped
+    secrets:
+      - mysql_password
+      - mysql_root_password
     volumes:
       - type: volume
         source: db-data
@@ -41,6 +43,10 @@ services:
       - type: bind
         source: ./db/healthcheck.sh
         target: /usr/local/bin/healthcheck.sh
+        read_only: true
+      - type: bind
+        source: ./db/create_user.sh
+        target: /docker-entrypoint-initdb.d/create_user.sh
         read_only: true
   web:
     cap_drop:
@@ -62,7 +68,7 @@ services:
       APP_ENV: production
       DB_DATABASE: ${MYSQL_DATABASE:?}
       DB_HOST: bbs-db
-      DB_PASSWORD: ${MYSQL_PASSWORD:?}
+      DB_PASSWORD_FILE: /run/secrets/mysql_password
       DB_PORT: "3306"
       DB_USER: ${MYSQL_USER:?}
       SESSION_SECRET: ${SESSION_SECRET:?}
@@ -88,6 +94,8 @@ services:
         protocol: tcp
     read_only: true
     restart: unless-stopped
+    secrets:
+      - mysql_password
     security_opt:
       - no-new-privileges:true
     tmpfs:
@@ -95,6 +103,11 @@ services:
 networks:
   default:
     name: bbs-default
+secrets:
+  mysql_password:
+    file: ./secrets/mysql_password.txt
+  mysql_root_password:
+    file: ./secrets/mysql_root_password.txt
 volumes:
   db-data:
     name: bbs-db-data

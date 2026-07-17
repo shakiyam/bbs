@@ -24,5 +24,5 @@ fi
 readonly TTY_OPTION
 
 # shellcheck disable=SC2016
-MYSQL_CMD='MYSQL_PWD=$MYSQL_PASSWORD mysql --host=bbs-db --port=3306 --database=$MYSQL_DATABASE --user=$MYSQL_USER --default-character-set=utf8mb4'
+MYSQL_CMD='MYSQL_PWD="$(cat /run/secrets/mysql_password)" mysql --host=bbs-db --port=3306 --database=$MYSQL_DATABASE --user=$MYSQL_USER --default-character-set=utf8mb4'
 $CONTAINER_ENGINE exec -i $TTY_OPTION bbs-db sh -c "$MYSQL_CMD"

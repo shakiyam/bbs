@@ -13,8 +13,13 @@ if [[ -e .env ]]; then
   . .env
 fi
 
-if [[ -z "${MYSQL_ROOT_PASSWORD:-}" || -z "${MYSQL_USER:-}" || -z "${MYSQL_PASSWORD:-}" || -z "${MYSQL_DATABASE:-}" ]]; then
+if [[ -z "${MYSQL_USER:-}" || -z "${MYSQL_DATABASE:-}" ]]; then
   echo_error 'Required environment variable not defined.'
+  exit 1
+fi
+
+if [[ ! -f secrets/mysql_password.txt ]]; then
+  echo_error 'Secret file secrets/mysql_password.txt not found.'
   exit 1
 fi
 
@@ -36,11 +41,12 @@ $CONTAINER_ENGINE container run \
   "${ENGINE_OPTS[@]}" \
   -e DB_DATABASE="${MYSQL_DATABASE}" \
   -e DB_HOST=bbs-db \
-  -e DB_PASSWORD="${MYSQL_PASSWORD}" \
+  -e DB_PASSWORD_FILE=/run/secrets/mysql_password \
   -e DB_PORT=3306 \
   -e DB_USER="${MYSQL_USER}" \
   -e HOME=/tmp \
   -it \
   -p 4567:4567 \
   -v "$PWD":/opt/bbs \
+  -v "$PWD"/secrets/mysql_password.txt:/run/secrets/mysql_password:ro \
   ghcr.io/shakiyam/bbs sh

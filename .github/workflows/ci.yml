@@ -80,8 +80,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-      - name: Create .env file
-        run: ./generate_dotenv.sh
+      - name: Create .env and secret files
+        run: ./generate_env.sh
       - name: Run make rspec
         run: make rspec
   trivy:
