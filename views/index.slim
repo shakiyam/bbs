@@ -27,6 +27,31 @@ html
               = post[:body]
             footer.text-end.text-muted
               = post[:created_at]
+      - if @page_count > 1
+        nav.pt-3 aria-label="Posts pagination"
+          ul.pagination.justify-content-center.mb-0
+            - if @current_page <= 1
+              li.page-item.disabled
+                span.page-link Previous
+            - else
+              li.page-item
+                a.page-link href="/?page=#{@current_page - 1}" Previous
+            - @page_items.each do |item|
+              - if item.nil?
+                li.page-item.disabled
+                  span.page-link …
+              - elsif item == @current_page
+                li.page-item.active aria-current="page"
+                  span.page-link = item
+              - else
+                li.page-item
+                  a.page-link href="/?page=#{item}" = item
+            - if @current_page >= @page_count
+              li.page-item.disabled
+                span.page-link Next
+            - else
+              li.page-item
+                a.page-link href="/?page=#{@current_page + 1}" Next
     footer.container.text-center.py-3
       | &copy; 2016 Shinichi Akiyama
     script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"

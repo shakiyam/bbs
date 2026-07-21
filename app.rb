@@ -9,6 +9,8 @@ set :show_exceptions, false
 set :x_cascade, false
 
 MAX_POST_LENGTH = 1000
+POSTS_PER_PAGE = 20
+MAX_PAGE = 1_000_000
 
 def generate_csrf_token
   SecureRandom.urlsafe_base64(24)
@@ -38,6 +40,13 @@ def validate_csrf!
   log_and_halt_csrf(request, 'missing token') if submitted_token.nil? || submitted_token.empty?
   log_and_halt_csrf(request, 'invalid token') unless secure_compare(submitted_token, session_token)
   session[:csrf_token] = generate_csrf_token
+end
+
+def pagination_items(current_page, page_count)
+  window = ((current_page - 2)..(current_page + 2)).grep(1..page_count)
+  pages = ([1] + window + [page_count]).uniq
+  runs = pages.slice_when { |left, right| right > left + 1 }
+  runs.inject { |joined, run| joined + [nil] + run }
 end
 
 def create_post(body)
@@ -88,6 +97,7 @@ retries = 0
 begin
   DB = Sequel.connect("mysql://#{user}:#{pass}@#{host}:#{port}/#{database}")
   DB.extension(:connection_validator)
+  DB.extension(:pagination)
   DB.pool.connection_validation_timeout = -1
 
   # Sequel's mysql adapter only rescues Mysql::Error on close, but ruby-mysql
@@ -122,7 +132,13 @@ get '/' do
   cache_control :no_cache
   settings.logger.info "GET / from #{request.ip}"
   @csrf_token = session[:csrf_token] ||= generate_csrf_token
-  @posts = DB['SELECT body, created_at FROM posts ORDER BY created_at DESC'].all
+  page = Integer(params[:page], exception: false)
+  page = (page || 1).clamp(1, MAX_PAGE)
+  posts = DB[:posts].select(:body, :created_at).reverse(:id).paginate(page, POSTS_PER_PAGE)
+  @page_count = posts.page_count
+  @current_page = posts.current_page
+  @page_items = pagination_items(@current_page, @page_count)
+  @posts = posts.all
   slim :index
 end
 

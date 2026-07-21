@@ -16,6 +16,7 @@ This is a Ruby-based bulletin board system (BBS) built with Sinatra and MySQL. T
 **Architecture:**
 
 - Single-page application with real-time validation
+- Paginated post list (20 posts per page, newest first via `id DESC`)
 - CSRF protection with token rotation
 - Content Security Policy (CSP) for XSS prevention
 - Structured logging with container tagging
@@ -144,6 +145,7 @@ MySQL passwords and the session secret are never passed as environment variables
 
 - Integration tests with RSpec and Capybara
 - CSRF protection testing (token validation, rotation, reuse prevention)
+- Pagination testing (page size, ordering, invalid page parameters)
 - Form submission and validation testing
 - Security feature verification
 - Cross-origin request blocking
