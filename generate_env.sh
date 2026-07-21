@@ -37,6 +37,9 @@ fi
 if [[ -f secrets/mysql_root_password.txt ]]; then
   MYSQL_ROOT_PASSWORD=$(<secrets/mysql_root_password.txt)
 fi
+if [[ -f secrets/session_secret.txt ]]; then
+  SESSION_SECRET=$(<secrets/session_secret.txt)
+fi
 MYSQL_PASSWORD=${MYSQL_PASSWORD:-$(random_string 16)}
 readonly MYSQL_PASSWORD
 MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-$(random_string 16)}
@@ -48,7 +51,8 @@ mkdir -p secrets
 chmod 700 secrets
 printf '%s' "$MYSQL_PASSWORD" >secrets/mysql_password.txt
 printf '%s' "$MYSQL_ROOT_PASSWORD" >secrets/mysql_root_password.txt
-chmod 644 secrets/mysql_password.txt secrets/mysql_root_password.txt
+printf '%s' "$SESSION_SECRET" >secrets/session_secret.txt
+chmod 644 secrets/mysql_password.txt secrets/mysql_root_password.txt secrets/session_secret.txt
 
 (
   umask 077
@@ -56,7 +60,6 @@ chmod 644 secrets/mysql_password.txt secrets/mysql_root_password.txt
 MYSQL_DATABASE=bbs
 MYSQL_IMAGE=$MYSQL_IMAGE
 MYSQL_USER=bbs
-SESSION_SECRET=$SESSION_SECRET
 EOF
 )
 

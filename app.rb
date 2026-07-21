@@ -59,7 +59,8 @@ end
 
 configure do
   set :sessions, same_site: :strict
-  set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
+  set :session_secret,
+      ENV['SESSION_SECRET_FILE'] ? File.read(ENV['SESSION_SECRET_FILE']).chomp : SecureRandom.hex(64)
 
   set :logger, Logger.new($stderr)
   settings.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'INFO'))

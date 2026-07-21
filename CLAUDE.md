@@ -126,18 +126,17 @@ make shfmt                              # Lint shell script formatting
 
 - `MYSQL_DATABASE`, `MYSQL_USER`
 - `MYSQL_IMAGE`
-- `SESSION_SECRET`
 
 *Used by application (with defaults):*
 
 - `APP_ENV` (set to `production` in `compose.yaml`; Sinatra defaults to `development` when unset)
 - `DB_USER`, `DB_PASSWORD_FILE`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`
-- `SESSION_SECRET` (generated at startup if not set; set explicitly in production so sessions survive restarts)
+- `SESSION_SECRET_FILE` (path to the session secret file; if not set, a secret is generated at startup, so sessions do not survive restarts)
 - `LOG_LEVEL` (defaults to INFO)
 
 **Secrets:**
 
-MySQL passwords are never passed as environment variables (they would remain visible in `docker inspect`). `generate_env.sh` writes them to `secrets/mysql_password.txt` and `secrets/mysql_root_password.txt` (directory 0700, files 0644 so the non-root web container uid 5501 can read them), and Compose mounts them at `/run/secrets/` via file secrets. The app user is created by `db/create_user.sh`, sourced by the MySQL image entrypoint during first initialization.
+MySQL passwords and the session secret are never passed as environment variables (they would remain visible in `docker inspect`). `generate_env.sh` writes them to `secrets/mysql_password.txt`, `secrets/mysql_root_password.txt`, and `secrets/session_secret.txt` (directory 0700, files 0644 so the non-root web container uid 5501 can read them), and Compose mounts them at `/run/secrets/` via file secrets. The app user is created by `db/create_user.sh`, sourced by the MySQL image entrypoint during first initialization.
 
 ## Testing
 
