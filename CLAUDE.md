@@ -4,26 +4,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Ruby-based bulletin board system (BBS) built with Sinatra and MySQL. The application allows users to post messages with comprehensive security features, resource management, and production-ready deployment configuration.
-
-**Technology Stack:**
-
-- **Frontend**: Bootstrap 5, Vanilla JavaScript with real-time character counter
-- **Backend**: Ruby (Sinatra framework) with security middleware
-- **Database**: MySQL 8 with UTF-8 support and optimized healthchecks
-- **Deployment**: Docker or Podman with Docker Compose, resource limits, and security hardening
+A bulletin board system (BBS) built with Sinatra and MySQL, deployed with Docker Compose. See `README.md` for the technology stack and how to run.
 
 **Architecture:**
 
 - Single-page application with real-time validation
-- Paginated post list (20 posts per page, newest first via `id DESC`)
+- Paginated post list (page size: `POSTS_PER_PAGE` in `app.rb`)
 - CSRF protection with token rotation
 - Content Security Policy (CSP) for XSS prevention
 - Structured logging with container tagging
-- Read-only containers with tmpfs for security
-- Resource-constrained deployment for efficiency
+- Read-only containers with tmpfs, resource limits, non-root user
 
 ## Common Development Commands
+
+The Makefile is self-documented: run `make help` (or just `make`) to list all targets with descriptions.
 
 **Setup and Environment:**
 
@@ -33,63 +27,7 @@ This is a Ruby-based bulletin board system (BBS) built with Sinatra and MySQL. T
 
 `generate_env.sh` is idempotent: existing values are carried over from `.env` and `secrets/`, and only missing values are generated. Note that MySQL only picks up passwords during first initialization; changing a secret file after the database volume exists requires `ALTER USER` on the database side.
 
-**Container Management:**
-
-```bash
-make start                              # Start containers and wait for health checks
-make stop                               # Stop containers (includes backup)
-make restart                            # Restart with backup
-make clean                              # Stop and remove containers, networks, volumes, and images
-make backup                             # Backup database and web access logs
-```
-
-**Development Workflow:**
-
-```bash
-make all                                # Check updates, format, lint, build, scan image, and test
-make format                             # Format Dockerfile and shell scripts
-make lint                               # Run all linting
-make build                              # Build Docker image
-make rspec                              # Test the application
-```
-
-**Security and Compliance:**
-
-```bash
-make dive                               # Analyze Docker image layers
-make trivy                              # Scan Docker image for vulnerabilities
-make license_finder                     # Check licenses of dependencies
-```
-
-**Dependency Updates:**
-
-```bash
-make check_for_updates                  # Check for updates to all dependencies
-make check_for_image_updates            # Check for image updates
-make check_for_library_updates          # Check for library updates
-make check_for_action_updates           # Check for GitHub Actions updates
-make check_for_new_release              # Check for new release
-```
-
-**Database Maintenance:**
-
-```bash
-make clean_db                           # Cleanup database by truncating posts table
-```
-
-**Individual Linting Commands:**
-
-```bash
-make hadolint                           # Lint Dockerfile
-make dockerfmt                          # Lint Dockerfile formatting
-make eslint                             # Lint JavaScript files
-make markdownlint                       # Lint Markdown files
-make rubocop                            # Lint Ruby scripts
-make shellcheck                         # Lint shell scripts
-make shfmt                              # Lint shell script formatting
-```
-
-**Debugging Tools:**
+**Debugging Tools (not make targets):**
 
 ```bash
 ./mysql.sh                              # Connect to MySQL database interactively
@@ -100,40 +38,31 @@ make shfmt                              # Lint shell script formatting
 
 **GitHub Actions Workflows:**
 
-- `.github/workflows/ci.yml`: Runs on push to main and on PR — hadolint, dockerfmt, eslint, markdownlint, rubocop, shellcheck, shfmt, license_finder, rspec, and trivy; on push to main, builds and publishes the Docker image after all checks pass
+- `.github/workflows/ci.yml`: Runs on push to main and on PR — all linters, license_finder, rspec, and trivy; on push to main, builds and publishes the Docker image after all checks pass
 - `.github/workflows/check_for_updates.yml`: Runs daily (and on push to main, or manually) — checks for image, library, GitHub Actions, and new release updates
 
 **Backup Strategy:**
 
-- Automatic backups on container stop/restart via Makefile
-- Manual backups available via `make backup`
-- Backups stored in `backup/` directory with timestamp
-- Includes MySQL dump and container logs (gzipped)
+- Automatic backups on container stop/restart via Makefile; manual via `make backup`
+- Stored in `backup/` with timestamp; includes MySQL dump and container logs (gzipped)
 
 ## Application Structure
 
 **Key Files:**
 
 - `app.rb`: Main Sinatra application with security, database, and routing
-- `views/index.slim`: Single page template with DRY principles and internal JavaScript
+- `views/index.slim`: Single page template with internal JavaScript
 - `public/js/character-counter.js`: Client-side validation and UI feedback
-- `compose.yaml`: Production-ready Docker configuration with security and resource limits
-- `Dockerfile`: Multi-stage build with security hardening and non-root user
+- `compose.yaml`: Docker configuration with security and resource limits
+- `Dockerfile`: Multi-stage build with non-root user
 - `Makefile`: Build automation and container orchestration
 
 **Environment Variables:**
 
-*Generated by `generate_env.sh` (`.env`):*
+Defined where they are used: the app reads them via `ENV.fetch`/`ENV[]` in `app.rb` (the `DB_*` variables have no defaults and raise when unset); Compose-side variables are set in `compose.yaml` and generated by `generate_env.sh` into `.env`. Non-obvious behavior:
 
-- `MYSQL_DATABASE`, `MYSQL_USER`
-- `MYSQL_IMAGE`
-
-*Used by application (with defaults):*
-
-- `APP_ENV` (set to `production` in `compose.yaml`; Sinatra defaults to `development` when unset)
-- `DB_USER`, `DB_PASSWORD_FILE`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`
-- `SESSION_SECRET_FILE` (path to the session secret file; if not set, a secret is generated at startup, so sessions do not survive restarts)
-- `LOG_LEVEL` (defaults to INFO)
+- `APP_ENV` is set to `production` in `compose.yaml`; Sinatra defaults to `development` when unset
+- If `SESSION_SECRET_FILE` is not set, a secret is generated at startup, so sessions do not survive restarts
 
 **Secrets:**
 
@@ -141,54 +70,25 @@ MySQL passwords and the session secret are never passed as environment variables
 
 ## Testing
 
-**Test Coverage:**
-
-- Integration tests with RSpec and Capybara
-- CSRF protection testing (token validation, rotation, reuse prevention)
-- Pagination testing (page size, ordering, invalid page parameters)
-- Form submission and validation testing
-- Security feature verification
-- Cross-origin request blocking
-
-**Run tests:**
+Integration tests with RSpec and Capybara; each file under `spec/` covers the area its name indicates.
 
 ```bash
 make rspec                              # Test the application
-```
-
-**Security Testing:**
-
-```bash
-# These should all be blocked:
-curl -X POST http://localhost:4567/ -d "body=attack"
-curl -X POST http://localhost:4567/ -H "Referer: http://evil.com" -d "body=csrf"
 ```
 
 ## Code Quality Standards
 
 **Critical Requirements:**
 
-- Always run `make rubocop` after modifying Ruby code
-- Always run `make shellcheck shfmt` after modifying shell scripts
-- Maintain consistent code formatting and style
-- Follow security best practices for all changes
+- After modifying files, run the formatter and linter matching the file type (see `make help`)
 - Do not add unnecessary comments unless they provide essential context
 
-**Ruby Style Guidelines:**
+**Style Guidelines:**
 
-- Follow RuboCop rules without exceptions
-- Maintain proper indentation for multiline strings
 - Use constant-time comparisons for security-sensitive operations
-
-**Shell Script Guidelines:**
-
-- Follow shellcheck recommendations
-- Use long-format options for better readability
-- Implement proper error handling with colored output
+- Use long-format options in shell scripts; implement proper error handling with colored output
 
 **Security Guidelines:**
 
 - Never expose passwords in process lists or logs
-- Pass passwords via Compose file secrets, never via container environment variables
-- Implement proper input validation and sanitization
 - Follow the principle of least privilege for containers
