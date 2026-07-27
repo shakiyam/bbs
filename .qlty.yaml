@@ -6,7 +6,6 @@ plugins:
   - rubocop
   - shellcheck
   - yamllint
-
 rules:
   actionlint:
     enabled: true

@@ -20,6 +20,14 @@ jobs:
         run: make format
       - name: Run check_for_file_updates.sh
         run: ./tools/check_for_file_updates.sh
+  actionlint:
+    name: actionlint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Run make actionlint
+        run: make actionlint
   hadolint:
     name: hadolint
     runs-on: ubuntu-latest
@@ -92,7 +100,7 @@ jobs:
       contents: read
       packages: write
     runs-on: ubuntu-latest
-    needs: [format, hadolint, eslint, markdownlint, rubocop, shellcheck, license_finder, rspec, trivy]
+    needs: [format, actionlint, hadolint, eslint, markdownlint, rubocop, shellcheck, license_finder, rspec, trivy]
     if: github.event_name == 'push'
     steps:
       - name: Checkout

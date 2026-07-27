@@ -8,6 +8,10 @@ ALL_TARGETS := $(shell grep -E -o ^[0-9A-Za-z_-]+: $(MAKEFILE_LIST) | sed 's/://
 
 all: check_for_updates format lint build dive trivy license_finder rspec ## Check updates, format, lint, build, scan image, and test
 
+actionlint: ## Lint GitHub Actions workflow files
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/actionlint.sh
+
 backup: ## Backup database and web access logs
 	@echo -e "\033[36m$@\033[0m"
 	@./backup.sh
@@ -61,7 +65,7 @@ eslint: ## Lint JavaScript files
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/eslint.sh eslint.config.js 'public/**/*.js'
 
-format: dockerfmt shfmt ## Run all formatting
+format: dockerfmt shfmt yamlfmt ## Run all formatting
 
 hadolint: ## Lint Dockerfile
 	@echo -e "\033[36m$@\033[0m"
@@ -77,7 +81,7 @@ license_finder: build ## Check licenses of dependencies
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/license_finder.sh --from-image ghcr.io/shakiyam/bbs --decisions-file=dependency_decisions.yml
 
-lint: hadolint eslint markdownlint rubocop shellcheck ## Run all linting
+lint: actionlint hadolint eslint markdownlint rubocop shellcheck ## Run all linting
 
 markdownlint: ## Lint Markdown files
 	@echo -e "\033[36m$@\033[0m"
@@ -114,3 +118,7 @@ stop: backup ## Stop containers (includes backup)
 trivy: build ## Scan Docker image for vulnerabilities
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/trivy.sh image --quiet --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 ghcr.io/shakiyam/bbs | sed -n '/^Total:/,$$p'
+
+yamlfmt: ## Format YAML files
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/yamlfmt.sh .qlty.yaml .rubocop.yml compose.yaml .github/workflows/*.yml
