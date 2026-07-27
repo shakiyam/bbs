@@ -121,4 +121,4 @@ trivy: build ## Scan Docker image for vulnerabilities
 
 yamlfmt: ## Format YAML files
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/yamlfmt.sh .qlty.yaml .rubocop.yml compose.yaml .github/workflows/*.yml
+	@./tools/yamlfmt.sh .rubocop.yml compose.yaml .github/workflows/*.yml
