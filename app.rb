@@ -29,7 +29,7 @@ def log_and_halt_csrf(request, reason)
   user_agent = truncate_for_log(request.user_agent) || 'unknown'
   referer = truncate_for_log(request.referer) || 'none'
   settings.logger.warn "CSRF attack blocked (#{reason}): IP=#{request.ip}, " \
-                       "User-Agent=#{user_agent}, Referer=#{referer}"
+    "User-Agent=#{user_agent}, Referer=#{referer}"
   halt 403, 'Forbidden'
 end
 
@@ -80,7 +80,7 @@ end
 
 before do
   csp_policy = "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; " \
-               "script-src 'self' https://cdn.jsdelivr.net; frame-ancestors 'none'"
+    "script-src 'self' https://cdn.jsdelivr.net; frame-ancestors 'none'"
   headers 'Content-Security-Policy' => csp_policy,
           'X-Content-Type-Options' => 'nosniff',
           'X-Frame-Options' => 'DENY',
