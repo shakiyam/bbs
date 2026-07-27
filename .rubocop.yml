@@ -3,6 +3,7 @@ AllCops:
   SuggestExtensions: false
   TargetRubyVersion: 4.0
   UseCache: false
+# Keep the empty line optional: forcing it stretches short methods
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 Layout/LineEndStringConcatenationIndentation:
