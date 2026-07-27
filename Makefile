@@ -53,11 +53,7 @@ dive: build ## Analyze Docker image layers
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/dive.sh --ci ghcr.io/shakiyam/bbs | awk '/Inefficient Files:/{skip=1} /Results:/{skip=0} !skip'
 
-dockerfmt: ## Lint Dockerfile formatting
-	@echo -e "\033[36m$@\033[0m"
-	@./tools/dockerfmt.sh -i 2 -n Dockerfile | diff -u --color=always Dockerfile -
-
-dockerfmt_format: ## Format Dockerfile
+dockerfmt: ## Format Dockerfile
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/dockerfmt.sh -i 2 -n -w Dockerfile
 
@@ -65,7 +61,7 @@ eslint: ## Lint JavaScript files
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/eslint.sh eslint.config.js 'public/**/*.js'
 
-format: dockerfmt_format shfmt_format ## Format Dockerfile and shell scripts
+format: dockerfmt shfmt ## Run all formatting
 
 hadolint: ## Lint Dockerfile
 	@echo -e "\033[36m$@\033[0m"
@@ -81,7 +77,7 @@ license_finder: build ## Check licenses of dependencies
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/license_finder.sh --from-image ghcr.io/shakiyam/bbs --decisions-file=dependency_decisions.yml
 
-lint: hadolint dockerfmt eslint markdownlint rubocop shellcheck shfmt ## Run all linting
+lint: hadolint eslint markdownlint rubocop shellcheck ## Run all linting
 
 markdownlint: ## Lint Markdown files
 	@echo -e "\033[36m$@\033[0m"
@@ -101,11 +97,7 @@ shellcheck: ## Lint shell scripts
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/shellcheck.sh ./*.sh db/*.sh tools/*.sh
 
-shfmt: ## Lint shell script formatting
-	@echo -e "\033[36m$@\033[0m"
-	@./tools/shfmt.sh -l -d -i 2 -ci -bn ./*.sh db/*.sh tools/*.sh
-
-shfmt_format: ## Format shell scripts
+shfmt: ## Format shell scripts
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/shfmt.sh -l -w -i 2 -ci -bn ./*.sh db/*.sh tools/*.sh
 

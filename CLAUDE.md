@@ -38,7 +38,7 @@ The Makefile is self-documented: run `make help` (or just `make`) to list all ta
 
 **GitHub Actions Workflows:**
 
-- `.github/workflows/ci.yml`: Runs on push to main and on PR — all linters, license_finder, rspec, and trivy; on push to main, builds and publishes the Docker image after all checks pass
+- `.github/workflows/ci.yml`: Runs on push to main and on PR — format drift check, all linters, license_finder, rspec, and trivy; on push to main, builds and publishes the Docker image after all checks pass
 - `.github/workflows/check_for_updates.yml`: Runs daily (and on push to main, or manually) — checks for image, library, GitHub Actions, and new release updates
 
 **Backup Strategy:**
