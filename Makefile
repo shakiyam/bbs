@@ -81,7 +81,7 @@ license_finder: build ## Check licenses of dependencies
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/license_finder.sh --from-image ghcr.io/shakiyam/bbs --decisions-file=dependency_decisions.yml
 
-lint: actionlint hadolint eslint markdownlint rubocop shellcheck ## Run all linting
+lint: actionlint eslint hadolint markdownlint rubocop shellcheck ## Run all linting
 
 markdownlint: ## Lint Markdown files
 	@echo -e "\033[36m$@\033[0m"

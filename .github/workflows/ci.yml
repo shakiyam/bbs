@@ -32,16 +32,6 @@ jobs:
           persist-credentials: false
       - name: Run make actionlint
         run: make actionlint
-  hadolint:
-    name: hadolint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - name: Run make hadolint
-        run: make hadolint
   eslint:
     name: eslint
     runs-on: ubuntu-latest
@@ -52,6 +42,16 @@ jobs:
           persist-credentials: false
       - name: Run make eslint
         run: make eslint
+  hadolint:
+    name: hadolint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Run make hadolint
+        run: make hadolint
   markdownlint:
     name: markdownlint
     runs-on: ubuntu-latest
@@ -120,7 +120,7 @@ jobs:
       contents: read
       packages: write
     runs-on: ubuntu-latest
-    needs: [format, actionlint, hadolint, eslint, markdownlint, rubocop, shellcheck, license_finder, rspec, trivy]
+    needs: [format, actionlint, eslint, hadolint, markdownlint, rubocop, shellcheck, license_finder, rspec, trivy]
     if: github.event_name == 'push'
     steps:
       - name: Checkout
