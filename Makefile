@@ -81,7 +81,7 @@ license_finder: build ## Check licenses of dependencies
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/license_finder.sh --from-image ghcr.io/shakiyam/bbs --decisions-file=dependency_decisions.yml
 
-lint: actionlint eslint hadolint markdownlint rubocop shellcheck ## Run all linting
+lint: actionlint eslint hadolint markdownlint rubocop shellcheck zizmor ## Run all linting
 
 markdownlint: ## Lint Markdown files
 	@echo -e "\033[36m$@\033[0m"
@@ -121,4 +121,8 @@ trivy: build ## Scan Docker image for vulnerabilities
 
 yamlfmt: ## Format YAML files
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/yamlfmt.sh .rubocop.yml compose.yaml .github/workflows/*.yml
+	@./tools/yamlfmt.sh .rubocop.yml compose.yaml .github/zizmor.yml .github/workflows/*.yml
+
+zizmor: ## Lint GitHub Actions workflows for security issues
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/zizmor.sh .
