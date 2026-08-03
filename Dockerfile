@@ -30,5 +30,5 @@ COPY --chown=bbs:bbs public ./public
 EXPOSE 4567
 USER 5501:5501
 ARG SOURCE_COMMIT
-ENV SOURCE_COMMIT=$SOURCE_COMMIT
+LABEL org.opencontainers.image.revision=$SOURCE_COMMIT
 CMD ["ruby", "app.rb"]
