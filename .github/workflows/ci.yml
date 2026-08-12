@@ -22,76 +22,16 @@ jobs:
         run: make format
       - name: Run check_for_file_updates.sh
         run: ./tools/check_for_file_updates.sh
-  actionlint:
-    name: actionlint
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - name: Run make actionlint
-        run: make actionlint
-  eslint:
-    name: eslint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - name: Run make eslint
-        run: make eslint
-  hadolint:
-    name: hadolint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - name: Run make hadolint
-        run: make hadolint
-  markdownlint:
-    name: markdownlint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - name: Run make markdownlint
-        run: make markdownlint
-  rubocop:
-    name: RuboCop
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - name: Run make rubocop
-        run: make rubocop
-  shellcheck:
-    name: ShellCheck
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - name: Run make shellcheck
-        run: make shellcheck
-  zizmor:
-    name: zizmor
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - name: Run make zizmor
-        run: make zizmor
+      - name: Run make --keep-going lint
+        run: make --keep-going lint
         env:
           GH_TOKEN: ${{ github.token }}
   license_finder:
@@ -132,7 +72,7 @@ jobs:
       contents: read
       packages: write
     runs-on: ubuntu-latest
-    needs: [format, actionlint, eslint, hadolint, markdownlint, rubocop, shellcheck, zizmor, license_finder, rspec, trivy]
+    needs: [format, lint, license_finder, rspec, trivy]
     if: github.event_name == 'push'
     steps:
       - name: Checkout
