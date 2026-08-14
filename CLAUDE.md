@@ -38,7 +38,7 @@ The Makefile is self-documented: run `make help` (or just `make`) to list all ta
 
 **GitHub Actions Workflows:**
 
-- `.github/workflows/ci.yml`: Runs on push to main and on PR — format drift check, all linters, license_finder, rspec, and trivy; on push to main, builds and publishes the Docker image after all checks pass
+- `.github/workflows/ci.yml`: Runs on push to main and on PR — format drift check, all linters, license_finder, rspec, and trivy; the rspec job builds the image and tests it; on push to main, after all checks pass, the build job publishes the tested layers via a run-scoped GHA cache
 - `.github/workflows/check_for_updates.yml`: Runs daily (and on push to main, or manually) — checks for image, library, GitHub Actions, and new release updates
 
 **Backup Strategy:**
@@ -73,7 +73,7 @@ MySQL passwords and the session secret are never passed as environment variables
 Integration tests with RSpec and Capybara; each file under `spec/` covers the area its name indicates.
 
 ```bash
-make rspec                              # Test the application
+make rspec                              # Test the application (requires a locally built image; run make build first)
 ```
 
 ## Code Quality Standards

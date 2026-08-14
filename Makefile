@@ -44,6 +44,9 @@ check_for_new_release: ## Check for new release
 
 check_for_updates: check_for_action_updates check_for_image_updates check_for_library_updates check_for_new_release ## Check for updates to all dependencies
 
+check_local_image:
+	@./tools/check_local_image.sh ghcr.io/shakiyam/bbs
+
 clean: ## Stop and remove containers, networks, volumes, and images
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/docker-compose-wrapper.sh down -v
@@ -89,7 +92,7 @@ markdownlint: ## Lint Markdown files
 
 restart: backup stop start ## Restart with backup
 
-rspec: build clean_db ## Test the application
+rspec: check_local_image clean_db ## Test the application
 	@echo -e "\033[36m$@\033[0m"
 	@NETWORK=host ./tools/capybara.sh
 

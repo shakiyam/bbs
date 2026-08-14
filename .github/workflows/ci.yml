@@ -52,6 +52,17 @@ jobs:
         uses: actions/checkout@v7
         with:
           persist-credentials: false
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Build
+        uses: docker/build-push-action@v7
+        with:
+          build-args: SOURCE_COMMIT=${{ github.sha }}
+          platforms: linux/amd64
+          load: true
+          no-cache: true
+          tags: ghcr.io/shakiyam/bbs:latest
+          cache-to: type=gha,scope=ci-${{ github.run_id }},mode=max
       - name: Create .env and secret files
         run: ./generate_env.sh
       - name: Run make rspec
@@ -100,6 +111,7 @@ jobs:
           build-args: SOURCE_COMMIT=${{ github.sha }}
           platforms: linux/amd64, linux/arm64
           push: true
+          cache-from: type=gha,scope=ci-${{ github.run_id }}
           tags: |
             docker.io/shakiyam/bbs:latest
             ghcr.io/shakiyam/bbs:latest
