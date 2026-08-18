@@ -25,7 +25,7 @@ The Makefile is self-documented: run `make help` (or just `make`) to list all ta
 ./generate_env.sh                       # Create .env file and secret files under secrets/
 ```
 
-`generate_env.sh` is idempotent: existing values are carried over from `.env` and `secrets/`, and only missing values are generated. Note that MySQL only picks up passwords during first initialization; changing a secret file after the database volume exists requires `ALTER USER` on the database side.
+`generate_env.sh` is idempotent for secrets: existing secret files under `secrets/` are carried over and only missing ones are generated, while `.env` is regenerated from hardcoded values (e.g. `MYSQL_IMAGE`) on every run. Note that MySQL only picks up passwords during first initialization; changing a secret file after the database volume exists requires `ALTER USER` on the database side.
 
 **Debugging Tools (not make targets):**
 
