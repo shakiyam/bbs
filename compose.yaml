@@ -1,5 +1,13 @@
 services:
   db:
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cap_drop:
+      - ALL
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_bin
@@ -37,6 +45,8 @@ services:
     secrets:
       - mysql_password
       - mysql_root_password
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - type: volume
         source: db-data
