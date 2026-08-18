@@ -80,11 +80,15 @@ help: ## Print this help
 	@echo 'Targets:'
 	@awk 'BEGIN {FS = ":.*?## "} /^[0-9A-Za-z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
+kics: ## Lint Compose file for security misconfigurations
+	@echo -e "\033[36m$@\033[0m"
+	@./tools/kics.sh scan --path compose.yaml --disable-full-descriptions --minimal-ui --no-progress | sed -n '/^Scanning with/,$$p'
+
 license_finder: build ## Check licenses of dependencies
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/license_finder.sh --from-image ghcr.io/shakiyam/bbs --decisions-file=dependency_decisions.yml
 
-lint: actionlint eslint hadolint markdownlint rubocop shellcheck zizmor ## Run all linting
+lint: actionlint eslint hadolint kics markdownlint rubocop shellcheck zizmor ## Run all linting
 
 markdownlint: ## Lint Markdown files
 	@echo -e "\033[36m$@\033[0m"
