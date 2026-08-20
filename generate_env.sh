@@ -13,10 +13,10 @@ fi
 
 case $(uname -m) in
   x86_64)
-    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:9.7.2
+    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:9.7.3
     ;;
   aarch64)
-    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:9.7.2-aarch64
+    MYSQL_IMAGE=container-registry.oracle.com/mysql/community-server:9.7.3-aarch64
     ;;
   *)
     echo_error "Error: Unsupported architecture: $(uname -m)"
