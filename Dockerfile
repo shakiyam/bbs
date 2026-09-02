@@ -16,13 +16,16 @@ RUN apt-get update \
 FROM docker.io/library/ruby:4.0.6-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 # TODO: Remove json cleanup once base image includes json >= 2.19.2 (CVE-2026-33210)
+# TODO: Remove resolv cleanup once base image includes resolv >= 0.7.2 (CVE-2026-80212)
 # TODO: Remove util-linux upgrade once base image includes util-linux >= 2.41.5-0+deb13u1 (CVE-2026-53615)
+# TODO: Remove openssl upgrade once base image includes openssl >= 3.5.7-1~deb13u2 (CVE-2026-14456)
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get -y --no-install-recommends --only-upgrade install bsdutils libblkid1 liblastlog2-2 libmount1 libsmartcols1 libuuid1 login mount util-linux \
+  && apt-get -y --no-install-recommends --only-upgrade install bsdutils libblkid1 liblastlog2-2 libmount1 libsmartcols1 libssl3t64 libuuid1 login mount openssl openssl-provider-legacy util-linux \
   && apt-get -y --no-install-recommends install curl \
   && rm -rf /var/lib/apt/lists/* \
   && rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec \
+  && rm -f /usr/local/lib/ruby/gems/*/specifications/default/resolv-*.gemspec \
   && groupadd --gid 5501 bbs \
   && useradd --uid 5501 --gid bbs --home-dir /opt/bbs --shell /bin/false --create-home --skel /dev/null bbs
 WORKDIR /opt/bbs
