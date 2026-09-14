@@ -19,9 +19,13 @@ COPY --from=builder /usr/local/bundle /usr/local/bundle
 # TODO: Remove resolv cleanup once base image includes resolv >= 0.7.2 (CVE-2026-80212)
 # TODO: Remove util-linux upgrade once base image includes util-linux >= 2.41.5-0+deb13u1 (CVE-2026-53615)
 # TODO: Remove openssl upgrade once base image includes openssl >= 3.5.7-1~deb13u2 (CVE-2026-14456)
+# TODO: Remove gzip upgrade once base image includes gzip >= 1.13-1+deb13u1 (CVE-2026-41992)
+# TODO: Remove pcre2 upgrade once base image includes pcre2 >= 10.46-1~deb13u2 (CVE-2026-86145, CVE-2026-89161)
+# TODO: Remove sqlite3 upgrade once base image includes sqlite3 >= 3.46.1-7+deb13u2 (CVE-2026-11822, CVE-2026-11824)
+# TODO: Remove perl upgrade once base image includes perl >= 5.40.1-6+deb13u1 (CVE-2026-13221, CVE-2026-42496, CVE-2026-8376 and others)
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get -y --no-install-recommends --only-upgrade install bsdutils libblkid1 liblastlog2-2 libmount1 libsmartcols1 libssl3t64 libuuid1 login mount openssl openssl-provider-legacy util-linux \
+  && apt-get -y --no-install-recommends --only-upgrade install bsdutils gzip libblkid1 liblastlog2-2 libmount1 libpcre2-8-0 libsmartcols1 libsqlite3-0 libssl3t64 libuuid1 login mount openssl openssl-provider-legacy perl-base util-linux \
   && apt-get -y --no-install-recommends install curl \
   && rm -rf /var/lib/apt/lists/* \
   && rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec \
