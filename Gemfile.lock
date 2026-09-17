@@ -19,7 +19,6 @@ GEM
       rack (>= 3.0.0)
     rackup (2.3.1)
       rack (>= 3)
-    resolv (0.7.2)
     ruby-mysql (4.2.1)
     sequel (5.108.0)
       bigdecimal
@@ -44,11 +43,10 @@ DEPENDENCIES
   json (>= 2.19.2)
   puma
   rackup
-  resolv (>= 0.7.2)
   ruby-mysql
   sequel
   sinatra
   slim
 
 BUNDLED WITH
-  4.0.16
+  4.0.20
