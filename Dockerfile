@@ -17,10 +17,12 @@ FROM docker.io/library/ruby:4.0.7-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 # TODO: Remove json cleanup once base image includes json >= 2.19.2 (CVE-2026-33210)
 # TODO: Remove gzip upgrade once base image includes gzip >= 1.13-1+deb13u1 (CVE-2026-41992)
+# TODO: Remove openssl upgrade once base image includes openssl >= 3.5.7-1~deb13u3 (CVE-2026-75804, CVE-2026-84782)
+# TODO: Remove pcre2 upgrade once base image includes pcre2 >= 10.46-1~deb13u3 (CVE-2026-103111)
 # TODO: Remove sqlite3 upgrade once base image includes sqlite3 >= 3.46.1-7+deb13u2 (CVE-2026-11822, CVE-2026-11824)
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get -y --no-install-recommends --only-upgrade install gzip libsqlite3-0 \
+  && apt-get -y --no-install-recommends --only-upgrade install gzip libpcre2-8-0 libsqlite3-0 libssl3t64 openssl openssl-provider-legacy \
   && apt-get -y --no-install-recommends install curl \
   && rm -rf /var/lib/apt/lists/* \
   && rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec \
