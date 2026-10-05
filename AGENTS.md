@@ -51,7 +51,7 @@ The Makefile is self-documented: run `make help` (or just `make`) to list all ta
 **Key Files:**
 
 - `app.rb`: Main Sinatra application with security, database, and routing
-- `views/index.slim`: Single page template with internal JavaScript
+- `views/index.slim`: Single page template
 - `public/js/character-counter.js`: Client-side validation and UI feedback
 - `compose.yaml`: Docker configuration with security and resource limits
 - `Dockerfile`: Multi-stage build with non-root user
