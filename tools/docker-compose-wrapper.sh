@@ -16,9 +16,4 @@ else
 fi
 readonly DOCKER_COMPOSE
 
-if [[ ! -e .env ]]; then
-  echo_error 'Environment file .env not found.'
-  exit 1
-fi
-
 $DOCKER_COMPOSE "$@"
