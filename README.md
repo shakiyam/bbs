@@ -50,4 +50,4 @@ License
 
 [MIT License](https://opensource.org/licenses/MIT)
 
-For licenses of dependencies, see each LICENSE file.
+The MIT License applies only to the files in this repository. The image also contains other software under its own licenses.
