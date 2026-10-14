@@ -92,3 +92,9 @@ make rspec                              # Test the application (requires a local
 
 - Never expose passwords in process lists or logs
 - Follow the principle of least privilege for containers
+
+## Decisions
+
+- **No Rack::Test unit tests**: The RSpec/Capybara specs already exercise the logic through real MySQL and HTTP; separating the DB connection and adding a test environment would outweigh the gain for an app this size. Revisit if the application logic grows substantially
+- **Inline Makefile one-liners**: The sed/awk post-processing in Makefile targets stays inline; it rarely changes, and extracting it would only add indirection
+- **No stylelint or slim-lint**: The stylesheet and template are small, and rendering problems are caught by the RSpec/Capybara specs. Revisit if the CSS grows
