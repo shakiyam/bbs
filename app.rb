@@ -102,7 +102,8 @@ begin
 
   # Sequel's mysql adapter only rescues Mysql::Error on close, but ruby-mysql
   # raises IOError when closing an already-dead connection, which would fail
-  # the request that triggered the validation
+  # the request that triggered the validation. Remove this once ruby-mysql's
+  # Protocol#write also rescues IOError (https://gitlab.com/tmtms/ruby-mysql)
   DB.define_singleton_method(:disconnect_connection) do |conn|
     super(conn)
   rescue IOError, SystemCallError
