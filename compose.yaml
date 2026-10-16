@@ -60,10 +60,14 @@ services:
         source: ./db/healthcheck.sh
         target: /usr/local/bin/healthcheck.sh
         read_only: true
+        bind:
+          selinux: z
       - type: bind
         source: ./db/create_user.sh
         target: /docker-entrypoint-initdb.d/create_user.sh
         read_only: true
+        bind:
+          selinux: z
   web:
     cap_drop:
       - ALL
