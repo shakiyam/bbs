@@ -21,6 +21,8 @@ Requirement
 * Docker or Podman
 * Docker Compose
 
+With rootless Podman, the `cpu` cgroup controller must be delegated to the user because `compose.yaml` sets CPU limits (see "Running containers with resource limits fails with a permissions error" in [Podman troubleshooting](https://github.com/containers/podman/blob/main/troubleshooting.md)).
+
 How to run
 ----------
 
