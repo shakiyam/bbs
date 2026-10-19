@@ -10,8 +10,7 @@ RUN apt-get update \
   && rm -rf /usr/local/bundle/cache/*.gem \
   && find /usr/local/bundle/gems/ -regex ".*\.[cho]" -delete \
   && find /usr/local/bundle/gems/ \( -name "*.md" -o -name "*.txt" -o -name "CHANGELOG*" -o -name "README*" \) -delete \
-  && find /usr/local/bundle/gems/ -type d -name test -exec rm -rf {} + 2>/dev/null || true \
-  && find /usr/local/bundle/gems/ -type d -name spec -exec rm -rf {} + 2>/dev/null || true
+  && find /usr/local/bundle/gems/ -type d \( -name test -o -name spec \) -prune -exec rm -rf {} +
 
 FROM docker.io/library/ruby:4.0.7-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
