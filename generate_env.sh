@@ -53,6 +53,9 @@ printf '%s' "$MYSQL_PASSWORD" >secrets/mysql_password.txt
 printf '%s' "$MYSQL_ROOT_PASSWORD" >secrets/mysql_root_password.txt
 printf '%s' "$SESSION_SECRET" >secrets/session_secret.txt
 chmod 644 secrets/mysql_password.txt secrets/mysql_root_password.txt secrets/session_secret.txt
+if command -v selinuxenabled &>/dev/null && selinuxenabled; then
+  chcon -R -t container_file_t secrets
+fi
 
 (
   umask 077

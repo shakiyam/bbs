@@ -66,7 +66,7 @@ Defined where they are used: the app reads them via `ENV.fetch`/`ENV[]` in `app.
 
 **Secrets:**
 
-MySQL passwords and the session secret are never passed as environment variables (they would remain visible in `docker inspect`). `generate_env.sh` writes them to `secrets/mysql_password.txt`, `secrets/mysql_root_password.txt`, and `secrets/session_secret.txt` (directory 0700, files 0644 so the non-root web container uid 5501 can read them), and Compose mounts them at `/run/secrets/` via file secrets. The app user is created by `db/create_user.sh`, sourced by the MySQL image entrypoint during first initialization.
+MySQL passwords and the session secret are never passed as environment variables (they would remain visible in `docker inspect`). `generate_env.sh` writes them to `secrets/mysql_password.txt`, `secrets/mysql_root_password.txt`, and `secrets/session_secret.txt` (directory 0700, files 0644 so the non-root web container uid 5501 can read them), and Compose mounts them at `/run/secrets/` via file secrets. Because Compose cannot relabel file secrets, `generate_env.sh` labels `secrets/` with `container_file_t` on hosts with SELinux enabled. The app user is created by `db/create_user.sh`, sourced by the MySQL image entrypoint during first initialization.
 
 ## Testing
 
