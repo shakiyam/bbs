@@ -82,7 +82,7 @@ help: ## Print this help
 
 kics: ## Lint Compose file for security misconfigurations
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/kics.sh scan --path compose.yaml --disable-full-descriptions --minimal-ui --no-progress | sed -n '/^Scanning with/,$$p'
+	@./tools/kics.sh scan --path compose.yaml --minimal-ui --no-progress | sed -n '/^Scanning with/,$$p'
 
 license_finder: build ## Check licenses of dependencies
 	@echo -e "\033[36m$@\033[0m"
