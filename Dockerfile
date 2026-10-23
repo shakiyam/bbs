@@ -1,4 +1,4 @@
-FROM docker.io/library/ruby:4.0.7-slim-trixie AS builder
+FROM docker.io/library/ruby:4.0.8-slim-trixie AS builder
 WORKDIR /opt/bbs
 COPY Gemfile Gemfile.lock ./
 # hadolint ignore=DL3008
@@ -12,7 +12,7 @@ RUN apt-get update \
   && find /usr/local/bundle/gems/ \( -name "*.md" -o -name "*.txt" -o -name "CHANGELOG*" -o -name "README*" \) -delete \
   && find /usr/local/bundle/gems/ -type d \( -name test -o -name spec \) -prune -exec rm -rf {} +
 
-FROM docker.io/library/ruby:4.0.7-slim-trixie
+FROM docker.io/library/ruby:4.0.8-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 # TODO: Remove json cleanup once base image includes json >= 2.19.2 (CVE-2026-33210)
 # TODO: Remove gzip upgrade once base image includes gzip >= 1.13-1+deb13u1 (CVE-2026-41992)
