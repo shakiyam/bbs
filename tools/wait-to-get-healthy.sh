@@ -10,11 +10,7 @@ readonly SCRIPT_DIR
 
 CONTAINER_ENGINE=$(detect_container_engine)
 readonly CONTAINER_ENGINE
-if [[ $CONTAINER_ENGINE == docker ]]; then
-  HEALTHCHECK_QUERY='{{.State.Health.Status}}'
-else
-  HEALTHCHECK_QUERY='{{.State.Healthcheck.Status}}'
-fi
+HEALTHCHECK_QUERY=$(healthcheck_status_query)
 readonly HEALTHCHECK_QUERY
 
 if [[ $# -ne 1 ]]; then
