@@ -15,10 +15,8 @@ RUN apt-get update \
 FROM docker.io/library/ruby:4.0.9-slim-trixie
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 # TODO: Remove json cleanup once base image includes json >= 2.19.9 (CVE-2026-33210, CVE-2026-54696)
-# TODO: Remove package upgrades once base image includes apt and libapt-pkg7.0 >= 3.0.4 (CVE-2026-109518)
 # hadolint ignore=DL3008
 RUN apt-get update \
-  && apt-get -y --no-install-recommends --only-upgrade install apt libapt-pkg7.0 \
   && apt-get -y --no-install-recommends install curl \
   && rm -rf /var/lib/apt/lists/* \
   && rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec \
