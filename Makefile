@@ -98,6 +98,8 @@ restart: backup stop start ## Restart with backup
 
 rspec: check_local_image clean_db ## Test the application
 	@echo -e "\033[36m$@\033[0m"
+# TODO: Remove once base image includes json >= 2.19.9 (CVE-2026-33210, CVE-2026-54696)
+	@./test_json.sh
 	@NETWORK=host ./tools/capybara.sh
 
 rubocop: ## Lint Ruby scripts
