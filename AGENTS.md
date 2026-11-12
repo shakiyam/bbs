@@ -19,6 +19,8 @@ A bulletin board system (BBS) built with Sinatra and MySQL, deployed with Docker
 
 The Makefile is self-documented: run `make help` (or just `make`) to list all targets with descriptions.
 
+When `make trivy` reports vulnerabilities whose fixed versions the distribution already ships, run `NO_CACHE=1 make trivy` to rebuild the cached layers that still hold the old packages.
+
 **Setup and Environment:**
 
 ```bash
