@@ -60,9 +60,10 @@ dive: build ## Analyze Docker image layers
 	@echo -e "\033[36m$@\033[0m"
 	@./tools/dive.sh --ci ghcr.io/shakiyam/bbs:latest | awk '/Inefficient Files:/{skip=1} /Results:/{skip=0} !skip'
 
+# --space-redirects=false writes redirects like shfmt does (>/dev/null); dockerfmt 1.0 adds a space by default
 dockerfmt: ## Format Dockerfile
 	@echo -e "\033[36m$@\033[0m"
-	@./tools/dockerfmt.sh -i 2 -n -w Dockerfile
+	@./tools/dockerfmt.sh -i 2 -n --space-redirects=false -w Dockerfile
 
 eslint: ## Lint JavaScript files
 	@echo -e "\033[36m$@\033[0m"
